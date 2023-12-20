@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     const connection = await getConnection();
     const body = await readBody(event);
     const query = body.query;
+    console.log(query);
     const response = await connection.execute(query);
     return response;
   }

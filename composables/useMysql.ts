@@ -6,5 +6,5 @@ export async function query(query: string) {
     method: 'POST',
     body: { query: query }
   });
-  return data.value;
+  return data.value[0];
 }
