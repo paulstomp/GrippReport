@@ -2,8 +2,7 @@
   <div class="grid-1">
     <div class="header">
 
-      <img src="/img/logo-black.png" width="20" height="20">
-      <span class="brandname">&nbsp;steps ahead</span>
+      <span class="brandname">Gripp planning</span>
 
       <div class="header-right">
 
@@ -32,7 +31,7 @@
   /* Style the header with a grey background and some padding */
   .header {
     overflow: hidden;
-    padding: 20px 10px;
+    padding: 0px 0px;
   }
 
   /* Style the header links */

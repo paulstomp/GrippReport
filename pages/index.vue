@@ -1,49 +1,88 @@
 <template>
 
   <div class="grid-1">
-    <div>
-      <h1>Gripp Planning</h1>
+
+    <div class="card lavender-dark">
+      <h1>Departments</h1>
 
       <ClientOnly fallback-tag="span" fallback="Loading comments...">
+
+        <span v-for="(department, index) in grippData.departments" :key=index>
+          <button @click="reload(department.name)">
+            {{ department.name }}
+          </button>
+        </span>
+
+        <h2>{{ grippData.department }}</h2>
+
         <table>
 
-          <!-- Months -->
+          <!-- Table header -->
 
-          <tr>
-            <td></td>
-            <td v-for="date in dateSeries" width="25">
-              {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
-            </td>
-          </tr>
+          <tbody>
 
-          <!-- Weeks -->
+            <!-- Month starts -->
 
-          <tr>
-            <td></td>
-            <td v-for="date in dateSeries">
-              {{ (date.getDay() == 1) ? getWeek(date) : '' }}
-            </td>
-          </tr>
+            <tr>
+              <td></td>
+              <td>Month</td>
+              <td v-for="(date, index) in grippData.dateSeries" :key=index width="25">
+                {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
+              </td>
+            </tr>
 
-          <!-- Days -->
+            <!-- Week starts -->
 
-          <tr>
-            <td></td>
-            <td v-for="date in dateSeries">
-              {{ date.getDate() }}
-            </td>
-          </tr>
+            <tr>
+              <td></td>
+              <td>Week</td>
+              <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                {{ (date.getDay() == 1) ? getWeek(date) : '' }}
+              </td>
+            </tr>
 
-          <!-- Employees -->
+            <!-- Days -->
 
-          <tr v-for="employee in employees">
-            <td>{{ employee.firstname }} </td>
-            <td v-for="date in dateSeries">
-              0
-            </td>
-          </tr>
+            <tr>
+              <td></td>
+              <td>Day</td>
+              <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                {{ date.getDate() }}
+              </td>
+            </tr>
+
+          </tbody>
+
+          <!-- Hours per employee -->
+
+          <tbody v-for="(employee, index) in grippData.employees" :key=index>
+
+            <tr><td>&nbsp;</td></tr>
+
+            <!-- Total hours -->
+
+            <tr style="font-weight: bold">
+              <td>{{ employee.firstname }}</td>
+              <td></td>
+              <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                {{ grippData.getEmployeeTotalHours(employee.firstname, date) }}
+              </td>
+            </tr>
+
+            <!-- Hours per project -->
+
+            <tr v-for="(project, index) in grippData.getEmployeeProjects(employee.firstname)" :key=index>
+              <td>{{ project.company_name.slice(0, 20) }} </td>
+              <td>{{ project.project_name.slice(0, 20) }} </td>
+              <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                {{ grippData.getEmployeeProjectHours(employee.firstname, project.project_name, date) }}
+              </td>
+            </tr>
+
+          </tbody>
 
         </table>
+
       </ClientOnly>
 
     </div>
@@ -55,53 +94,19 @@
 
   definePageMeta({ auth: false })
 
-  function getDateStr(date: Date) {
-    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  const weeks = 6;
+  const grippData = ref(new GrippData(weeks));
+
+  function reload(department: string) {
+    grippData.value.loadDepartmentData(department);
   }
 
-  function getWeek(date: Date) {
-    const onejan = new Date(date.getFullYear(), 0, 1);
-    return Math.ceil((((date.getTime() - onejan.getTime()) / 86400000)
-      + onejan.getDay() + 1) / 7);
-  }
+  // Setup when mounted
 
-  function getDateSeries(weeks: number) {
-    var result: Date[] = [];
-    var date = new Date();
-
-    date.setDate(date.getDate() - (date.getDay() + 7) % 7); // Previous Monday
-
-    for(let i = 0; i < weeks * 7; i++) {
-      date.setDate(date.getDate() + 1);
-      if(date.getDay() >= 1 && date.getDay() <= 5) { // Only working days
-        result.push(new Date(date));
-      }
-    }
-    return result;
-  }
-
-  var dateSeries = ref(getDateSeries(8));
-  var minDate = dateSeries.value[0];
-  var maxDate = dateSeries.value[dateSeries.value.length - 1];
-
-  console.log(minDate);
-  console.log(maxDate);
-
-  var department = '7. Tech';
-
-  var employees: any;
-  employees = await query(`select distinct firstname
-    from _calendaritems
-    where department_name = "${department}"
-    and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
-
-  var hours: any;
-  hours = await query(`select department_name, company_name, project_name, 
-    firstname, date_str, hours
-    from _calendaritems
-    where department_name = "${department}"
-    and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
-
-  console.log('employees: ' + JSON.stringify(employees, null, 2));
+  onMounted(async () => {
+    await nextTick();
+    await grippData.value.loadDepartments();
+    await grippData.value.loadDepartmentData('7. Tech');
+  });
 
 </script>
