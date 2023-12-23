@@ -93,7 +93,7 @@
 
   <script lang="ts" setup>
 
-    definePageMeta({ auth: false })
+    definePageMeta({ auth: true })
 
     const weeks = 7;
     const grippData = ref(new GrippData(weeks));
