@@ -5,7 +5,7 @@ var connection: any;
 
 async function getConnection() {
   const config = useRuntimeConfig();
-  if(!connection) {
+  if(!connection || connection.state === 'disconnected') {
     console.log('Creating new mysql connection');
     connection = await mysql.createConnection({
       host: config.dbHost,
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     const connection = await getConnection();
     const body = await readBody(event);
     const query = body.query;
-    console.log(query);
+    // console.log(query);
     const response = await connection.execute(query);
     return response;
   }

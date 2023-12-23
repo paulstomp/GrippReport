@@ -57,7 +57,7 @@ input {
 }
 
 .light-dark {
-  background-color: #fcfcfc;
+  background-color: SeaShell;
   color: #202020;
 }
 
@@ -68,7 +68,7 @@ input {
 
 .dark-light {
   background-color: #202020;
-  color: #fcfcfc;
+  color: SeaShell;
 }
 
 .lavender-dark {
@@ -87,8 +87,8 @@ input {
   padding: 10px;
 }
 
-.card-shadow {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.shadow {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .grid-1 {

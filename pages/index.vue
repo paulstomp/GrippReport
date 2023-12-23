@@ -1,19 +1,23 @@
 <template>
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
 
-  <div class="grid-1">
+    <!-- Selection -->
 
-    <div class="card lavender-dark">
-      <h1>Departments</h1>
-
-      <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <div class="grid-1">
+      <div class="card light-dark shadow">
+        <h1>Planning at department level</h1>
 
         <span v-for="(department, index) in grippData.departments" :key=index>
           <button @click="reload(department.name)">
             {{ department.name }}
           </button>
         </span>
+      </div>
 
-        <h2>{{ grippData.department }}</h2>
+      <!-- Planning per departemt -->
+
+      <div class="card light-dark shadow">
+        <h1>{{ grippData.departmentName }}</h1>
 
         <table>
 
@@ -21,7 +25,7 @@
 
           <tbody>
 
-            <!-- Month starts -->
+            <!-- Month series -->
 
             <tr>
               <td></td>
@@ -31,7 +35,7 @@
               </td>
             </tr>
 
-            <!-- Week starts -->
+            <!-- Week series -->
 
             <tr>
               <td></td>
@@ -41,7 +45,7 @@
               </td>
             </tr>
 
-            <!-- Days -->
+            <!-- Day series -->
 
             <tr>
               <td></td>
@@ -53,13 +57,13 @@
 
           </tbody>
 
-          <!-- Hours per employee -->
+          <!-- Planning per employee within department -->
 
           <tbody v-for="(employee, index) in grippData.employees" :key=index>
 
             <tr><td>&nbsp;</td></tr>
 
-            <!-- Total hours -->
+            <!-- Hours per employee per day -->
 
             <tr style="font-weight: bold">
               <td>{{ employee.firstname }}</td>
@@ -69,7 +73,7 @@
               </td>
             </tr>
 
-            <!-- Hours per project -->
+            <!-- Hours per employee per project per day -->
 
             <tr v-for="(project, index) in grippData.getEmployeeProjects(employee.firstname)" :key=index>
               <td>{{ project.company_name.slice(0, 20) }} </td>
@@ -80,25 +84,22 @@
             </tr>
 
           </tbody>
-
         </table>
-
-      </ClientOnly>
-
+      </div>
     </div>
-  </div>
 
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
 
   definePageMeta({ auth: false })
 
-  const weeks = 6;
+  const weeks = 7;
   const grippData = ref(new GrippData(weeks));
 
   function reload(department: string) {
-    grippData.value.loadDepartmentData(department);
+    grippData.value.loadPlanningByDepartment(department);
   }
 
   // Setup when mounted
@@ -106,7 +107,7 @@
   onMounted(async () => {
     await nextTick();
     await grippData.value.loadDepartments();
-    await grippData.value.loadDepartmentData('7. Tech');
+    await grippData.value.loadPlanningByDepartment('7. Tech');
   });
 
 </script>

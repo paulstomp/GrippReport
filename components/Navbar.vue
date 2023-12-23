@@ -2,7 +2,13 @@
   <div class="grid-1">
     <div class="header">
 
-      <span class="brandname">Gripp planning</span>
+      <NuxtLink to="/">
+        <span class="navitem">Departments</span>
+      </NuxtLink>
+
+      <NuxtLink to="/projects">
+        <span class="navitem">Projects</span>
+      </NuxtLink>
 
       <div class="header-right">
 
@@ -20,14 +26,6 @@
 
 <style>
 
-  /* logo brand name */
-  .brandname {
-    color: black;
-    font-family: Play;
-    font-size: 30px;
-    font-weight: 400;
-  }
-
   /* Style the header with a grey background and some padding */
   .header {
     overflow: hidden;
@@ -35,24 +33,23 @@
   }
 
   /* Style the header links */
-  .header a {
+  .navitem {
     float: left;
     color: black;
     text-align: center;
     padding: 12px;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 16px;
     border-radius: 4px;
   }
 
   /* Change the background color on mouse-over */
-  .header a:hover {
+  .navitem a:hover {
     background-color: #ddd;
     color: black;
   }
 
   /* Style the active/current link*/
-  .header a.active {
+  .navbar a.active {
     background-color: dodgerblue;
     color: white;
   }

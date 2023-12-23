@@ -1,0 +1,114 @@
+<template>
+    <ClientOnly fallback-tag="span" fallback="Loading comments...">
+
+      <!-- Selection -->
+
+      <div class="grid-1">
+        <div class="card light-dark shadow">
+          <h1>Planning at project level</h1>
+
+          <span v-for="(csd, index) in grippData.csds" :key=index>
+            <button @click="reload(csd.csd_firstname)">
+              {{ csd.csd_firstname }}
+            </button>
+          </span>
+        </div>
+
+        <!-- Planning per CSD -->
+
+        <div class="card light-dark shadow">
+          <h1>{{ grippData.csdFirstname}}</h1>
+
+          <table>
+
+            <!-- Table header -->
+
+            <tbody>
+
+              <!-- Month series -->
+
+              <tr>
+                <td></td>
+                <td>Month</td>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index width="25">
+                  {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
+                </td>
+              </tr>
+
+              <!-- Week series -->
+
+              <tr>
+                <td></td>
+                <td>Week</td>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                  {{ (date.getDay() == 1) ? getWeek(date) : '' }}
+                </td>
+              </tr>
+
+              <!-- Day series -->
+
+              <tr>
+                <td></td>
+                <td>Day</td>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                  {{ date.getDate() }}
+                </td>
+              </tr>
+
+            </tbody>
+
+            <!-- Planning per project within CSD scope -->
+
+            <tbody v-for="(project, index) in grippData.projects" :key=index>
+
+              <tr><td>&nbsp;</td></tr>
+
+              <!-- Hours per project per day -->
+
+              <tr style="font-weight: bold">
+                <td>{{ project.company_name.slice(0, 20) }}</td>
+                <td>{{ project.project_name.slice(0, 20) }}</td>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                  {{ grippData.getProjectTotalHours(project.project_name, date) }}
+                </td>
+              </tr>
+
+              <!-- Hours per project per project per day -->
+
+              <tr v-for="(employee, index) in grippData.getProjectsEmployees(project.project_name)" :key=index>
+                <td></td>
+                <td>{{ employee.firstname }} </td>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                  {{ grippData.getEmployeeProjectHours(employee.firstname, project.project_name, date) }}
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </ClientOnly>
+  </template>
+
+  <script lang="ts" setup>
+
+    definePageMeta({ auth: false })
+
+    const weeks = 7;
+    const grippData = ref(new GrippData(weeks));
+
+    function reload(csdFirsname: string) {
+      grippData.value.loadPlanningByCsd(csdFirsname);
+    }
+
+    // Setup when mounted
+
+    onMounted(async () => {
+      await nextTick();
+      await grippData.value.loadCsds();
+      await grippData.value.loadPlanningByCsd('Jan');
+    });
+
+  </script>
+

@@ -8,7 +8,7 @@
 <script setup lang="ts">
 
   useHead({
-    title: 'Blueprint'
+    title: 'Gripp planning'
   })
 
   const config = useRuntimeConfig();
