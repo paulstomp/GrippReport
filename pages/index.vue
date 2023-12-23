@@ -107,7 +107,7 @@
   onMounted(async () => {
     await nextTick();
     await grippData.value.loadDepartments();
-    await grippData.value.loadPlanningByDepartment('7. Tech');
+    await grippData.value.loadPlanningByDepartment('1. Creatie');
   });
 
 </script>

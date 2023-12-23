@@ -107,7 +107,7 @@
     onMounted(async () => {
       await nextTick();
       await grippData.value.loadCsds();
-      await grippData.value.loadPlanningByCsd('Jan');
+      await grippData.value.loadPlanningByCsd('Marcel');
     });
 
   </script>
