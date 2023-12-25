@@ -1,9 +1,9 @@
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
-
-    <!-- Selection -->
-
     <div class="grid-1">
+
+      <!-- Selection -->
+
       <div class="card light-dark shadow">
         <h1>Planning at department level</h1>
 
@@ -86,8 +86,15 @@
           </tbody>
         </table>
       </div>
-    </div>
 
+      <!-- Sync info -->
+
+      <div class="card light-dark shadow">
+        <h1>Sync info</h1>
+        Last sync at {{ grippData.lastSyncDatetime }}
+      </div>
+
+    </div>
   </ClientOnly>
 </template>
 

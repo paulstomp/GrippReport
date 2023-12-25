@@ -7,9 +7,9 @@ export class GrippData {
   projects: any;
   csds: any;
   projectEmployees: any;
-
   departmentName: string = '';
   csdFirstname: string = '';
+  lastSyncDatetime: string = '';
 
   constructor(weeks: number) {
     this.dateSeries = getDateSeries(weeks);
@@ -41,10 +41,12 @@ export class GrippData {
       from _calendaritems
       where department_name = "${departmentName}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
 
   async loadCsds() {
-    this.csds = await query(`select distinct employee_id, csd_firstname from company_csds`);
+    this.csds = await query(`select distinct csd_employee_id, csd_firstname from companies_meta`);
   }
 
   async loadPlanningByCsd(csdFirstname: string) {
@@ -69,6 +71,8 @@ export class GrippData {
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
 
   getDepartments() {
@@ -140,6 +144,13 @@ export class GrippData {
     filtered.forEach((element: any) => { sum += Number(element.hours) });
 
     return (sum > 0) ? sum : '-';
+  }
+
+  async getLastSyncDatetime() {
+    const result = await query(
+      `select convert_tz(cast(createdon as char), '+00:00','+02:00') as createdon_str `+
+      `from log order by id desc limit 1;`);
+    return result[0].createdon_str;
   }
 }
 
