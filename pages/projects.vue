@@ -30,7 +30,7 @@
               <tr>
                 <td></td>
                 <td>Month</td>
-                <td v-for="(date, index) in grippData.dateSeries" :key=index width="25">
+                <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))" width="25">
                   {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
                 </td>
               </tr>
@@ -40,7 +40,7 @@
               <tr>
                 <td></td>
                 <td>Week</td>
-                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ (date.getDay() == 1) ? getWeek(date) : '' }}
                 </td>
               </tr>
@@ -50,7 +50,7 @@
               <tr>
                 <td></td>
                 <td>Day</td>
-                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ date.getDate() }}
                 </td>
               </tr>
@@ -61,14 +61,18 @@
 
             <tbody v-for="(project, index) in grippData.projects" :key=index>
 
-              <tr><td>&nbsp;</td></tr>
+              <!-- Spacer -->
+
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
 
               <!-- Hours per project per day -->
 
               <tr style="font-weight: bold">
                 <td>{{ project.company_name.slice(0, 20) }}</td>
                 <td>{{ project.project_name.slice(0, 20) }}</td>
-                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ grippData.getProjectTotalHours(project.project_name, date) }}
                 </td>
               </tr>
@@ -78,7 +82,7 @@
               <tr v-for="(employee, index) in grippData.getProjectsEmployees(project.project_name)" :key=index>
                 <td></td>
                 <td>{{ employee.firstname }} </td>
-                <td v-for="(date, index) in grippData.dateSeries" :key=index>
+                <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ grippData.getEmployeeProjectHours(employee.firstname, project.project_name, date) }}
                 </td>
               </tr>
@@ -101,6 +105,13 @@
   <script lang="ts" setup>
 
     definePageMeta({ auth: true })
+
+    function bg(week: number) {
+      return {
+        "lavender-dark": week % 2 == 0,
+        "lightblue-dark": week % 2 != 0
+      }
+    }
 
     const weeks = 7;
     const grippData = ref(new GrippData(weeks));

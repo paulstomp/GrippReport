@@ -56,6 +56,12 @@ input {
   font-size: inherit;
 }
 
+table, tbody, th, td {
+  border: none;
+  border-collapse: collapse;
+  padding: 2px;
+}
+
 .light-dark {
   background-color: SeaShell;
   color: #202020;
@@ -73,6 +79,11 @@ input {
 
 .lavender-dark {
   background-color: Lavender;
+  color: #202020;
+}
+
+.lightblue-dark {
+  background-color: AliceBlue;
   color: #202020;
 }
 
