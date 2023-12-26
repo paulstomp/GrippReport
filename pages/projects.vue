@@ -109,7 +109,8 @@
     function bg(week: number) {
       return {
         "lavender-dark": week % 2 == 0,
-        "lightblue-dark": week % 2 != 0
+        "lightblue-dark": week % 2 != 0,
+        "text-center": true
       }
     }
 
