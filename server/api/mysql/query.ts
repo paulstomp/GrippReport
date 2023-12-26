@@ -5,7 +5,7 @@ var connection: any;
 
 async function getConnection() {
   const config = useRuntimeConfig();
-  if(!connection || connection.state === 'disconnected') {
+  if(!connection) {
     console.log('Creating new mysql connection');
     connection = await mysql.createConnection({
       host: config.dbHost,
@@ -13,6 +13,11 @@ async function getConnection() {
       password: config.dbPassword,
       database: config.dbDatabase,
       ssl: {rejectUnauthorized: false}});
+
+    // Todo: improve keep connecton alive
+    setInterval(async function () {
+      connection.query('SELECT 1');
+    }, 10000);
   }
   return connection;
 }

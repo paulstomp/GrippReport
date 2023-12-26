@@ -150,6 +150,8 @@ export class GrippData {
     const result = await query(
       `select convert_tz(cast(createdon as char), '+00:00','+02:00') as createdon_str `+
       `from log order by id desc limit 1;`);
+
+    console.log('**** ' + result[0].createdon_str);
     return result[0].createdon_str;
   }
 }
