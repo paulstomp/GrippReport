@@ -40,7 +40,8 @@ export class GrippData {
       company_name, project_name, firstname
       from _calendaritems
       where department_name = "${departmentName}"
-      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
+      order by company_name, project_name, firstname`);
 
     this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
@@ -70,7 +71,8 @@ export class GrippData {
       company_name, project_name, firstname
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
-      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
+      order by company_name, project_name, firstname`);
 
     this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
