@@ -29,6 +29,7 @@
 
               <tr>
                 <td></td>
+                <td></td>
                 <td>Month</td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))" width="25">
                   {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
@@ -39,6 +40,7 @@
 
               <tr>
                 <td></td>
+                <td></td>
                 <td>Week</td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ (date.getDay() == 1) ? getWeek(date) : '' }}
@@ -48,6 +50,7 @@
               <!-- Day series -->
 
               <tr>
+                <td></td>
                 <td></td>
                 <td>Day</td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
@@ -71,6 +74,7 @@
 
               <tr style="font-weight: bold">
                 <td>{{ project.company_name.slice(0, 20) }}</td>
+                <td>{{ project.project_type }}</td>
                 <td>{{ project.project_name.slice(0, 20) }}</td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ grippData.getProjectTotalHours(project.project_name, date) }}
@@ -80,6 +84,7 @@
               <!-- Hours per project per project per day -->
 
               <tr v-for="(employee, index) in grippData.getProjectsEmployees(project.project_name)" :key=index>
+                <td></td>
                 <td></td>
                 <td>{{ employee.firstname }} </td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
@@ -114,7 +119,7 @@
       }
     }
 
-    const weeks = 7;
+    const weeks = 6;
     const grippData = ref(new GrippData(weeks));
 
     function reload(csdFirsname: string) {

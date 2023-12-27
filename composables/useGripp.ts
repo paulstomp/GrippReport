@@ -37,7 +37,7 @@ export class GrippData {
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_name, firstname
+      company_name, project_name, project_type, firstname
       from _calendaritems
       where department_name = "${departmentName}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
@@ -61,14 +61,14 @@ export class GrippData {
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-    this.projects = await query(`select distinct project_name, company_name
+    this.projects = await query(`select distinct project_name, project_type, company_name
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_name, firstname
+      company_name, project_name, project_type, firstname
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
