@@ -74,7 +74,7 @@
 
               <tr style="font-weight: bold">
                 <td>{{ project.company_name.slice(0, 20) }}</td>
-                <td>{{ project.project_type }}</td>
+                <td style="font-weight: 400">{{ project.project_type }}</td>
                 <td>{{ project.project_name.slice(0, 20) }}</td>
                 <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
                   {{ grippData.getProjectTotalHours(project.project_name, date) }}

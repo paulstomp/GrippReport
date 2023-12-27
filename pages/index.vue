@@ -73,9 +73,7 @@
             <!-- Hours per employee per day -->
 
             <tr style="font-weight: bold">
-              <td>
-                {{ employee.firstname }}
-              </td>
+              <td>{{ employee.firstname }}</td>
               <td></td>
               <td></td>
               <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
