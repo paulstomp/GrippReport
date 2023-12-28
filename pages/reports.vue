@@ -6,6 +6,9 @@
 
         <div class="card light-dark shadow">
             <h1>Project hours</h1>
+            <p>booked gap = planned until today - booked</p>
+            <p>budgeted left = budgeted - booked</p>
+            <p>balance = budgeted left - planned from today</p>
             <DataView :data=data :maxLength=20></DataView>
         </div>
 
@@ -15,9 +18,11 @@
 
 <script lang="ts" setup>
 
-    const sql = `select csd_firstname, company, project, type, hours_offered as offered, ` +
-        `hours_planned as planned, hours_planned_until_today as planned_until_today, hours_booked as booked, ` +
-        `hours_left, hours_planned_from_today as planned_from_today, hours_balance as balance ` +
+    const sql = `select csd_firstname, company, project, type, hours_offered as budgeted, ` +
+        `hours_planned as planned, hours_planned_until_today as planned_until_today, ` +
+        `hours_booked as booked, hours_booked_gap as booked_gap, ` +
+        `hours_left as budgeted_left, hours_planned_from_today as planned_from_today, ` +
+        `hours_balance as balance ` +
         `from _project_hours ` +
         `where planned_to >= curdate()`
 
