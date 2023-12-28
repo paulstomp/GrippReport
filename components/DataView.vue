@@ -7,7 +7,7 @@
 
             <tr style="font-weight: bold">
                 <td v-for="(field, index) in Object.keys(data[0])" :key=index style="padding: 5px;">
-                    {{ field }}
+                    {{ field.replaceAll('_', ' ') }}
                 </td>
             </tr>
 
