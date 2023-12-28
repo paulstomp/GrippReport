@@ -2,7 +2,7 @@
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
     <div class="grid-1">
 
-      <!-- Selection -->
+      <!-- Title and selection -->
 
       <div class="card light-dark shadow">
         <h1>Planning at department level</h1>
