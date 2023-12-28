@@ -15,9 +15,9 @@
 
 <script lang="ts" setup>
 
-    const sql = `select csd_firstname, company, project, type, hours_offered, ` +
-        `hours_planned, hours_planned_until_today, hours_booked, ` +
-        `hours_left, hours_planned_from_today, hours_balance ` +
+    const sql = `select csd_firstname, company, project, type, hours_offered as offered, ` +
+        `hours_planned as planned, hours_planned_until_today as planned_until_today, hours_booked as booked, ` +
+        `hours_left, hours_planned_from_today as planned_from_today, hours_balance as balance ` +
         `from _project_hours ` +
         `where planned_to >= curdate()`
 
