@@ -96,9 +96,9 @@ table, tbody, th, td {
   color: #202020;
 }
 
-.transparent-green {
-  background-color: transparent;
-  color: #09cc81;
+.table-lavender-dark {
+  background-color: Lavender;
+  color: #202020;
 }
 
 .card {
