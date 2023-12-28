@@ -11,8 +11,8 @@ export class GrippData {
   csdFirstname: string = '';
   lastSyncDatetime: string = '';
 
-  constructor(weeks: number) {
-    this.dateSeries = getDateSeries(weeks);
+  constructor(date: Date, weeks: number) {
+    this.dateSeries = getDateSeries(date, weeks);
   }
 
   async loadDepartments() {
@@ -169,16 +169,30 @@ export function getWeek(date: Date) {
     + onejan.getDay() + 1) / 7);
 }
 
-export function getDateSeries(weeks: number) {
-  var result: Date[] = [];
-  var date = new Date();
+export function isToday(date: Date) {
+  const today = new Date();
+  return date.getDate() == today.getDate() &&
+    date.getMonth() == today.getMonth() &&
+    date.getFullYear() == today.getFullYear();
+}
 
-  date.setDate(date.getDate() - (date.getDay() + 7) % 7); // Previous Monday
+export function isOdd(number: number) {
+  return !(number % 2 == 0);
+}
+
+export function isEven(number: number) {
+  return number % 2 == 0;
+}
+
+export function getDateSeries(date: Date, weeks: number) {
+  let dateIndex = new Date(date);
+  var result: Date[] = [];
+  dateIndex.setDate(dateIndex.getDate() - (dateIndex.getDay() + 7) % 7); // Previous Monday
 
   for(let i = 0; i < weeks * 7; i++) {
-    date.setDate(date.getDate() + 1);
-    if(date.getDay() >= 1 && date.getDay() <= 5) { // Only working days
-      result.push(new Date(date));
+    dateIndex.setDate(dateIndex.getDate() + 1);
+    if(dateIndex.getDay() >= 1 && dateIndex.getDay() <= 5) { // Only working days
+      result.push(new Date(dateIndex));
     }
   }
   return result;

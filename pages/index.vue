@@ -8,7 +8,7 @@
         <h1>Planning at department level</h1>
 
         <span v-for="(department, index) in grippData.departments" :key=index>
-          <button @click="reload(department.name)">
+          <button @click="setDepartment(department.name)">
             {{ department.name }}
           </button>
         </span>
@@ -18,6 +18,12 @@
 
       <div class="card light-dark shadow">
         <h1>{{ grippData.departmentName }}</h1>
+
+        <!-- Week navigation -->
+
+        <button @click="previousWeek()">-1 week</button>
+        <button @click="thisWeek()">Now</button>
+        <button @click="nextWeek()">+1 week</button>
 
         <table>
 
@@ -31,7 +37,7 @@
               <td></td>
               <td></td>
               <td>Month</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))" width="25">
+              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)" width="25">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -42,7 +48,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
+              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -53,7 +59,7 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
+              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
@@ -76,7 +82,7 @@
               <td>{{ employee.firstname }}</td>
               <td></td>
               <td></td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
+              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
                 {{ grippData.getEmployeeTotalHours(employee.firstname, date) }}
               </td>
             </tr>
@@ -87,7 +93,7 @@
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td>{{ project.project_type }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(getWeek(date))">
+              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
                 {{ grippData.getEmployeeProjectHours(employee.firstname, project.project_name, date) }}
               </td>
             </tr>
@@ -111,27 +117,53 @@
 
   definePageMeta({ auth: true });
 
-  function bg(week: number) {
+  function bg(date: Date) {
+    const week = getWeek(date);
     return {
-      "lavender-dark": week % 2 == 0,
-      "lightblue-dark": week % 2 != 0,
+      "aquamarine-dark": isToday(date),
+      "lavender-dark": isEven(week) && !isToday(date),
+      "aliceblue-dark": isOdd(week) && !isToday(date),
       "text-center": true
     }
   }
 
-  const weeks = 6;
-  const grippData = ref(new GrippData(weeks));
+  var date = new Date();
+  var weeks = 6;
+  var department = '1. Creatie';
 
-  function reload(department: string) {
-    grippData.value.loadPlanningByDepartment(department);
+  const grippData = ref(new GrippData(date, weeks));
+
+  async function reload() {
+    grippData.value = new GrippData(date, weeks);
+    await grippData.value.loadDepartments();
+    await grippData.value.loadPlanningByDepartment(department);
+  }
+
+  async function setDepartment(toDepartment: string) {
+    department = toDepartment;
+    await reload();
+  }
+
+  async function previousWeek() {
+    date.setDate(date.getDate() - 7);
+    await reload();
+  }
+
+  async function thisWeek() {
+    date = new Date();
+    await reload();
+  }
+
+  async function nextWeek() {
+    date.setDate(date.getDate() + 7);
+    await reload();
   }
 
   // Setup when mounted
 
   onMounted(async () => {
     await nextTick();
-    await grippData.value.loadDepartments();
-    await grippData.value.loadPlanningByDepartment('1. Creatie');
+    await reload();
   });
 
 </script>

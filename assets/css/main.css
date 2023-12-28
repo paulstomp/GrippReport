@@ -86,8 +86,13 @@ table, tbody, th, td {
   color: #202020;
 }
 
-.lightblue-dark {
+.aliceblue-dark {
   background-color: AliceBlue;
+  color: #202020;
+}
+
+.aquamarine-dark {
+  background-color: Aquamarine;
   color: #202020;
 }
 
