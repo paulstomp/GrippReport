@@ -5,14 +5,17 @@
         <!-- Hour report -->
 
         <div class="card light-dark shadow">
+
             <h1>Project hours</h1>
-            <p>booked gap = planned until today - booked</p>
+
+            <p>booked gap = booked - planned until today</p>
             <p>budgeted left = budgeted - booked</p>
             <p>balance = budgeted left - planned from today</p>
+
             <DataView :data=data :maxLength=20></DataView>
         </div>
 
-        </div>
+        </div> 
     </ClientOnly>
 </template>
 
