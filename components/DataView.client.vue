@@ -39,8 +39,9 @@
 <script setup lang="ts">
 
     const props = defineProps(['data', 'maxLength']);
+    var tableData = props.data;
+    var maxLength = props.maxLength;
 
-    var tableData = ref(props.data);
     var sortField = ref('');
     var sortOrderAsc = ref(true);
 
@@ -52,7 +53,7 @@
             sortOrderAsc.value = true;
         }
 
-        tableData.value.sort((rowA: any, rowB: any) => compare(rowA[field], rowB[field]));
+        tableData.sort((rowA: any, rowB: any) => compare(rowA[field], rowB[field]));
     }
 
     function compare(a: any, b: any) {
@@ -71,6 +72,7 @@
         if (field == sortField.value) {
             return sortOrderAsc.value ? '▼' : '▲';
         }
+        return '';
     }
 
     function prettyValue(value: any) {
@@ -85,13 +87,17 @@
                 return value.slice(0, 10);
             }
 
+            if (value.includes(':')) {
+                return value;
+            }
+
             const number = parseFloat(value);
             if (!isNaN(number)) {
                 return number;
             }
 
             if (props.maxLength) {
-                return value.slice(0, props.maxLength);
+                return value.slice(0, maxLength);
             }
         }
 

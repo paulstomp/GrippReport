@@ -4,7 +4,9 @@ import mysql from 'mysql2/promise';
 var connection: any;
 
 async function getConnection() {
+
   const config = useRuntimeConfig();
+
   if(!connection) {
     console.log('Creating new mysql connection');
     connection = await mysql.createConnection({
@@ -24,7 +26,7 @@ async function getConnection() {
 
 export default defineEventHandler(async (event) => {
 
-  const session = await getServerSession(event)
+  const session = await getServerSession(event);
   if (!session) {
     return { status: 'unauthenticated' }
   }
@@ -33,9 +35,9 @@ export default defineEventHandler(async (event) => {
     const connection = await getConnection();
     const body = await readBody(event);
     const query = body.query;
-    console.log(query);
-    const response = await connection.execute(query);
-    return response;
+    console.log('query: ' + query);
+    const [rows, fields] = await connection.execute(query);
+    return rows;
   }
   catch (error) {
     console.log('error: ' + error);
