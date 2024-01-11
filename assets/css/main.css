@@ -28,9 +28,9 @@ h2 {
   font-size: 12px;
   font-weight: 400;
   line-height: 25px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-right: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 0px;
 }
 
@@ -60,7 +60,7 @@ input {
 table, tbody, th, td {
   border: none;
   border-collapse: collapse;
-  padding: 0px 10px;
+  padding: 5px 10px;
 }
 
 .no-padding {
@@ -89,6 +89,11 @@ table, tbody, th, td {
 .lavender-dark {
   background-color: Lavender;
   color: #202020;
+}
+
+.lavender-red {
+  background-color: Lavender;
+  color: red;
 }
 
 .aliceblue-dark {
@@ -206,8 +211,4 @@ table, tbody, th, td {
   overflow: auto;
   width: 100%;
   height: 100%;
-}
-
-.warning {
-  color: red;
 }

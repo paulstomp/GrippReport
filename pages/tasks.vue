@@ -39,10 +39,11 @@
 
           <tbody>
 
-            <tr>
+            <tr style="height: 40px;">
               <td>Project line</td>
               <td>Amount</td>
               <td>Task</td>
+              <td>Description</td>
               <td>Start</td>
               <td>Deadline</td>
               <td>Completed</td>
@@ -57,14 +58,15 @@
             <!-- When group -->
 
             <tr v-if="!projectLine.unit_id">
-              <td colspan="2"><h2>{{ projectLine.additionalsubject }}</h2></td>
+              <td colspan="2"><h2>{{ projectLine.additionalsubject }} </h2></td>
             </tr>
 
             <!-- When product -->
 
             <tr v-else>
-              <td><strong>{{ projectLine.productname }}</strong></td>
-              <td><strong>{{ projectLine.amount }}</strong></td>
+              <td><strong>{{ projectLine.productname }} {{ projectLine.id }}</strong></td>
+              <td><strong>{{ prettyfy(projectLine.amount, 10) }}</strong></td>
+              <td><strong>&#x21B4;</strong></td>
             </tr>
 
             <!-- When product, but no tasks -->
@@ -72,10 +74,11 @@
             <tr v-if="projectLine.unit_id && grippTasks.getProjectLineTaskCount(projectLine.id) == 0">
               <td></td>
               <td></td>
-              <td class="warning">No tasks</td>
-              <td class="warning">No tasks</td>
-              <td class="warning">No tasks</td>
-              <td class="warning">No tasks</td>
+              <td class="lavender-red">No tasks</td>
+              <td class="lavender-red"></td>
+              <td class="lavender-red"></td>
+              <td class="lavender-red"></td>
+              <td class="lavender-red"></td>
             </tr>
 
             <!-- Tasks -->
@@ -83,10 +86,11 @@
             <tr v-for="(task, index) in grippTasks.getProjectLineTasks(projectLine.id)" :key=index>
               <td></td>
               <td></td>
-              <td>{{ task.tasktype_name }}</td>
-              <td>{{ prettyfy(task.startdate, 10) }}</td>
-              <td>{{ prettyfy(task.deadlinedate, 10) }}</td>
-              <td>{{ prettyfy(task.completedon, 10) }}</td>
+              <td class="lavender-dark">{{ task.tasktype_name }}</td>
+              <td class="lavender-dark">{{ task.description }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.deadlinedate, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.completedon, 10) }}</td>
             </tr>
 
           </tbody>
