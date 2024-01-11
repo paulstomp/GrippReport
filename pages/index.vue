@@ -2,12 +2,12 @@
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
     <div class="grid-1">
 
-      <!-- Title and selection -->
+      <!-- Department selection -->
 
       <div class="card light-dark shadow">
         <h1>Planning at department level</h1>
 
-        <span v-for="(department, index) in grippData.departments" :key=index>
+        <span v-for="(department, index) in grippPlanning.departments" :key=index>
           <button @click="setDepartment(department.name)">
             {{ department.name }}
           </button>
@@ -17,7 +17,7 @@
       <!-- Planning per departemt -->
 
       <div class="card light-dark shadow">
-        <h1>{{ grippData.departmentName }}</h1>
+        <h1>{{ grippPlanning.departmentName }}</h1>
 
         <!-- Week navigation -->
 
@@ -37,7 +37,7 @@
               <td></td>
               <td></td>
               <td>Month</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)" width="25">
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)" width="25">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -48,7 +48,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -59,7 +59,7 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
@@ -68,7 +68,7 @@
 
           <!-- Planning per employee within department -->
 
-          <tbody v-for="(employee, index) in grippData.employees" :key=index>
+          <tbody v-for="(employee, index) in grippPlanning.employees" :key=index>
 
             <!-- Spacer -->
 
@@ -82,19 +82,19 @@
               <td>{{ employee.firstname }}</td>
               <td></td>
               <td></td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
-                {{ grippData.getEmployeeTotalHours(employee.firstname, date) }}
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ grippPlanning.getEmployeeTotalHours(employee.firstname, date) }}
               </td>
             </tr>
 
             <!-- Hours per employee per project per day -->
 
-            <tr v-for="(project, index) in grippData.getEmployeeProjects(employee.firstname)" :key=index>
+            <tr v-for="(project, index) in grippPlanning.getEmployeeProjects(employee.firstname)" :key=index>
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td>{{ project.project_type }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in grippData.dateSeries" :key=index :class="bg(date)">
-                {{ grippData.getEmployeeProjectHours(employee.firstname, project.project_name, date) }}
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ grippPlanning.getEmployeeProjectHours(employee.firstname, project.project_id, date) }}
               </td>
             </tr>
 
@@ -104,10 +104,7 @@
 
       <!-- Sync info -->
 
-      <div class="card light-dark shadow">
-        <h1>Sync info</h1>
-        Last sync at {{ grippData.lastSyncDatetime }}
-      </div>
+      <GrippSyncInfo />
 
     </div>
   </ClientOnly>
@@ -123,7 +120,8 @@
       "aquamarine-dark": isToday(date),
       "lavender-dark": isEven(week) && !isToday(date),
       "aliceblue-dark": isOdd(week) && !isToday(date),
-      "text-center": true
+      "text-center": true,
+      "no-padding": true
     }
   }
 
@@ -131,12 +129,12 @@
   var weeks = 6;
   var department = '1. Creatie';
 
-  const grippData = ref(new GrippData(date, weeks));
+  const grippPlanning = ref(new GrippPlanning(date, weeks));
 
   async function reload() {
-    grippData.value = new GrippData(date, weeks);
-    await grippData.value.loadDepartments();
-    await grippData.value.loadPlanningByDepartment(department);
+    grippPlanning.value = new GrippPlanning(date, weeks);
+    await grippPlanning.value.loadDepartments();
+    await grippPlanning.value.loadPlanningByDepartment(department);
   }
 
   async function setDepartment(toDepartment: string) {

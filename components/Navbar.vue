@@ -14,6 +14,10 @@
         <span class="navitem">Reports</span>
       </NuxtLink>
 
+      <NuxtLink to="/tasks">
+        <span class="navitem">Tasks</span>
+      </NuxtLink>
+
       <div class="header-right">
 
         <button class="button" v-if="status === 'authenticated'" @click="signOut({ callbackUrl: '/' })">

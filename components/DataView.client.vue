@@ -18,7 +18,7 @@
 
             <tr v-for="(row, index) in tableData" :key=index class="view">
                 <td v-for="(field, index) in Object.keys(data[0])" :key=index style="padding: 5px;">
-                    {{ prettyValue(row[field]) }}
+                    {{ prettyfy(row[field], maxLength) }}
                 </td>
             </tr>
 
@@ -73,35 +73,6 @@
             return sortOrderAsc.value ? '▼' : '▲';
         }
         return '';
-    }
-
-    function prettyValue(value: any) {
-
-        if (!value) {
-            return '-';
-        }
-
-        if (typeof value == "string") {
-            const regExDate = /^\d{4}-\d{2}-\d{2}$/;
-            if (value.slice(0, 10).match(regExDate)) {
-                return value.slice(0, 10);
-            }
-
-            if (value.includes(':')) {
-                return value;
-            }
-
-            const number = parseFloat(value);
-            if (!isNaN(number)) {
-                return number;
-            }
-
-            if (props.maxLength) {
-                return value.slice(0, maxLength);
-            }
-        }
-
-        return value;
     }
 
 </script>

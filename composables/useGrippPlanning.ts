@@ -1,4 +1,4 @@
-export class GrippData {
+export class GrippPlanning {
 
   dateSeries: Date[] = [];
   hours: any;
@@ -24,7 +24,7 @@ export class GrippData {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select department_name, company_name, project_name,
+    this.hours = await query(`select department_name, company_name, project_id, project_name,
       firstname, date_str, hours
       from _calendaritems
       where department_name = "${departmentName}"
@@ -37,13 +37,11 @@ export class GrippData {
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_name, project_type, firstname
+      company_name, project_id, project_name, project_type, firstname
       from _calendaritems
       where department_name = "${departmentName}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
-
-    this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
 
   async loadCsds() {
@@ -55,26 +53,24 @@ export class GrippData {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select department_name, company_name, project_name,
+    this.hours = await query(`select department_name, company_name, project_id, project_name,
       firstname, date_str, hours
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-    this.projects = await query(`select distinct project_name, project_type, company_name
+    this.projects = await query(`select distinct project_id, project_name, project_type, company_name
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_name, project_type, firstname
+      company_name, project_id, project_name, project_type, firstname
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
-
-    this.lastSyncDatetime = await this.getLastSyncDatetime();
   }
 
   getDepartments() {
@@ -121,11 +117,11 @@ export class GrippData {
     return (sum > 0) ? sum : '-';
   }
 
-  getProjectTotalHours(projectName: string, date: Date) {
+  getProjectTotalHours(projectId: number, date: Date) {
     const date_str = getDateStr(date);
 
     const filtered = this.hours.filter((element: any) =>
-      element.project_name == projectName &&
+      element.project_id == projectId &&
       element.date_str == date_str);
 
     let sum = 0;
@@ -134,11 +130,11 @@ export class GrippData {
     return (sum > 0) ? sum : '-';
   }
 
-  getEmployeeProjectHours(firstname: string, project_name: string, date: Date) {
+  getEmployeeProjectHours(firstname: string, projectId: number, date: Date) {
     const date_str = getDateStr(date);
 
     const filtered = this.hours.filter((element: any) =>
-      element.project_name == project_name &&
+      element.project_id == projectId &&
       element.firstname == firstname &&
       element.date_str == date_str);
 
@@ -147,42 +143,9 @@ export class GrippData {
 
     return (sum > 0) ? sum : '-';
   }
-
-  async getLastSyncDatetime() {
-    const result = await query(
-      `select convert_tz(cast(createdon as char), '+00:00','+01:00') as createdon_str `+
-      `from log order by id desc limit 1;`);
-
-    return result[0].createdon_str;
-  }
 }
 
-// General functions
-
-export function getDateStr(date: Date) {
-  return date.toISOString().split('T')[0];
-}
-
-export function getWeek(date: Date) {
-  const onejan = new Date(date.getFullYear(), 0, 1);
-  return Math.ceil((((date.getTime() - onejan.getTime()) / 86400000)
-    + onejan.getDay() + 1) / 7);
-}
-
-export function isToday(date: Date) {
-  const today = new Date();
-  return date.getDate() == today.getDate() &&
-    date.getMonth() == today.getMonth() &&
-    date.getFullYear() == today.getFullYear();
-}
-
-export function isOdd(number: number) {
-  return !(number % 2 == 0);
-}
-
-export function isEven(number: number) {
-  return number % 2 == 0;
-}
+// Get date series based on initial date and number of weeks
 
 export function getDateSeries(date: Date, weeks: number) {
   let dateIndex = new Date(date);
@@ -196,8 +159,4 @@ export function getDateSeries(date: Date, weeks: number) {
     }
   }
   return result;
-}
-
-export function compareString(a: string, b: string) {
-  return (a > b) ? 1 : 0;
 }
