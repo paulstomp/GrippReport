@@ -68,6 +68,9 @@
               <td>Start</td>
               <td>Deadline</td>
               <td>Completed</td>
+              <td>Planned</td>
+              <td>From</td>
+              <td>To</td>
             </tr>
 
           </tbody>
@@ -96,6 +99,7 @@
               <td></td>
               <td></td>
               <td colspan="7" class="lavender-red">No tasks</td>
+              <td colspan="3" class="aliceblue-dark"></td>
             </tr>
 
             <!-- Tasks -->
@@ -110,6 +114,9 @@
               <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.deadlinedate, 10) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.completedon, 10) }}</td>
+              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
+              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
+              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
             </tr>
 
           </tbody>

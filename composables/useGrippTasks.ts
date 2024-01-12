@@ -12,7 +12,7 @@ export class GrippTasks {
       where project_id = ${projectId}
       order by ordering`);
 
-    this.tasks = await query(`select * from _tasks
+    this.tasks = await query(`select * from _task_hours
       where project_id = ${projectId}`);
 
     if (this.projectLines.length > 0) {
