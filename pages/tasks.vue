@@ -92,7 +92,7 @@
 
             <!-- When product, but no tasks -->
 
-            <tr v-if="projectLine.unit_id && grippTasks.getProjectLineTaskCount(projectLine.id) == 0">
+            <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTaskCount(projectLine.id) == 0">
               <td></td>
               <td></td>
               <td colspan="7" class="lavender-red">No tasks</td>
