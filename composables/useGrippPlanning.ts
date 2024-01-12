@@ -49,7 +49,7 @@ export class GrippPlanning {
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
     this.hours = await query(`select department_name, company_name, project_id, project_name,
-      firstname, date_str, hours
+      employee_id, firstname, lastname, date_str, hours
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
@@ -61,7 +61,7 @@ export class GrippPlanning {
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_id, project_name, project_type, firstname
+      company_name, project_id, project_name, project_type, employee_id, firstname, lastname
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
@@ -81,9 +81,9 @@ export class GrippPlanning {
     return [];
   }
 
-  getProjectsEmployees(projectName: string) {
+  getProjectsEmployees(projectId: number) {
     if(this.projectEmployees) {
-      const filtered = this.projectEmployees.filter((e: any) => e.project_name == projectName);
+      const filtered = this.projectEmployees.filter((e: any) => e.project_id == projectId);
       return filtered;
     }
     return [];

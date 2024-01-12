@@ -89,12 +89,12 @@
 
             <!-- Hours per project per project per day -->
 
-            <tr v-for="(employee, index) in grippPlanning.getProjectsEmployees(project.project_name)" :key=index>
+            <tr v-for="(employee, index) in grippPlanning.getProjectsEmployees(project.project_id)" :key=index>
               <td></td>
               <td></td>
-              <td>{{ employee.firstname }} </td>
+              <td>{{ employee.firstname }} {{ employee.lastname }}</td>
               <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ grippPlanning.getEmployeeProjectHours(employee.firstname, project.project_id, date) }}
+                {{ grippPlanning.getEmployeeProjectHours(employee.employee_id, project.project_id, date) }}
               </td>
             </tr>
 
