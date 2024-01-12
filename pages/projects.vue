@@ -7,7 +7,7 @@
       <div class="card light-dark shadow">
         <h1>Planning at project level</h1>
 
-        <span v-for="(csd, index) in grippPlanning.csds" :key=index>
+        <span v-for="(csd, index) in grippCsds.csds" :key=index>
           <button @click="setCsd(csd.csd_firstname)">
             {{ csd.csd_firstname }}
           </button>
@@ -127,18 +127,17 @@
 
   var date = new Date();
   var weeks = 6;
-  var csdFirstname = 'Marcel';
 
+  const grippCsds = ref(new GrippCsds());
   const grippPlanning = ref(new GrippPlanning(date, weeks));
 
   async function reload() {
     grippPlanning.value = new GrippPlanning(date, weeks);
-    await grippPlanning.value.loadCsds();
-    await grippPlanning.value.loadPlanningByCsd(csdFirstname);
+    await grippPlanning.value.loadPlanningByCsd(grippCsds.value.csd.csd_firstname);
   }
 
-  async function setCsd(toCsdFirstname: string) {
-    csdFirstname = toCsdFirstname;
+  async function setCsd(csdFirstname: string) {
+    grippCsds.value.setCsdByFirstname(csdFirstname);
     await reload();
   }
 
@@ -161,6 +160,8 @@
 
   onMounted(async () => {
     await nextTick();
+    await grippCsds.value.loadCsds();
+
     await reload();
   });
 

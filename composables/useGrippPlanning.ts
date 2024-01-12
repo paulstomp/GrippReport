@@ -5,7 +5,6 @@ export class GrippPlanning {
   employees: any;
   departments: any;
   projects: any;
-  csds: any;
   projectEmployees: any;
   departmentName: string = '';
   csdFirstname: string = '';
@@ -44,11 +43,7 @@ export class GrippPlanning {
       order by company_name, project_name, firstname`);
   }
 
-  async loadCsds() {
-    this.csds = await query(`select distinct csd_employee_id, csd_firstname from companies_meta`);
-  }
-
-  async loadPlanningByCsd(csdFirstname: string) {
+   async loadPlanningByCsd(csdFirstname: string) {
     this.csdFirstname = csdFirstname;
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];

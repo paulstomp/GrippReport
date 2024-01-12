@@ -10,12 +10,12 @@
         <span class="navitem">Projects</span>
       </NuxtLink>
 
-      <NuxtLink to="/reports">
-        <span class="navitem">Reports</span>
-      </NuxtLink>
-
       <NuxtLink to="/tasks">
         <span class="navitem">Tasks</span>
+      </NuxtLink>
+
+      <NuxtLink to="/reports">
+        <span class="navitem">Reports</span>
       </NuxtLink>
 
       <div class="header-right">
