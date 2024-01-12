@@ -27,7 +27,7 @@
         hours_left as budgeted_left, hours_planned_from_today as planned_from_today,
         hours_balance as balance
         from _project_hours
-        where hours_planned_to >= curdate()`
+        where id in (select _projects_running.id from _projects_running)`
 
     const data = ref(await query(sql));
 
