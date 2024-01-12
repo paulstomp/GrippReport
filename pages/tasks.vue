@@ -49,7 +49,7 @@
 
       <div class="card light-dark shadow">
         <h1>
-          {{ grippTasks.companyName}}: {{ grippTasks.projectName}} {{ grippTasks.projectId}}
+          {{ grippTasks.projectName}} ({{ grippTasks.projectId}})
         </h1>
 
         <table>
