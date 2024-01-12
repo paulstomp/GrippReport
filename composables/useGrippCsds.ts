@@ -10,7 +10,7 @@ export class GrippCsds {
 
   async loadCsds() {
     this.csds = await query(`select distinct csd_employee_id, csd_firstname
-      from companies_meta`);
+      from companies_meta order by csd_firstname`);
 
     // Set csdFirstname to first found by default
     this.csd = (this.csds.length > 0) ? this.csds[0] : null;
@@ -41,7 +41,8 @@ export class GrippCsds {
   async loadCsdCompanies() {
     this.companies = await query(`select * from _companies
       where csd_firstname = "${this.csd.csd_firstname}"
-      and id in (select _projects_running.company_id from _projects_running)`);
+      and id in (select _projects_running.company_id from _projects_running)
+      order by name`);
 
     // Set company to first found by default
     this.company = (this.companies.length > 0) ? this.companies[0] : null;
@@ -52,7 +53,8 @@ export class GrippCsds {
   async loadCompanyProjects() {
     this.projects = await query(`select * from _projects
       where company_id = "${this.company.id}"
-      and id in (select _projects_running.id from _projects_running)`);
+      and id in (select _projects_running.id from _projects_running)
+      order by name`);
 
     // Set project to first found by default
     this.project = (this.projects.length > 0) ? this.projects[0] : null;
