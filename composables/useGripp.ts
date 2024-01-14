@@ -1,4 +1,4 @@
-export class GrippCsds {
+export class Gripp {
 
   csds: any;
   companies: any;

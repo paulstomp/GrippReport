@@ -12,6 +12,8 @@
                 <p>budgeted left = budgeted - booked</p>
                 <p>balance = budgeted left - planned from today</p>
 
+                <hr>
+
                 <DataView :data=data :maxLength=20></DataView>
             </div>
 

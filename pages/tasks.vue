@@ -10,7 +10,7 @@
       <div class="card light-dark shadow">
         <h1>CSD</h1>
 
-        <span v-for="(csd, index) in grippCsds.csds" :key=index>
+        <span v-for="(csd, index) in gripp.csds" :key=index>
           <button @click="setCsd(csd.csd_firstname)">
             {{ csd.csd_firstname }}
           </button>
@@ -20,9 +20,9 @@
       <!-- Companies -->
 
       <div class="card light-dark shadow">
-        <h1>{{ grippCsds.csd ? grippCsds.csd.csd_firstname : '' }}</h1>
+        <h1>{{ gripp.csd ? gripp.csd.csd_firstname : '' }}</h1>
 
-        <span v-for="(company, index) in grippCsds.companies" :key=index>
+        <span v-for="(company, index) in gripp.companies" :key=index>
           <button @click="setCompany(company.id)">
             {{ company.name }}
           </button>
@@ -32,9 +32,9 @@
       <!-- Projects -->
 
       <div class="card light-dark shadow">
-        <h1>{{ grippCsds.company ? grippCsds.company.name : '' }}</h1>
+        <h1>{{ gripp.company ? gripp.company.name : '' }}</h1>
 
-        <span v-for="(project, index) in grippCsds.projects" :key=index>
+        <span v-for="(project, index) in gripp.projects" :key=index>
           <button @click="setProject(project.id)">
             {{ project.name }}
           </button>
@@ -43,14 +43,20 @@
 
     </div>
 
-    <!-- Project tasks -->
+    <!-- Project -->
 
     <div class="grid-1">
 
       <div class="card light-dark shadow">
-        <h1>
-          {{ grippTasks.projectName}} ({{ grippTasks.projectId}})
-        </h1>
+
+        <div v-if="gripp.project">
+          <h1>{{ gripp.project.name }} ({{ prettyfy(gripp.project.type) }} {{ gripp.project.id }})</h1>
+          Period: {{ prettyfy(gripp.project.startdate) }} - {{ prettyfy(gripp.project.enddate) }}
+        </div>
+
+        <hr>
+
+        <!-- Tasks -->
 
         <table>
 
@@ -95,7 +101,7 @@
 
             <!-- When product, but no tasks -->
 
-            <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTaskCount(projectLine.id) == 0">
+            <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTasksCount(projectLine.id) == 0">
               <td></td>
               <td></td>
               <td colspan="7" class="lavender-red">No tasks</td>
@@ -135,24 +141,24 @@
 
   definePageMeta({ auth: true })
 
-  const grippCsds = ref(new GrippCsds());
+  const gripp = ref(new Gripp());
   const grippTasks = ref(new GrippTasks());
 
   // Set new CSD
 
   async function setCsd(csdFirstname: string) {
-    grippCsds.value.setCsdByFirstname(csdFirstname);
-    await grippCsds.value.loadCsdCompanies();
-    await grippCsds.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(grippCsds.value.projects[0].id);
+    gripp.value.setCsdByFirstname(csdFirstname);
+    await gripp.value.loadCsdCompanies();
+    await gripp.value.loadCompanyProjects();
+    await grippTasks.value.loadTasks(gripp.value.project.id);
   }
 
   // Set new Company
 
   async function setCompany(companyId: number) {
-    await grippCsds.value.setCompanyById(companyId);
-    await grippCsds.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(grippCsds.value.project.id);
+    await gripp.value.setCompanyById(companyId);
+    await gripp.value.loadCompanyProjects();
+    await grippTasks.value.loadTasks(gripp.value.project.id);
   }
 
   // Set new project
@@ -167,10 +173,10 @@
     await nextTick();
 
     // Load data
-    await grippCsds.value.loadCsds();
-    await grippCsds.value.loadCsdCompanies();
-    await grippCsds.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(grippCsds.value.project.id);
+    await gripp.value.loadCsds();
+    await gripp.value.loadCsdCompanies();
+    await gripp.value.loadCompanyProjects();
+    await grippTasks.value.loadTasks(gripp.value.project.id);
   });
 
 </script>

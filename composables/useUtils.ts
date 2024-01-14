@@ -36,7 +36,7 @@ export function compareString(a: string, b: string) {
   return (a > b) ? 1 : 0;
 }
 
-export function prettyfy(value: any, maxLength: number) {
+export function prettyfy(value: any, maxLength?: number) {
 
   if (!value) {
       return '-';
