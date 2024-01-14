@@ -50,8 +50,9 @@
       <div class="card light-dark shadow">
 
         <div v-if="gripp.project">
-          <h1>{{ gripp.project.name }} ({{ prettyfy(gripp.project.type) }} {{ gripp.project.id }})</h1>
+          <h1>{{ gripp.project.name }} ({{ gripp.project.type }})</h1>
           Period: {{ prettyfy(gripp.project.startdate) }} - {{ prettyfy(gripp.project.enddate) }}
+          | Meta: database ID {{ gripp.project.id }}
         </div>
 
         <hr>
