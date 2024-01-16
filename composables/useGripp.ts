@@ -28,7 +28,7 @@ export class Gripp {
     return this.csd;
   }
 
-  setCompanyById(companyId: number) {
+  setCompany(companyId: number) {
     if(this.companies) {
       const filtered = this.companies.filter((e: any) => e.id == companyId);
       this.company = (filtered.length > 0) ? filtered[0] : null;
@@ -60,5 +60,15 @@ export class Gripp {
     this.project = (this.projects.length > 0) ? this.projects[0] : null;
 
     return this.projects;
+  }
+
+  setProject(projectId: number) {
+    if(this.projects) {
+      const filtered = this.projects.filter((e: any) => e.id == projectId);
+      this.project = (filtered.length > 0) ? filtered[0] : null;
+      return this.project;
+    }
+    this.project = null;
+    return this.project;
   }
 }

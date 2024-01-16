@@ -36,7 +36,7 @@
 
         <span v-for="(project, index) in gripp.projects" :key=index>
           <button @click="setProject(project.id)">
-            {{ project.name }}
+            {{ project.name }} {{ project.id }}
           </button>
         </span>
       </div>
@@ -50,9 +50,11 @@
       <div class="card light-dark shadow">
 
         <div v-if="gripp.project">
-          <h1>{{ gripp.project.name }} ({{ gripp.project.type }})</h1>
-          Period: {{ prettyfy(gripp.project.startdate) }} - {{ prettyfy(gripp.project.enddate) }}
-          | Meta: database ID {{ gripp.project.id }}
+          <h1>{{ gripp.project.name }}</h1>
+          Type: {{ gripp.project.type }}
+          | Startdate: {{ prettyfy(gripp.project.startdate) }}
+          | Deadline {{ prettyfy(gripp.project.deadline) }}
+          | Database ID {{ gripp.project.id }}
         </div>
 
         <hr>
@@ -157,7 +159,7 @@
   // Set new Company
 
   async function setCompany(companyId: number) {
-    await gripp.value.setCompanyById(companyId);
+    await gripp.value.setCompany(companyId);
     await gripp.value.loadCompanyProjects();
     await grippTasks.value.loadTasks(gripp.value.project.id);
   }
@@ -165,6 +167,7 @@
   // Set new project
 
   async function setProject(projectId: number) {
+    await gripp.value.setProject(projectId);
     await grippTasks.value.loadTasks(projectId);
   }
 
