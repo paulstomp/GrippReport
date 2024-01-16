@@ -72,11 +72,10 @@
               <td>Amount</td>
               <td>Task type</td>
               <td>Content</td>
-              <td>Description</td>
               <td>Hours</td>
               <td>Start</td>
               <td>Deadline</td>
-              <td>Completed</td>
+              <td>/ Calculated</td>
               <td>Planned</td>
               <td>From</td>
               <td>To</td>
@@ -118,11 +117,10 @@
               <td></td>
               <td class="lavender-dark">{{ task.tasktype_name }}</td>
               <td class="lavender-dark">{{ prettyfy(task.content, 20) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.description, 20) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.estimatedhours, 10) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.deadlinedate, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.completedon, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.deadlinedate_calc, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
