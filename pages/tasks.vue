@@ -106,7 +106,7 @@
             <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTasksCount(projectLine.id) == 0">
               <td></td>
               <td></td>
-              <td colspan="7" class="lavender-red">No tasks</td>
+              <td colspan="8" class="lavender-red">No tasks</td>
               <td colspan="3" class="aliceblue-dark"></td>
             </tr>
 
