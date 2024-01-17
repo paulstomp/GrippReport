@@ -119,8 +119,8 @@
               <td class="lavender-dark">{{ prettyfy(task.content, 20) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.estimatedhours, 10) }}</td>
               <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.deadlinedate, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.deadlinedate_calc, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.deadline, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.deadline_calc, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
