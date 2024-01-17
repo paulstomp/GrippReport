@@ -75,7 +75,7 @@
               <td>Hours</td>
               <td>Start</td>
               <td>Deadline</td>
-              <td>/ Calculated</td>
+              <td>Deadline calc</td>
               <td>Planned</td>
               <td>From</td>
               <td>To</td>
