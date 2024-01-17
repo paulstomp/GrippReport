@@ -7,8 +7,8 @@
       <div class="card light-dark shadow">
         <h1>Planning at department level</h1>
 
-        <span v-for="(department, index) in grippPlanning.departments" :key=index>
-          <button @click="setDepartment(department.name)">
+        <span v-for="(department, index) in gripp.departments" :key=index>
+          <button @click="setDepartment(department.id)">
             {{ department.name }}
           </button>
         </span>
@@ -17,7 +17,10 @@
       <!-- Planning per departemt -->
 
       <div class="card light-dark shadow">
-        <h1>{{ grippPlanning.departmentName }}</h1>
+
+        <div v-if="gripp.department">
+          <h1>{{ gripp.department.name }}</h1>
+        </div>
 
         <!-- Week navigation -->
 
@@ -127,41 +130,41 @@
 
   var date = new Date();
   var weeks = 6;
-  var department = '1. Creatie';
 
-  const grippPlanning = ref(new GrippPlanning(date, weeks));
+  const gripp = ref(new Gripp());
+  const grippPlanning = ref(new GrippPlanning());
 
-  async function reload() {
-    grippPlanning.value = new GrippPlanning(date, weeks);
-    await grippPlanning.value.loadDepartments();
-    await grippPlanning.value.loadPlanningByDepartment(department);
-  }
-
-  async function setDepartment(toDepartment: string) {
-    department = toDepartment;
-    await reload();
+  async function setDepartment(departmentId: number) {
+    gripp.value.setDepartment(departmentId)
+    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    await reload();
+    grippPlanning.value.setDateSeries(date, weeks);
+    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    await reload();
+    grippPlanning.value.setDateSeries(date, weeks);
+    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    await reload();
+    grippPlanning.value.setDateSeries(date, weeks);
+    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
   }
 
   // Setup when mounted
 
   onMounted(async () => {
     await nextTick();
-    await reload();
+
+    await gripp.value.loadDepartments();
+    grippPlanning.value.setDateSeries(date, weeks);
+    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
   });
 
 </script>

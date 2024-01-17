@@ -3,52 +3,44 @@ export class GrippPlanning {
   dateSeries: Date[] = [];
   hours: any;
   employees: any;
-  departments: any;
   projects: any;
   projectEmployees: any;
-  departmentName: string = '';
-  csdFirstname: string = '';
-  lastSyncDatetime: string = '';
 
-  constructor(date: Date, weeks: number) {
+  setDateSeries(date: Date, weeks: number) {
     this.dateSeries = getDateSeries(date, weeks);
   }
 
-  async loadDepartments() {
-    this.departments = await query(`select name from departments order by name`);
-  }
+  async loadPlanningByDepartment(departmentId: number) {
 
-  async loadPlanningByDepartment(departmentName: string) {
-    this.departmentName = departmentName;
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select department_name, company_name, project_id, project_name,
+    this.hours = await query(`select company_name, project_id, project_name,
       employee_id, firstname, lastname, date_str, hours
       from _calendaritems
-      where department_name = "${departmentName}"
+      where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.employees = await query(`select distinct employee_id, firstname, lastname
       from _calendaritems
-      where department_name = "${departmentName}"
+      where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_type, employee_id, firstname, lastname
       from _calendaritems
-      where department_name = "${departmentName}"
+      where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
   }
 
    async loadPlanningByCsd(csdFirstname: string) {
-    this.csdFirstname = csdFirstname;
+
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select department_name, company_name, project_id, project_name,
+    this.hours = await query(`select company_name, project_id, project_name,
       employee_id, firstname, lastname, date_str, hours
       from _calendaritems
       where csd_firstname = "${csdFirstname}"
@@ -68,11 +60,6 @@ export class GrippPlanning {
       order by company_name, project_name, firstname`);
   }
 
-  getDepartments() {
-    const employees = this.projectEmployees.map((e: any) => e.firstname);
-    return new Set(employees);
-  }
-
   getEmployeeProjects(employeeId: number) {
     if(this.projectEmployees) {
       const filtered = this.projectEmployees.filter((e: any) => e.employee_id == employeeId);
@@ -87,16 +74,6 @@ export class GrippPlanning {
       return filtered;
     }
     return [];
-  }
-
-  // Todo: can be removed
-  sortHoursByEmployee() {
-    this.projectEmployees.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname));
-  }
-
-  // Todo: can be removed
-  sortHoursByCompany() {
-    this.projectEmployees.sort((a: any, b: any) => a.company_name.localeCompare(b.company_name));
   }
 
   getEmployeeTotalHours(employeeId: number, date: Date) {
@@ -138,20 +115,14 @@ export class GrippPlanning {
 
     return (sum > 0) ? sum : '-';
   }
-}
 
-// Get date series based on initial date and number of weeks
-
-export function getDateSeries(date: Date, weeks: number) {
-  let dateIndex = new Date(date);
-  var result: Date[] = [];
-  dateIndex.setDate(dateIndex.getDate() - (dateIndex.getDay() + 7) % 7); // Previous Monday
-
-  for(let i = 0; i < weeks * 7; i++) {
-    dateIndex.setDate(dateIndex.getDate() + 1);
-    if(dateIndex.getDay() >= 1 && dateIndex.getDay() <= 5) { // Only working days
-      result.push(new Date(dateIndex));
-    }
+  // Todo: can be removed
+  sortHoursByEmployee() {
+    this.projectEmployees.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname));
   }
-  return result;
+
+  // Todo: can be removed
+  sortHoursByCompany() {
+    this.projectEmployees.sort((a: any, b: any) => a.company_name.localeCompare(b.company_name));
+  }
 }

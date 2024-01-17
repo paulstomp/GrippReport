@@ -24,6 +24,20 @@ export function isToday(date: Date) {
     date.getFullYear() == today.getFullYear();
 }
 
+export function getDateSeries(date: Date, weeks: number) {
+  let dateIndex = new Date(date);
+  var result: Date[] = [];
+  dateIndex.setDate(dateIndex.getDate() - (dateIndex.getDay() + 7) % 7); // Previous Monday
+
+  for(let i = 0; i < weeks * 7; i++) {
+    dateIndex.setDate(dateIndex.getDate() + 1);
+    if(dateIndex.getDay() >= 1 && dateIndex.getDay() <= 5) { // Only working days
+      result.push(new Date(dateIndex));
+    }
+  }
+  return result;
+}
+
 export function isOdd(number: number) {
   return !(number % 2 == 0);
 }

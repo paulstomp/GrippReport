@@ -14,6 +14,10 @@
         <span class="navitem">Tasks</span>
       </NuxtLink>
 
+      <NuxtLink to="/resources">
+        <span class="navitem">Resources</span>
+      </NuxtLink>
+
       <NuxtLink to="/reports">
         <span class="navitem">Reports</span>
       </NuxtLink>

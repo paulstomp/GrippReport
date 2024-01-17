@@ -5,11 +5,11 @@
       <!-- CSD selection -->
 
       <div class="card light-dark shadow">
-        <h1>Planning at project level</h1>
+        <h1>Resource demand</h1>
 
-        <span v-for="(csd, index) in gripp.csds" :key=index>
-          <button @click="setCsd(csd.csd_firstname)">
-            {{ csd.csd_firstname }}
+        <span v-for="(tasktype, index) in gripp.tasktypes" :key=index>
+          <button @click="setTasktype(tasktype.id)">
+            {{ tasktype.name }}
           </button>
         </span>
       </div>
@@ -18,8 +18,8 @@
 
       <div class="card light-dark shadow">
 
-        <div v-if="gripp.csd">
-          <h1>{{ gripp.csd.csd_firstname }}</h1>
+        <div v-if="gripp.tasktype">
+          <h1>{{ gripp.tasktype.name }}</h1>
         </div>
 
         <!-- Week navigation -->
@@ -40,7 +40,7 @@
               <td></td>
               <td></td>
               <td>Month</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)" width="25">
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)" width="25">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -51,7 +51,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -62,16 +62,27 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
+              </td>
+            </tr>
+
+            <!-- Hours per project per day -->
+
+            <tr style="font-weight: bold">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
+                {{ grippResources.getTotalHours(date) }}
               </td>
             </tr>
 
           </tbody>
 
-          <!-- Planning per project within CSD scope -->
+          <!-- Planning per project within tasktype scope -->
 
-          <tbody v-for="(project, index) in grippPlanning.projects" :key=index>
+          <tbody v-for="(project, index) in grippResources.projects" :key=index>
 
             <!-- Spacer -->
 
@@ -85,19 +96,19 @@
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td style="font-weight: 400">{{ project.project_type }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ grippPlanning.getProjectTotalHours(project.project_id, date) }}
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
+                {{ grippResources.getProjectTotalHours(project.project_id, date) }}
               </td>
             </tr>
 
-            <!-- Hours per project per project per day -->
+            <!-- Hours per project per task per day -->
 
-            <tr v-for="(employee, index) in grippPlanning.getProjectsEmployees(project.project_id)" :key=index>
+            <tr v-for="(task, index) in grippResources.getProjectsTasks(project.project_id)" :key=index>
               <td></td>
               <td></td>
-              <td>{{ employee.firstname }} {{ employee.lastname }}</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ grippPlanning.getEmployeeProjectHours(employee.employee_id, project.project_id, date) }}
+              <td>{{ task.task_content }} </td>
+              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
+                {{ grippResources.getTaskHours(task.task_id, date) }}
               </td>
             </tr>
 
@@ -112,7 +123,7 @@
     </div>
   </ClientOnly>
 </template>
-
+  
 <script lang="ts" setup>
 
   definePageMeta({ auth: true })
@@ -132,29 +143,29 @@
   var weeks = 6;
 
   const gripp = ref(new Gripp());
-  const grippPlanning = ref(new GrippPlanning());
+  const grippResources = ref(new GrippResources());
 
-  async function setCsd(csdFirstname: string) {
-    gripp.value.setCsdByFirstname(csdFirstname)
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+  async function setTasktype(tasktypeId: number) {
+    gripp.value.setTasktype(tasktypeId)
+    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    grippResources.value.setDateSeries(date, weeks);
+    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    grippResources.value.setDateSeries(date, weeks);
+    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    grippResources.value.setDateSeries(date, weeks);
+    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   // Setup when mounted
@@ -162,10 +173,10 @@
   onMounted(async () => {
     await nextTick();
 
-    await gripp.value.loadCsds();
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    await gripp.value.loadTasktypes();
+    grippResources.value.setDateSeries(date, weeks);
+    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   });
 
 </script>
-
+    

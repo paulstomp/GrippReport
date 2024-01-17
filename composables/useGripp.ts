@@ -3,39 +3,23 @@ export class Gripp {
   csds: any;
   companies: any;
   projects: any;
+  departments: any;
+  tasktypes: any;
 
   csd: any;
   company: any;
   project: any;
+  department: any;
+  tasktype: any;
 
   async loadCsds() {
     this.csds = await query(`select distinct csd_employee_id, csd_firstname
       from companies_meta order by csd_firstname`);
 
-    // Set csdFirstname to first found by default
+    // Set CSD to first found by default
     this.csd = (this.csds.length > 0) ? this.csds[0] : null;
 
     return this.csds;
-  }
-
-  setCsdByFirstname(csdFirstname: string) {
-    if(this.csds) {
-      const filtered = this.csds.filter((e: any) => e.csd_firstname == csdFirstname);
-      this.csd = (filtered.length > 0) ? filtered[0] : null;
-      return this.csd;
-    }
-    this.csd = null;
-    return this.csd;
-  }
-
-  setCompany(companyId: number) {
-    if(this.companies) {
-      const filtered = this.companies.filter((e: any) => e.id == companyId);
-      this.company = (filtered.length > 0) ? filtered[0] : null;
-      return this.company;
-    }
-    this.company = null;
-    return this.company;
   }
 
   async loadCsdCompanies() {
@@ -62,6 +46,44 @@ export class Gripp {
     return this.projects;
   }
 
+  async loadDepartments() {
+    this.departments = await query(`select * from departments order by name`);
+
+    // Set department to first found by default
+    this.department = (this.departments.length > 0) ? this.departments[0] : null;
+
+    return this.departments;
+  }
+
+  async loadTasktypes() {
+    this.tasktypes = await query(`select * from tasktypes order by name`);
+
+    // Set department to first found by default
+    this.tasktype = (this.tasktypes.length > 0) ? this.tasktypes[0] : null;
+
+    return this.tasktypes;
+  }
+
+  setCsdByFirstname(csdFirstname: string) {
+    if(this.csds) {
+      const filtered = this.csds.filter((e: any) => e.csd_firstname == csdFirstname);
+      this.csd = (filtered.length > 0) ? filtered[0] : null;
+      return this.csd;
+    }
+    this.csd = null;
+    return this.csd;
+  }
+
+  setCompany(companyId: number) {
+    if(this.companies) {
+      const filtered = this.companies.filter((e: any) => e.id == companyId);
+      this.company = (filtered.length > 0) ? filtered[0] : null;
+      return this.company;
+    }
+    this.company = null;
+    return this.company;
+  }
+
   setProject(projectId: number) {
     if(this.projects) {
       const filtered = this.projects.filter((e: any) => e.id == projectId);
@@ -70,6 +92,26 @@ export class Gripp {
     }
     this.project = null;
     return this.project;
+  }
+
+  setDepartment(departmentId: number) {
+    if(this.departments) {
+      const filtered = this.departments.filter((e: any) => e.id == departmentId);
+      this.department = (filtered.length > 0) ? filtered[0] : null;
+      return this.project;
+    }
+    this.department = null;
+    return this.department;
+  }
+
+  setTasktype(tasktypeId: number) {
+    if(this.tasktypes) {
+      const filtered = this.tasktypes.filter((e: any) => e.id == tasktypeId);
+      this.tasktype = (filtered.length > 0) ? filtered[0] : null;
+      return this.tasktype;
+    }
+    this.tasktype = null;
+    return this.tasktype;
   }
 }
 
