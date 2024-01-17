@@ -3,7 +3,7 @@ export class GrippTasks {
   projectLines: any;
   tasks: any;
 
-  async loadTasks(projectId: number) {
+  async loadTasksByProject(projectId: number) {
 
     this.projectLines = await query(`select * from _projectlines
       where project_id = ${projectId}

@@ -151,7 +151,7 @@
     gripp.value.setCsdByFirstname(csdFirstname);
     await gripp.value.loadCsdCompanies();
     await gripp.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(gripp.value.project.id);
+    await grippTasks.value.loadTasksByProject(gripp.value.project.id);
   }
 
   // Set new Company
@@ -159,14 +159,14 @@
   async function setCompany(companyId: number) {
     await gripp.value.setCompany(companyId);
     await gripp.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(gripp.value.project.id);
+    await grippTasks.value.loadTasksByProject(gripp.value.project.id);
   }
 
   // Set new project
 
   async function setProject(projectId: number) {
     await gripp.value.setProject(projectId);
-    await grippTasks.value.loadTasks(projectId);
+    await grippTasks.value.loadTasksByProject(projectId);
   }
 
   // Setup when mounted
@@ -178,7 +178,7 @@
     await gripp.value.loadCsds();
     await gripp.value.loadCsdCompanies();
     await gripp.value.loadCompanyProjects();
-    await grippTasks.value.loadTasks(gripp.value.project.id);
+    await grippTasks.value.loadTasksByProject(gripp.value.project.id);
   });
 
 </script>
