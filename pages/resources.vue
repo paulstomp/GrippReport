@@ -72,7 +72,7 @@
             <tr style="font-weight: bold">
               <td></td>
               <td></td>
-              <td></td>
+              <td>Total demand</td>
               <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
                 {{ grippResources.getTotalHours(date) }}
               </td>
