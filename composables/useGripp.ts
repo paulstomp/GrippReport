@@ -13,8 +13,10 @@ export class Gripp {
   tasktype: any;
 
   async loadCsds() {
-    this.csds = await query(`select distinct csd_employee_id, csd_firstname
-      from companies_meta order by csd_firstname`);
+    this.csds = await query(`select distinct csd_employee_id, employees.firstname
+      from companies_meta
+      inner join employees on employees.id = csd_employee_id
+      order by employees.firstname`);
 
     // Set CSD to first found by default
     this.csd = (this.csds.length > 0) ? this.csds[0] : null;
@@ -24,7 +26,7 @@ export class Gripp {
 
   async loadCsdCompanies() {
     this.companies = await query(`select * from _companies
-      where csd_firstname = "${this.csd.csd_firstname}"
+      where csd_employee_id = "${this.csd.csd_employee_id}"
       and id in (select _projects_running.company_id from _projects_running)
       order by name`);
 
@@ -64,9 +66,9 @@ export class Gripp {
     return this.tasktypes;
   }
 
-  setCsdByFirstname(csdFirstname: string) {
+  setCsd(csdEmployeeId: number) {
     if(this.csds) {
-      const filtered = this.csds.filter((e: any) => e.csd_firstname == csdFirstname);
+      const filtered = this.csds.filter((e: any) => e.csd_employee_id == csdEmployeeId);
       this.csd = (filtered.length > 0) ? filtered[0] : null;
       return this.csd;
     }

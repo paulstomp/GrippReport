@@ -11,8 +11,8 @@
         <h1>CSD</h1>
 
         <span v-for="(csd, index) in gripp.csds" :key=index>
-          <button @click="setCsd(csd.csd_firstname)">
-            {{ csd.csd_firstname }}
+          <button @click="setCsd(csd.csd_employee_id)">
+            {{ csd.firstname }}
           </button>
         </span>
       </div>
@@ -20,7 +20,7 @@
       <!-- Companies -->
 
       <div class="card light-dark shadow">
-        <h1>{{ gripp.csd ? gripp.csd.csd_firstname : '' }}</h1>
+        <h1>{{ gripp.csd ? gripp.csd.firstname : '' }}</h1>
 
         <span v-for="(company, index) in gripp.companies" :key=index>
           <button @click="setCompany(company.id)">
@@ -147,8 +147,8 @@
 
   // Set new CSD
 
-  async function setCsd(csdFirstname: string) {
-    gripp.value.setCsdByFirstname(csdFirstname);
+  async function setCsd(csdEmployeeId: number) {
+    gripp.value.setCsd(csdEmployeeId);
     await gripp.value.loadCsdCompanies();
     await gripp.value.loadCompanyProjects();
     await grippTasks.value.loadTasksByProject(gripp.value.project.id);

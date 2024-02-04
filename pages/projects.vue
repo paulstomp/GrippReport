@@ -8,8 +8,8 @@
         <h1>Planning at project level</h1>
 
         <span v-for="(csd, index) in gripp.csds" :key=index>
-          <button @click="setCsd(csd.csd_firstname)">
-            {{ csd.csd_firstname }}
+          <button @click="setCsd(csd.csd_employee_id)">
+            {{ csd.firstname }}
           </button>
         </span>
       </div>
@@ -19,7 +19,7 @@
       <div class="card light-dark shadow">
 
         <div v-if="gripp.csd">
-          <h1>{{ gripp.csd.csd_firstname }}</h1>
+          <h1>{{ gripp.csd.firstname }}</h1>
         </div>
 
         <!-- Week navigation -->
@@ -134,27 +134,27 @@
   const gripp = ref(new Gripp());
   const grippPlanning = ref(new GrippPlanning());
 
-  async function setCsd(csdFirstname: string) {
-    gripp.value.setCsdByFirstname(csdFirstname)
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+  async function setCsd(csdEmployeeId: number) {
+    gripp.value.setCsd(csdEmployeeId)
+    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
   }
 
   async function thisWeek() {
     date = new Date();
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
   }
 
   // Setup when mounted
@@ -164,7 +164,7 @@
 
     await gripp.value.loadCsds();
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_firstname);
+    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
   });
 
 </script>
