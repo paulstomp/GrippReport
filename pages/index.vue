@@ -95,7 +95,7 @@
             <tr v-for="(project, index) in grippPlanning.getEmployeeProjects(employee.employee_id)" :key=index>
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td>{{ project.project_type }}</td>
-              <td>{{ project.project_name.slice(0, 20) }}</td>
+              <td>{{ project.project_name.slice(0, 20) }} - {{ project.project_number }}</td>
               <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ grippPlanning.getEmployeeProjectHours(employee.employee_id, project.project_id, date) }}
               </td>

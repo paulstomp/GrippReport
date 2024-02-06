@@ -15,7 +15,7 @@ export class GrippPlanning {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select company_name, project_id, project_name,
+    this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
       from _calendaritems
       where department_id = "${departmentId}"
@@ -28,7 +28,7 @@ export class GrippPlanning {
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_id, project_name, project_type, employee_id, firstname, lastname
+      company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
       from _calendaritems
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
@@ -40,20 +40,20 @@ export class GrippPlanning {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select company_name, project_id, project_name,
+    this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
       from _calendaritems
       where csd_employee_id = "${csdEmployeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-    this.projects = await query(`select distinct project_id, project_name, project_type, company_name
+    this.projects = await query(`select distinct project_id, project_number, project_name, project_type, company_name
       from _calendaritems
       where csd_employee_id = "${csdEmployeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
-      company_name, project_id, project_name, project_type, employee_id, firstname, lastname
+      company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
       from _calendaritems
       where csd_employee_id = "${csdEmployeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
