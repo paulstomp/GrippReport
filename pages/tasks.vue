@@ -50,7 +50,7 @@
       <div class="card light-dark shadow">
 
         <div v-if="gripp.project">
-          <h1>{{ gripp.project.name }}</h1>
+          <h1>{{ gripp.project.name }} - {{ gripp.project.number }}</h1>
           Type: {{ gripp.project.type }}
           | Startdate: {{ prettyfy(gripp.project.startdate) }}
           | Deadline {{ prettyfy(gripp.project.deadline) }}
