@@ -21,11 +21,12 @@ export class GrippResources {
         where tasktype_id = "${tasktypeId}"
         and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-      this.projects = await query(`select distinct project_id, project_name, project_type, company_name
+      this.projects = await query(`select distinct project_id, project_number,
+        project_name, project_type, company_name
         from _resourceitems
         where tasktype_id = "${tasktypeId}"
         and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-        order by company_name`);
+        order by company_name, project_name`);
 
       this.projectTasks = await query(`select distinct
         company_name, project_id, project_name, project_type, task_id, task_content
