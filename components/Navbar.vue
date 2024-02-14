@@ -22,9 +22,11 @@
         <span class="navitem">Hours</span>
       </NuxtLink>
 
+      <!--
       <NuxtLink to="/reports">
         <span class="navitem">Reports</span>
       </NuxtLink>
+      -->
 
       <div class="header-right">
 
