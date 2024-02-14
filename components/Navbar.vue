@@ -18,6 +18,10 @@
         <span class="navitem">Resources</span>
       </NuxtLink>
 
+      <NuxtLink to="/hours">
+        <span class="navitem">Hours</span>
+      </NuxtLink>
+
       <NuxtLink to="/reports">
         <span class="navitem">Reports</span>
       </NuxtLink>
