@@ -2,24 +2,28 @@
   <div class="grid-1">
     <div class="header">
 
-      <NuxtLink to="/">
-        <span class="navitem">Departments</span>
+      <NuxtLink to="planning-dept">
+        <span class="navitem">Planning-dept</span>
       </NuxtLink>
 
-      <NuxtLink to="/projects">
-        <span class="navitem">Projects</span>
+      <NuxtLink to="planning-project">
+        <span class="navitem">Planning-project</span>
       </NuxtLink>
 
-      <NuxtLink to="/tasks">
+      <NuxtLink to="tasks">
         <span class="navitem">Tasks</span>
       </NuxtLink>
 
-      <NuxtLink to="/resources">
+      <NuxtLink to="resources">
         <span class="navitem">Resources</span>
       </NuxtLink>
 
-      <NuxtLink to="/hours">
-        <span class="navitem">Hours</span>
+      <NuxtLink to="hours-dept">
+        <span class="navitem">Hours-dept</span>
+      </NuxtLink>
+
+      <NuxtLink to="hours-project">
+        <span class="navitem">Hours-project</span>
       </NuxtLink>
 
       <!--

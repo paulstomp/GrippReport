@@ -97,7 +97,7 @@ export class GrippHours {
       element.date_str == date_str);
 
     let sum = 0;
-    filtered.forEach((element: any) => { sum += Number(element.hours) });
+    filtered.forEach((element: any) => { sum += Number(element.amount) });
 
     return (sum > 0) ? sum : '-';
   }
