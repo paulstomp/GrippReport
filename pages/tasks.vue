@@ -79,6 +79,7 @@
               <td>Planned</td>
               <td>From</td>
               <td>To</td>
+              <td>Booked</td>
             </tr>
 
           </tbody>
@@ -108,6 +109,7 @@
               <td></td>
               <td colspan="6" class="lavender-red">No tasks</td>
               <td colspan="3" class="aliceblue-dark"></td>
+              <td colspan="3" class="lavender-dark"></td>
             </tr>
 
             <!-- Tasks -->
@@ -124,6 +126,7 @@
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
               <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
+              <td class="lavender-dark">{{ prettyfy(task.hours_booked, 10) }}</td>
             </tr>
 
           </tbody>
