@@ -96,7 +96,7 @@
             <!-- When product -->
 
             <tr v-else>
-              <td><strong>{{ projectLine.productname }}</strong></td>
+              <td><strong>{{ projectLine.product_name }}</strong></td>
               <td><strong>{{ prettyfy(projectLine.amount, 10) }}</strong></td>
               <td><strong>&#x21B4;</strong></td>
             </tr>
