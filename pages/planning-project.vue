@@ -2,24 +2,24 @@
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
     <div class="grid-1">
 
-      <!-- CSD selection -->
+      <!-- Account manager selection -->
 
       <div class="card light-dark shadow">
         <h1>Planning at project level</h1>
 
-        <span v-for="(csd, index) in gripp.csds" :key=index>
-          <button @click="setCsd(csd.csd_employee_id)">
-            {{ csd.firstname }}
+        <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
+          <button @click="setAccountManager(accountManager.employee_id)">
+            {{ accountManager.firstname }}
           </button>
         </span>
       </div>
 
-      <!-- Planning per CSD -->
+      <!-- Planning per account manager -->
 
       <div class="card light-dark shadow">
 
-        <div v-if="gripp.csd">
-          <h1>{{ gripp.csd.firstname }}</h1>
+        <div v-if="gripp.accountManager">
+          <h1>{{ gripp.accountManager.firstname }}</h1>
         </div>
 
         <!-- Week navigation -->
@@ -69,7 +69,7 @@
 
           </tbody>
 
-          <!-- Planning per project within CSD scope -->
+          <!-- Planning per project within account manager scope -->
 
           <tbody v-for="(project, index) in grippPlanning.projects" :key=index>
 
@@ -134,27 +134,27 @@
   const gripp = ref(new Gripp());
   const grippPlanning = ref(new GrippPlanning());
 
-  async function setCsd(csdEmployeeId: number) {
-    gripp.value.setCsd(csdEmployeeId)
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
+  async function setAccountManager(employeeId: number) {
+    gripp.value.setAccountManager(employeeId)
+    await grippPlanning.value.loadPlanningByAccountManager(gripp.value.accountManager.employee_id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
+    await grippPlanning.value.loadPlanningByAccountManager(gripp.value.accountManager.employee_id);
   }
 
   async function thisWeek() {
     date = new Date();
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
+    await grippPlanning.value.loadPlanningByAccountManager(gripp.value.accountManager.employee_id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
+    await grippPlanning.value.loadPlanningByAccountManager(gripp.value.accountManager.employee_id);
   }
 
   // Setup when mounted
@@ -162,9 +162,9 @@
   onMounted(async () => {
     await nextTick();
 
-    await gripp.value.loadCsds();
+    await gripp.value.loadAccountManagers();
     grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByCsd(gripp.value.csd.csd_employee_id);
+    await grippPlanning.value.loadPlanningByAccountManager(gripp.value.accountManager.employee_id);
   });
 
 </script>

@@ -1,32 +1,32 @@
 export class Gripp {
 
-  csds: any;
+  accountManagers: any;
   companies: any;
   projects: any;
   departments: any;
   tasktypes: any;
 
-  csd: any;
+  accountManager: any;
   company: any;
   project: any;
   department: any;
   tasktype: any;
 
-  async loadCsds() {
-    this.csds = await query(`select distinct csd_employee_id, employees.firstname
-      from companies_meta
-      inner join employees on employees.id = csd_employee_id
+  async loadAccountManagers() {
+    this.accountManagers = await query(`select distinct employee_id, firstname
+      from companies
+      inner join employees on employees.id = companies.employee_id
       order by employees.firstname`);
 
-    // Set CSD to first found by default
-    this.csd = (this.csds.length > 0) ? this.csds[0] : null;
+    // Set acount manager to first found by default
+    this.accountManager = (this.accountManagers.length > 0) ? this.accountManagers[0] : null;
 
-    return this.csds;
+    return this.accountManagers;
   }
 
-  async loadCsdCompanies() {
-    this.companies = await query(`select * from _companies
-      where csd_employee_id = "${this.csd.csd_employee_id}"
+  async loadAccountManagerCompanies() {
+    this.companies = await query(`select * from companies
+      where employee_id = "${this.accountManager.employee_id}"
       and id in (select _projects_running.company_id from _projects_running)
       order by name`);
 
@@ -66,14 +66,14 @@ export class Gripp {
     return this.tasktypes;
   }
 
-  setCsd(csdEmployeeId: number) {
-    if(this.csds) {
-      const filtered = this.csds.filter((e: any) => e.csd_employee_id == csdEmployeeId);
-      this.csd = (filtered.length > 0) ? filtered[0] : null;
-      return this.csd;
+  setAccountManager(employeeId: number) {
+    if(this.accountManagers) {
+      const filtered = this.accountManagers.filter((e: any) => e.employee_id == employeeId);
+      this.accountManager = (filtered.length > 0) ? filtered[0] : null;
+      return this.accountManager;
     }
-    this.csd = null;
-    return this.csd;
+    this.accountManager = null;
+    return this.accountManager;
   }
 
   setCompany(companyId: number) {

@@ -2,7 +2,7 @@
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
     <div class="grid-1">
 
-      <!-- CSD selection -->
+      <!-- Account manager selection -->
 
       <div class="card light-dark shadow">
         <h1>Resource demand</h1>
@@ -14,7 +14,7 @@
         </span>
       </div>
 
-      <!-- Planning per CSD -->
+      <!-- Planning per account manager -->
 
       <div class="card light-dark shadow">
 

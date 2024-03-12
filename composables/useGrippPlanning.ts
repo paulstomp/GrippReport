@@ -35,7 +35,7 @@ export class GrippPlanning {
       order by company_name, project_name, firstname`);
   }
 
-   async loadPlanningByCsd(csdEmployeeId: number) {
+   async loadPlanningByAccountManager(employeeId: number) {
 
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
@@ -43,19 +43,19 @@ export class GrippPlanning {
     this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
       from _calendaritems
-      where csd_employee_id = "${csdEmployeeId}"
+      where company_employee_id = "${employeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.projects = await query(`select distinct project_id, project_number, project_name, project_type, company_name
       from _calendaritems
-      where csd_employee_id = "${csdEmployeeId}"
+      where company_employee_id = "${employeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
       from _calendaritems
-      where csd_employee_id = "${csdEmployeeId}"
+      where company_employee_id = "${employeeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
   }

@@ -5,14 +5,14 @@
 
     <div class="grid-1-1-1">
 
-      <!-- CSDs -->
+      <!-- Account managers -->
 
       <div class="card light-dark shadow">
         <h1>CSD</h1>
 
-        <span v-for="(csd, index) in gripp.csds" :key=index>
-          <button @click="setCsd(csd.csd_employee_id)">
-            {{ csd.firstname }}
+        <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
+          <button @click="setAccountManager(accountManager.employee_id)">
+            {{ accountManager.firstname }}
           </button>
         </span>
       </div>
@@ -20,7 +20,7 @@
       <!-- Companies -->
 
       <div class="card light-dark shadow">
-        <h1>{{ gripp.csd ? gripp.csd.firstname : '' }}</h1>
+        <h1>{{ gripp.accountManager ? gripp.accountManager.firstname : '' }}</h1>
 
         <span v-for="(company, index) in gripp.companies" :key=index>
           <button @click="setCompany(company.id)">
@@ -148,11 +148,11 @@
   const gripp = ref(new Gripp());
   const grippTasks = ref(new GrippTasks());
 
-  // Set new CSD
+  // Set new account manager
 
-  async function setCsd(csdEmployeeId: number) {
-    gripp.value.setCsd(csdEmployeeId);
-    await gripp.value.loadCsdCompanies();
+  async function setAccountManager(employeeId: number) {
+    gripp.value.setAccountManager(employeeId);
+    await gripp.value.loadAccountManagerCompanies();
     await gripp.value.loadCompanyProjects();
     await grippTasks.value.loadTasksByProject(gripp.value.project.id);
   }
@@ -178,8 +178,8 @@
     await nextTick();
 
     // Load data
-    await gripp.value.loadCsds();
-    await gripp.value.loadCsdCompanies();
+    await gripp.value.loadAccountManagers();
+    await gripp.value.loadAccountManagerCompanies();
     await gripp.value.loadCompanyProjects();
     await grippTasks.value.loadTasksByProject(gripp.value.project.id);
   });
