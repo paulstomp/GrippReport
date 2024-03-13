@@ -16,6 +16,7 @@ export class Gripp {
     this.accountManagers = await query(`select distinct accountmanager_id, firstname
       from companies
       inner join employees on employees.id = companies.accountmanager_id
+      where companies.id in (select _projects_running.company_id from _projects_running)
       order by employees.firstname`);
 
     // Set acount manager to first found by default
