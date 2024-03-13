@@ -5,7 +5,7 @@
       <!-- Account manager selection -->
 
       <div class="card light-dark shadow">
-        <h1>Planning at project level</h1>
+        <h1>Planning per project</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
           <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">

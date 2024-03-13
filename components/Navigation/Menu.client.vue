@@ -105,7 +105,7 @@
       { name: 'Project', href: 'planning-project' }
     ] },
 
-    { name: 'Hours', childs: [
+    { name: 'Booked hours', childs: [
       { name: 'Department', href: 'hours-dept' },
       { name: 'Project', href: 'hours-project' }
     ] },

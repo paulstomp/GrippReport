@@ -5,7 +5,7 @@
       <!-- Department selection -->
 
       <div class="card light-dark shadow">
-        <h1>Hours at department level</h1>
+        <h1>Booked hours per department</h1>
 
         <span v-for="(department, index) in gripp.departments" :key=index>
           <button class="filter-button" @click="setDepartment(department.id)">
