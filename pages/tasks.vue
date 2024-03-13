@@ -11,7 +11,7 @@
         <h1>CSD</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
-          <button @click="setAccountManager(accountManager.accountmanager_id)">
+          <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
@@ -23,7 +23,7 @@
         <h1>{{ gripp.accountManager ? gripp.accountManager.firstname : '' }}</h1>
 
         <span v-for="(company, index) in gripp.companies" :key=index>
-          <button @click="setCompany(company.id)">
+          <button class="filter-button" @click="setCompany(company.id)">
             {{ company.name }}
           </button>
         </span>
@@ -35,7 +35,7 @@
         <h1>{{ gripp.company ? gripp.company.name : '' }}</h1>
 
         <span v-for="(project, index) in gripp.projects" :key=index>
-          <button @click="setProject(project.id)">
+          <button class="filter-button" @click="setProject(project.id)">
             {{ project.name }} {{ project.id }}
           </button>
         </span>

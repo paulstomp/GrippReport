@@ -13,7 +13,8 @@ export class Gripp {
   tasktype: any;
 
   async loadAccountManagers() {
-    this.accountManagers = await query(`select distinct accountmanager_id, firstname
+    this.accountManagers = await query(`
+      select distinct accountmanager_id, firstname
       from companies
       inner join employees on employees.id = companies.accountmanager_id
       where companies.id in (select _projects_running.company_id from _projects_running)
@@ -26,7 +27,8 @@ export class Gripp {
   }
 
   async loadAccountManagerCompanies() {
-    this.companies = await query(`select * from companies
+    this.companies = await query(`
+      select * from companies
       where accountmanager_id = "${this.accountManager.accountmanager_id}"
       and id in (select _projects_running.company_id from _projects_running)
       order by name`);
@@ -38,7 +40,8 @@ export class Gripp {
   }
 
   async loadCompanyProjects() {
-    this.projects = await query(`select * from _projects
+    this.projects = await query(`
+      select * from _projects
       where company_id = "${this.company.id}"
       and id in (select _projects_running.id from _projects_running)
       order by name`);

@@ -8,7 +8,7 @@
         <h1>Planning at department level</h1>
 
         <span v-for="(department, index) in gripp.departments" :key=index>
-          <button @click="setDepartment(department.id)">
+          <button class="filter-button" @click="setDepartment(department.id)">
             {{ department.name }}
           </button>
         </span>
@@ -24,9 +24,9 @@
 
         <!-- Week navigation -->
 
-        <button @click="previousWeek()">-1 week</button>
-        <button @click="thisWeek()">Now</button>
-        <button @click="nextWeek()">+1 week</button>
+        <button class="filter-button" @click="previousWeek()">-1 week</button>
+        <button class="filter-button" @click="thisWeek()">Now</button>
+        <button class="filter-button" @click="nextWeek()">+1 week</button>
 
         <table>
 

@@ -8,7 +8,7 @@
         <h1>Planning at project level</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
-          <button @click="setAccountManager(accountManager.accountmanager_id)">
+          <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
@@ -24,9 +24,9 @@
 
         <!-- Week navigation -->
 
-        <button @click="previousWeek()">-1 week</button>
-        <button @click="thisWeek()">Now</button>
-        <button @click="nextWeek()">+1 week</button>
+        <button class="filter-button" @click="previousWeek()">-1 week</button>
+        <button class="filter-button" @click="thisWeek()">Now</button>
+        <button class="filter-button" @click="nextWeek()">+1 week</button>
 
         <table>
 

@@ -3,7 +3,25 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  modules: [
+    '@sidebase/nuxt-auth',
+    '@nuxtjs/tailwindcss',
+    'nuxt-icon',
+    ['@nuxtjs/google-fonts', {
+      families: {
+        Montserrat: [400, 600, 800],
+        Play: true
+      }
+    }]
+  ],
+
   css: ['@/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 
   runtimeConfig: {
     serverKeyExample: process.env.SERVER_KEY_EXAMPLE,
@@ -15,17 +33,6 @@ export default defineNuxtConfig({
       publicKeyExample: process.env.PUBLIC_KEY_EXAMPLE
     }
   },
-
-  modules: [
-    '@sidebase/nuxt-auth',
-    'nuxt-icon',
-    ['@nuxtjs/google-fonts', {
-      families: {
-        Montserrat: [400, 600, 800],
-        Play: true
-      }
-    }]
-  ],
 
   typescript: {
     shim: false
