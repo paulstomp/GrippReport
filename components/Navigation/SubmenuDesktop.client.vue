@@ -22,7 +22,7 @@
 
             <!-- Force closing, see https://stackoverflow.com/questions/72775878/nuxt-click-does-not-work-with-nuxt-link -->
             <a @click="close">
-              {{ item.name }}
+              <div class="w-full">{{ item.name }}</div>
             </a>
 
           </NuxtLink>
