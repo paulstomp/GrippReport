@@ -13,9 +13,9 @@ export class Gripp {
   tasktype: any;
 
   async loadAccountManagers() {
-    this.accountManagers = await query(`select distinct employee_id, firstname
+    this.accountManagers = await query(`select distinct accountmanager_id, firstname
       from companies
-      inner join employees on employees.id = companies.employee_id
+      inner join employees on employees.id = companies.accountmanager_id
       order by employees.firstname`);
 
     // Set acount manager to first found by default
@@ -26,7 +26,7 @@ export class Gripp {
 
   async loadAccountManagerCompanies() {
     this.companies = await query(`select * from companies
-      where employee_id = "${this.accountManager.employee_id}"
+      where accountmanager_id = "${this.accountManager.accountmanager_id}"
       and id in (select _projects_running.company_id from _projects_running)
       order by name`);
 
@@ -66,9 +66,9 @@ export class Gripp {
     return this.tasktypes;
   }
 
-  setAccountManager(employeeId: number) {
+  setAccountManager(accountManagerId: number) {
     if(this.accountManagers) {
-      const filtered = this.accountManagers.filter((e: any) => e.employee_id == employeeId);
+      const filtered = this.accountManagers.filter((e: any) => e.accountmanager_id == accountManagerId);
       this.accountManager = (filtered.length > 0) ? filtered[0] : null;
       return this.accountManager;
     }

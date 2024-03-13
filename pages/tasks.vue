@@ -11,7 +11,7 @@
         <h1>CSD</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
-          <button @click="setAccountManager(accountManager.employee_id)">
+          <button @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
@@ -150,8 +150,8 @@
 
   // Set new account manager
 
-  async function setAccountManager(employeeId: number) {
-    gripp.value.setAccountManager(employeeId);
+  async function setAccountManager(accountManagerId: number) {
+    gripp.value.setAccountManager(accountManagerId);
     await gripp.value.loadAccountManagerCompanies();
     await gripp.value.loadCompanyProjects();
     await grippTasks.value.loadTasksByProject(gripp.value.project.id);

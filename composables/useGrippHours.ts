@@ -35,7 +35,7 @@ export class GrippHours {
       order by company_name, project_name, firstname`);
   }
 
-   async loadHoursByAccountManager(employeeId: number) {
+   async loadHoursByAccountManager(accountManagerId: number) {
 
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
@@ -43,19 +43,19 @@ export class GrippHours {
     this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, amount
       from _hours
-      where am_employee_id = "${employeeId}"
+      where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.projects = await query(`select distinct project_id, project_number, project_name, project_type, company_name
       from _hours
-      where am_employee_id = "${employeeId}"
+      where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
       from _hours
-      where am_employee_id = "${employeeId}"
+      where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
   }

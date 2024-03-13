@@ -8,7 +8,7 @@
         <h1>Planning at project level</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
-          <button @click="setAccountManager(accountManager.employee_id)">
+          <button @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
@@ -134,27 +134,27 @@
   const gripp = ref(new Gripp());
   const grippHours = ref(new GrippHours());
 
-  async function setAccountManager(employeeId: number) {
-    gripp.value.setAccountManager(employeeId)
-    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.employee_id);
+  async function setAccountManager(accountManagerId: number) {
+    gripp.value.setAccountManager(accountManagerId)
+    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.accountmanager_id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     grippHours.value.setDateSeries(date, weeks);
-    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.employee_id);
+    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.accountmanager_id);
   }
 
   async function thisWeek() {
     date = new Date();
     grippHours.value.setDateSeries(date, weeks);
-    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.employee_id);
+    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.accountmanager_id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     grippHours.value.setDateSeries(date, weeks);
-    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.employee_id);
+    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.accountmanager_id);
   }
 
   // Setup when mounted
@@ -165,7 +165,7 @@
     await gripp.value.loadAccountManagers();
     date.setDate(date.getDate() - 35);
     grippHours.value.setDateSeries(date, weeks);
-    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.employee_id);
+    await grippHours.value.loadHoursByAccountManager(gripp.value.accountManager.accountmanager_id);
   });
 
 </script>
