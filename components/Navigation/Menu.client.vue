@@ -41,7 +41,7 @@
                 <!-- If no childs, then show direct link -->
 
                 <div v-else>
-                  <NuxtLink :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-50', 'inline-flex w-full justify-center gap-x-1.5 rounded-md px-2 py-2 text-sm']" :aria-current="item.current ? 'page' : undefined">
+                  <NuxtLink :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-white hover:hover:text-blue-900 hover:bg-white', 'inline-flex w-full justify-center gap-x-1.5 rounded-md px-2 py-2 text-sm']" :aria-current="item.current ? 'page' : undefined">
                     {{ item.name }}
                   </NuxtLink>
                 </div>

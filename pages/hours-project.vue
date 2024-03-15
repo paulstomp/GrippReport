@@ -40,7 +40,7 @@
               <td></td>
               <td></td>
               <td>Month</td>
-              <td v-for="(date, index) in grippHours.dateSeries" :key=index :class="bg(date)" width="25">
+              <td v-for="(date, index) in grippHours.dateSeries" :key=index :class="bg(date)" class="min-w-8 w-8">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -82,9 +82,9 @@
             <!-- Hours per project per day -->
 
             <tr style="font-weight: bold">
-              <td>{{ project.company_name.slice(0, 30) }}</td>
+              <td>{{ project.company_name.slice(0, 20) }}</td>
               <td style="font-weight: 400">{{ project.project_number }}</td>
-              <td>{{ project.project_name.slice(0, 30) }}</td>
+              <td>{{ project.project_name.slice(0, 20) }}</td>
               <td v-for="(date, index) in grippHours.dateSeries" :key=index :class="bg(date)">
                 {{ grippHours.getProjectTotalHours(project.project_id, date) }}
               </td>
@@ -117,7 +117,7 @@
   function bg(date: Date) {
     const week = getWeek(date);
     return {
-      "bg-teal-300": isToday(date),
+      "bg-blue-300": isToday(date),
       "bg-indigo-50": isEven(week) && !isToday(date),
       "bg-indigo-100": isOdd(week) && !isToday(date),
       "text-center": true,

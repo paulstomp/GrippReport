@@ -1,5 +1,5 @@
 <template>
-  <body class="bg-white">
+  <body class="bg-blue-950">
     <div class="px-6 overflow-hidden">
       <NavigationMenu/>
       <NuxtPage />
