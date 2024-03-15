@@ -16,7 +16,7 @@
 
             <!-- Data -->
 
-            <tr v-for="(row, index) in tableData" :key=index class="view">
+            <tr v-for="(row, index) in tableData" :key=index>
                 <td v-for="(field, index) in Object.keys(data[0])" :key=index style="padding: 5px;">
                     {{ prettyfy(row[field], maxLength) }}
                 </td>
@@ -26,15 +26,6 @@
     </table>
 
 </template>
-
-<style>
-
-    .view:hover {
-        background-color: Aquamarine;
-        color: #202020;
-    }
-
-</style>
 
 <script setup lang="ts">
 

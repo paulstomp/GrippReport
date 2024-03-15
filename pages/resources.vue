@@ -128,11 +128,11 @@
   function bg(date: Date) {
     const week = getWeek(date);
     return {
-      "aquamarine-dark": isToday(date),
-      "lavender-dark": isEven(week) && !isToday(date),
-      "aliceblue-dark": isOdd(week) && !isToday(date),
+      "bg-teal-300": isToday(date),
+      "bg-indigo-50": isEven(week) && !isToday(date),
+      "bg-indigo-100": isOdd(week) && !isToday(date),
       "text-center": true,
-      "no-padding": true
+      "p-0": true
     }
   }
 

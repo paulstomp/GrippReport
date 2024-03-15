@@ -105,9 +105,9 @@
           <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTasksCount(projectLine.id) == 0">
             <td></td>
             <td></td>
-            <td colspan="6" class="lavender-red">No tasks</td>
-            <td colspan="3" class="aliceblue-dark"></td>
-            <td colspan="3" class="lavender-dark"></td>
+            <td colspan="6" class="bg-red-100">No tasks</td>
+            <td colspan="3" class="bg-indigo-50"></td>
+            <td colspan="3" class="bg-indigo-100"></td>
           </tr>
 
           <!-- Tasks -->
@@ -115,16 +115,16 @@
           <tr v-for="(task, index) in grippTasks.getProjectLineTasks(projectLine.id)" :key=index>
             <td></td>
             <td></td>
-            <td class="lavender-dark">{{ task.tasktype_name }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.content, 20) }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.estimatedhours, 10) }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.deadline, 10) }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.deadline_calc, 10) }}</td>
-            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
-            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
-            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
-            <td class="lavender-dark">{{ prettyfy(task.hours_booked, 10) }}</td>
+            <td class="bg-indigo-100">{{ task.tasktype_name }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.content, 20) }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.estimatedhours, 10) }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.startdate, 10) }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.deadline, 10) }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.deadline_calc, 10) }}</td>
+            <td class="bg-indigo-50">{{ prettyfy(task.hours_planned, 10) }}</td>
+            <td class="bg-indigo-50">{{ prettyfy(task.hours_planned_from, 10) }}</td>
+            <td class="bg-indigo-50">{{ prettyfy(task.hours_planned_to, 10) }}</td>
+            <td class="bg-indigo-100">{{ prettyfy(task.hours_booked, 10) }}</td>
           </tr>
 
         </tbody>

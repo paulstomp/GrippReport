@@ -4,13 +4,6 @@ html {
   height: auto;
 }
 
-body {
-  background: white;
-  height: auto;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 h1 {
   color: DarkSlateBlue;
   text-transform: uppercase;
@@ -34,15 +27,6 @@ h2 {
   margin-left: 0px;
 }
 
-input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-family: inherit;
-  font-size: inherit;
-}
-
 table, tbody, th, td {
   border: none;
   border-collapse: collapse;
@@ -61,61 +45,4 @@ table, tbody, th, td {
   border-radius: 5px;
   margin: 5px;
   padding: 5px 10px;
-}
-
-.no-padding {
-  padding: 0px 0px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.light-dark {
-  background-color: SeaShell;
-  color: #202020;
-}
-
-.grey-light {
-  background-color: grey;
-  color: #fcfcfc;
-}
-
-.dark-light {
-  background-color: #202020;
-  color: SeaShell;
-}
-
-.lavender-dark {
-  background-color: Lavender;
-  color: #202020;
-}
-
-.lavender-red {
-  background-color: Lavender;
-  color: red;
-}
-
-.aliceblue-dark {
-  background-color: AliceBlue;
-  color: #202020;
-}
-
-.aquamarine-dark {
-  background-color: Aquamarine;
-  color: #202020;
-}
-
-.table-lavender-dark {
-  background-color: Lavender;
-  color: #202020;
-}
-
-.viewer {
-  display: flex;
-  flex-direction: column-reverse;
-  overflow-wrap: anywhere;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
 }
