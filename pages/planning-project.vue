@@ -37,10 +37,10 @@
             <!-- Month series -->
 
             <tr>
-              <td></td>
-              <td></td>
-              <td>Month</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)" class="min-w-8 w-8">
+              <td class="min-w-60 w-48"></td>
+              <td class="min-w-16 w-16"></td>
+              <td class="min-w-60 w-48">Month</td>
+              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
