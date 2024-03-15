@@ -1,10 +1,12 @@
 <template>
+
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
-    <div class="grid-1">
+
+    <div class="grid grid-cols-1">
 
       <!-- Department selection -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>Planning per department</h1>
 
         <span v-for="(department, index) in gripp.departments" :key=index>
@@ -12,11 +14,11 @@
             {{ department.name }}
           </button>
         </span>
-      </div>
+      </Card>
 
       <!-- Planning per departemt -->
 
-      <div class="card light-dark shadow">
+      <Card>
 
         <div v-if="gripp.department">
           <h1>{{ gripp.department.name }}</h1>
@@ -103,13 +105,12 @@
 
           </tbody>
         </table>
-      </div>
 
-      <!-- Sync info -->
+      </Card>
 
       <GrippSyncInfo />
-
     </div>
+
   </ClientOnly>
 </template>
 

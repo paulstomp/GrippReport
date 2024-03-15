@@ -1,10 +1,11 @@
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
-    <div class="grid-1">
+
+    <div class="grid grid-cols-1">
 
       <!-- Account manager selection -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>Resource demand</h1>
 
         <span v-for="(tasktype, index) in gripp.tasktypes" :key=index>
@@ -12,12 +13,11 @@
             {{ tasktype.name }}
           </button>
         </span>
-      </div>
+      </Card>
 
       <!-- Planning per account manager -->
 
-      <div class="card light-dark shadow">
-
+      <Card>
         <div v-if="gripp.tasktype">
           <h1>{{ gripp.tasktype.name }}</h1>
         </div>
@@ -114,12 +114,9 @@
 
           </tbody>
         </table>
-      </div>
-
-      <!-- Sync info -->
+      </Card>
 
       <GrippSyncInfo />
-
     </div>
   </ClientOnly>
 </template>

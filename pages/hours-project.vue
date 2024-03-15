@@ -1,10 +1,11 @@
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
-    <div class="grid-1">
+
+    <div class="grid grid-cols-1">
 
       <!-- Account manager selection -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>Booked hours per project</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
@@ -12,12 +13,11 @@
             {{ accountManager.firstname }}
           </button>
         </span>
-      </div>
+      </Card>
 
       <!-- Planning per account manager -->
 
-      <div class="card light-dark shadow">
-
+      <Card>
         <div v-if="gripp.accountManager">
           <h1>{{ gripp.accountManager.firstname }}</h1>
         </div>
@@ -103,12 +103,9 @@
 
           </tbody>
         </table>
-      </div>
-
-      <!-- Sync info -->
+      </Card>
 
       <GrippSyncInfo />
-
     </div>
   </ClientOnly>
 </template>

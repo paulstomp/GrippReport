@@ -1,15 +1,11 @@
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
-    <div class="grid-1">
+    <Card>
 
-      <!-- Sync info -->
+      <h1>Sync info</h1>
+      Last sync at {{ lastSyncDatetime }}
 
-      <div class="card light-dark shadow">
-        <h1>Sync info</h1>
-        Last sync at {{ lastSyncDatetime }}
-      </div>
-
-    </div>
+    </Card>
   </ClientOnly>
 </template>
 

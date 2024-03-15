@@ -17,19 +17,19 @@ export class GrippPlanning {
 
     this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
-      from _calendaritems
+      from _planning
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.employees = await query(`select distinct employee_id, firstname, lastname
-      from _calendaritems
+      from _planning
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
-      from _calendaritems
+      from _planning
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
@@ -42,19 +42,19 @@ export class GrippPlanning {
 
     this.hours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
-      from _calendaritems
+      from _planning
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.projects = await query(`select distinct project_id, project_number, project_name, project_type, company_name
-      from _calendaritems
+      from _planning
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
-      from _calendaritems
+      from _planning
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);

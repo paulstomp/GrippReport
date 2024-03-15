@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <NavigationMenu/>
-    <NuxtPage />
-  </div>
+  <body class="bg-white">
+    <div class="px-6 overflow-hidden">
+      <NavigationMenu/>
+      <NuxtPage />
+    </div>
+  </body>
 </template>
 
 <script setup lang="ts">

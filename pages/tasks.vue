@@ -3,11 +3,11 @@
 
     <!-- Selection -->
 
-    <div class="grid-1-1-1">
+    <div class="grid grid-cols-1 md:grid-cols-3">
 
       <!-- Account managers -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>CSD</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
@@ -15,11 +15,11 @@
             {{ accountManager.firstname }}
           </button>
         </span>
-      </div>
+      </Card>
 
       <!-- Companies -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>{{ gripp.accountManager ? gripp.accountManager.firstname : '' }}</h1>
 
         <span v-for="(company, index) in gripp.companies" :key=index>
@@ -27,11 +27,11 @@
             {{ company.name }}
           </button>
         </span>
-      </div>
+      </Card>
 
       <!-- Projects -->
 
-      <div class="card light-dark shadow">
+      <Card>
         <h1>{{ gripp.company ? gripp.company.name : '' }}</h1>
 
         <span v-for="(project, index) in gripp.projects" :key=index>
@@ -39,105 +39,100 @@
             {{ project.name }} {{ project.id }}
           </button>
         </span>
-      </div>
+      </Card>
 
     </div>
 
     <!-- Project -->
 
-    <div class="grid-1">
+    <Card>
 
-      <div class="card light-dark shadow">
-
-        <div v-if="gripp.project">
-          <h1>{{ gripp.project.name }} - {{ gripp.project.number }}</h1>
-          Type: {{ gripp.project.type }}
-          | Startdate: {{ prettyfy(gripp.project.startdate) }}
-          | Deadline {{ prettyfy(gripp.project.deadline) }}
-          | Database ID {{ gripp.project.id }}
-        </div>
-
-        <hr>
-
-        <!-- Tasks -->
-
-        <table>
-
-          <!-- Table header -->
-
-          <tbody>
-
-            <tr style="height: 40px;">
-              <td>Project line</td>
-              <td>Amount</td>
-              <td>Task type</td>
-              <td>Content</td>
-              <td>Hours</td>
-              <td>Start</td>
-              <td>Deadline</td>
-              <td>Deadline calc</td>
-              <td>Planned</td>
-              <td>From</td>
-              <td>To</td>
-              <td>Booked</td>
-            </tr>
-
-          </tbody>
-
-          <!-- Project line -->
-
-          <tbody v-for="(projectLine, index) in grippTasks.projectLines" :key=index>
-
-            <!-- When group -->
-
-            <tr v-if="projectLine.rowtype_id == 2">
-              <td colspan="2"><h2>{{ projectLine.additionalsubject }} </h2></td>
-            </tr>
-
-            <!-- When product -->
-
-            <tr v-else>
-              <td><strong>{{ projectLine.product_name }}</strong></td>
-              <td><strong>{{ prettyfy(projectLine.amount, 10) }}</strong></td>
-              <td><strong>&#x21B4;</strong></td>
-            </tr>
-
-            <!-- When product, but no tasks -->
-
-            <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTasksCount(projectLine.id) == 0">
-              <td></td>
-              <td></td>
-              <td colspan="6" class="lavender-red">No tasks</td>
-              <td colspan="3" class="aliceblue-dark"></td>
-              <td colspan="3" class="lavender-dark"></td>
-            </tr>
-
-            <!-- Tasks -->
-
-            <tr v-for="(task, index) in grippTasks.getProjectLineTasks(projectLine.id)" :key=index>
-              <td></td>
-              <td></td>
-              <td class="lavender-dark">{{ task.tasktype_name }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.content, 20) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.estimatedhours, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.deadline, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.deadline_calc, 10) }}</td>
-              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
-              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
-              <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
-              <td class="lavender-dark">{{ prettyfy(task.hours_booked, 10) }}</td>
-            </tr>
-
-          </tbody>
-        </table>
+      <div v-if="gripp.project">
+        <h1>{{ gripp.project.name }} - {{ gripp.project.number }}</h1>
+        Type: {{ gripp.project.type }}
+        | Startdate: {{ prettyfy(gripp.project.startdate) }}
+        | Deadline {{ prettyfy(gripp.project.deadline) }}
+        | Database ID {{ gripp.project.id }}
       </div>
 
-      <!-- Sync info -->
+      <hr>
 
-      <GrippSyncInfo />
+      <!-- Tasks -->
 
-    </div>
+      <table>
+
+        <!-- Table header -->
+
+        <tbody>
+
+          <tr style="height: 40px;">
+            <td>Project line</td>
+            <td>Amount</td>
+            <td>Task type</td>
+            <td>Content</td>
+            <td>Hours</td>
+            <td>Start</td>
+            <td>Deadline</td>
+            <td>Deadline calc</td>
+            <td>Planned</td>
+            <td>From</td>
+            <td>To</td>
+            <td>Booked</td>
+          </tr>
+
+        </tbody>
+
+        <!-- Project line -->
+
+        <tbody v-for="(projectLine, index) in grippTasks.projectLines" :key=index>
+
+          <!-- When group -->
+
+          <tr v-if="projectLine.rowtype_id == 2">
+            <td colspan="2"><h2>{{ projectLine.additionalsubject }} </h2></td>
+          </tr>
+
+          <!-- When product -->
+
+          <tr v-else>
+            <td><strong>{{ projectLine.product_name }}</strong></td>
+            <td><strong>{{ prettyfy(projectLine.amount, 10) }}</strong></td>
+            <td><strong>&#x21B4;</strong></td>
+          </tr>
+
+          <!-- When product, but no tasks -->
+
+          <tr v-if="projectLine.rowtype_id == 1 && grippTasks.getProjectLineTasksCount(projectLine.id) == 0">
+            <td></td>
+            <td></td>
+            <td colspan="6" class="lavender-red">No tasks</td>
+            <td colspan="3" class="aliceblue-dark"></td>
+            <td colspan="3" class="lavender-dark"></td>
+          </tr>
+
+          <!-- Tasks -->
+
+          <tr v-for="(task, index) in grippTasks.getProjectLineTasks(projectLine.id)" :key=index>
+            <td></td>
+            <td></td>
+            <td class="lavender-dark">{{ task.tasktype_name }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.content, 20) }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.estimatedhours, 10) }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.startdate, 10) }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.deadline, 10) }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.deadline_calc, 10) }}</td>
+            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned, 10) }}</td>
+            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_from, 10) }}</td>
+            <td class="aliceblue-dark">{{ prettyfy(task.hours_planned_to, 10) }}</td>
+            <td class="lavender-dark">{{ prettyfy(task.hours_booked, 10) }}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </Card>
+
+    <GrippSyncInfo />
+
   </ClientOnly>
 </template>
 

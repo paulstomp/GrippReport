@@ -1,30 +1,31 @@
 <template>
-    <ClientOnly fallback-tag="span" fallback="Loading comments...">
-      <div class="grid-1-1-1">
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <div class="grid grid-cols-1 md:grid-cols-3">
 
-        <!-- Table count report -->
+      <!-- Table count report -->
 
-        <div class="card light-dark shadow">
-            <h1>Table count</h1>
-            <DataView :data=countData :maxLength=20></DataView>
-        </div>
+      <Card>
+          <h1>Table count</h1>
+          <DataView :data=countData :maxLength=20></DataView>
+      </Card>
 
-        <!-- Snapshot report -->
+      <!-- Snapshot report -->
 
-        <div class="card light-dark shadow">
-            <h1>Snapshots</h1>
-            <DataView :data=snapshotData :maxLength=20></DataView>
-        </div>
+      <Card>
+          <h1>Snapshots</h1>
+          <DataView :data=snapshotData :maxLength=20></DataView>
+      </Card>
 
-        <!-- Log report -->
+      <!-- Log report -->
 
-        <div class="card light-dark shadow">
-            <h1>Log</h1>
-            <DataView :data=logData></DataView>
-        </div>
+      <Card>
+          <h1>Log</h1>
+          <DataView :data=logData></DataView>
+      </Card>
 
-        </div>
-    </ClientOnly>
+    </div>
+  </ClientOnly>
+
  </template>
 
 <script lang="ts" setup>
