@@ -93,9 +93,9 @@
             <!-- Hours per employee per project per day -->
 
             <tr v-for="(project, index) in grippHours.getEmployeeProjects(employee.employee_id)" :key=index>
-              <td>{{ project.company_name.slice(0, 20) }}</td>
-              <td>{{ project.project_type }}</td>
-              <td>{{ project.project_name.slice(0, 20) }} - {{ project.project_number }}</td>
+              <td>{{ project.company_name.slice(0, 30) }}</td>
+              <td>{{ project.project_number }}</td>
+              <td>{{ project.project_name.slice(0, 30) }}</td>
               <td v-for="(date, index) in grippHours.dateSeries" :key=index :class="bg(date)">
                 {{ grippHours.getEmployeeProjectHours(employee.employee_id, project.project_id, date) }}
               </td>
