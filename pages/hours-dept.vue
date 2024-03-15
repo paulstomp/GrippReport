@@ -119,7 +119,7 @@
   function bg(date: Date) {
     const week = getWeek(date);
     return {
-      "bg-blue-300": isToday(date),
+      "bg-amber-200": isToday(date),
       "bg-indigo-100": isEven(week) && !isToday(date),
       "bg-indigo-200": isOdd(week) && !isToday(date),
       "text-center": true,
