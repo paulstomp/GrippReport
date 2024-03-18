@@ -110,8 +110,12 @@
       { name: 'Project', href: 'hours-project' }
     ] },
 
-    { name: 'Tasks', href: 'tasks' },
-    { name: 'Resources', href: 'resources' },
+    { name: 'Resources', childs: [
+      { name: 'Availability', href: 'availability' },
+      { name: 'Demand', href: 'demand' }
+    ] },
+
+    { name: 'Tasks', href: 'tasks' }
   ]
 
 </script>

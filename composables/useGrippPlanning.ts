@@ -17,18 +17,18 @@ export class GrippPlanning {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.plannedHours = await query(`select employee_id, date_str, hours,
+    this.plannedHours = await query(`select department_id, employee_id, date_str, hours,
         company_name, project_id, project_number, project_name
       from _calendaritems
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-    this.workingHours = await query(`select employee_id, date_str, hours
+    this.workingHours = await query(`select department_id, employee_id, date_str, hours
       from _workinghours
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
-    this.absenceHours = await query(`select employee_id, date_str, amount
+    this.absenceHours = await query(`select department_id, employee_id, date_str, amount
       from _absencerequestlines
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
@@ -88,61 +88,6 @@ export class GrippPlanning {
     return [];
   }
 
-  getEmployeeTotalHours(employeeId: number, date: Date) {
-    const date_str = getDateStr(date);
-
-    const filtered = this.plannedHours.filter((element: any) =>
-      element.employee_id == employeeId &&
-      element.date_str == date_str);
-
-    let sum = 0;
-    filtered.forEach((element: any) => { sum += Number(element.hours) });
-
-    sum += this.getAbsenceHours(employeeId, date);
-    sum += this.getFreeHours(employeeId, date);
-    return sum;
-  }
-
-  getAbsenceHours(employeeId: number, date: Date) {
-    const date_str = getDateStr(date);
-
-    const filtered = this.absenceHours.filter((element: any) =>
-      element.employee_id == employeeId &&
-      element.date_str == date_str);
-
-    let sum = 0;
-    filtered.forEach((element: any) => { sum += Number(element.amount) });
-    return sum;
-  }
-
-  getWorkingHours(employeeId: number, date: Date) {
-    const date_str = getDateStr(date);
-
-    const filtered = this.workingHours.filter((element: any) =>
-      element.employee_id == employeeId &&
-      element.date_str == date_str);
-
-    let sum = 0;
-    filtered.forEach((element: any) => { sum += Number(element.hours) });
-    return sum;
-  }
-
-  getFreeHours(employeeId: number, date: Date) {
-    return 8 - this.getWorkingHours(employeeId, date); // Inverse of working hours
-  }
-
-  getProjectTotalHours(projectId: number, date: Date) {
-    const date_str = getDateStr(date);
-
-    const filtered = this.plannedHours.filter((element: any) =>
-      element.project_id == projectId &&
-      element.date_str == date_str);
-
-    let sum = 0;
-    filtered.forEach((element: any) => { sum += Number(element.hours) });
-    return sum;
-  }
-
   getEmployeeProjectHours(employeeId: number, projectId: number, date: Date) {
     const date_str = getDateStr(date);
 
@@ -156,13 +101,68 @@ export class GrippPlanning {
     return sum;
   }
 
-  // Todo: can be removed
-  sortHoursByEmployee() {
-    this.projectEmployees.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname));
+  getEmployeeAbsenceHours(employeeId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.absenceHours.filter((element: any) =>
+      element.employee_id == employeeId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.amount) });
+    return sum;
   }
 
-  // Todo: can be removed
-  sortHoursByCompany() {
-    this.projectEmployees.sort((a: any, b: any) => a.company_name.localeCompare(b.company_name));
+  getEmployeeWorkingHours(employeeId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.workingHours.filter((element: any) =>
+      element.employee_id == employeeId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.hours) });
+    return sum;
+  }
+
+  getEmployeeFreeHours(employeeId: number, date: Date) {
+    return 8 - this.getEmployeeWorkingHours(employeeId, date); // Inverse of working hours
+  }
+
+  getEmployeeAvailableHours(employeeId: number, date: Date) {
+    return this.getEmployeeWorkingHours(employeeId, date) - this.getEmployeeAbsenceHours(employeeId, date)
+  }
+
+  getEmployeeTotalHours(employeeId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.plannedHours.filter((element: any) =>
+      element.employee_id == employeeId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.hours) });
+
+    sum += this.getEmployeeAbsenceHours(employeeId, date);
+    sum += this.getEmployeeFreeHours(employeeId, date);
+    return sum;
+  }
+
+  getTotalAvailableHours(date: Date) {
+    let sum = 0;
+    this.employees.forEach((employee: any) => { sum += this.getEmployeeAvailableHours(employee.employee_id, date) });
+    return sum;
+  }
+
+  getProjectTotalHours(projectId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.plannedHours.filter((element: any) =>
+      element.project_id == projectId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.hours) });
+    return sum;
   }
 }

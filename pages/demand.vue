@@ -6,7 +6,7 @@
       <!-- Account manager selection -->
 
       <Card>
-        <h1>Resource demand</h1>
+        <h1>Demand per department</h1>
 
         <span v-for="(tasktype, index) in gripp.tasktypes" :key=index>
           <button class="filter-button" @click="setTasktype(tasktype.id)">
@@ -67,7 +67,7 @@
               </td>
             </tr>
 
-            <!-- Hours per project per day -->
+            <!-- Total hours per day -->
 
             <tr style="font-weight: bold">
               <td></td>
