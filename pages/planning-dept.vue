@@ -108,7 +108,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td>Fixed free hours</td>
+              <td>Fixed free</td>
               <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(grippPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
               </td>
@@ -119,7 +119,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td>Absence/holidays</td>
+              <td>Absence/holiday</td>
               <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(grippPlanning.getEmployeeAbsenceHours(employee.employee_id, date)) }}
               </td>
