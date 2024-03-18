@@ -50,6 +50,10 @@ export function compareString(a: string, b: string) {
   return (a > b) ? 1 : 0;
 }
 
+export function prettyfyNumber(value: number) {
+  return (!value || value == 0 ) ? '-' : value;
+}
+
 export function prettyfy(value: any, maxLength?: number) {
 
   if (!value) {

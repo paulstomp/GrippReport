@@ -1,7 +1,9 @@
 export class GrippPlanning {
 
   dateSeries: Date[] = [];
-  hours: any;
+  plannedHours: any;
+  workingHours: any;
+  absenceHours: any;
   employees: any;
   projects: any;
   projectEmployees: any;
@@ -15,21 +17,31 @@ export class GrippPlanning {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select company_name, project_id, project_number, project_name,
-      employee_id, firstname, lastname, date_str, hours
-      from _planning
+    this.plannedHours = await query(`select employee_id, date_str, hours,
+        company_name, project_id, project_number, project_name
+      from _calendaritems
+      where department_id = "${departmentId}"
+      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.workingHours = await query(`select employee_id, date_str, hours
+      from _workinghours
+      where department_id = "${departmentId}"
+      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.absenceHours = await query(`select employee_id, date_str, amount
+      from _absencerequestlines
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.employees = await query(`select distinct employee_id, firstname, lastname
-      from _planning
+      from _calendaritems
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by firstname`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
-      from _planning
+      from _calendaritems
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
@@ -40,21 +52,21 @@ export class GrippPlanning {
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 
-    this.hours = await query(`select company_name, project_id, project_number, project_name,
+    this.plannedHours = await query(`select company_name, project_id, project_number, project_name,
       employee_id, firstname, lastname, date_str, hours
-      from _planning
+      from _calendaritems
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
 
     this.projects = await query(`select distinct project_id, project_number, project_name, project_type, company_name
-      from _planning
+      from _calendaritems
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name`);
 
     this.projectEmployees = await query(`select distinct
       company_name, project_id, project_name, project_number, project_type, employee_id, firstname, lastname
-      from _planning
+      from _calendaritems
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       order by company_name, project_name, firstname`);
@@ -79,41 +91,69 @@ export class GrippPlanning {
   getEmployeeTotalHours(employeeId: number, date: Date) {
     const date_str = getDateStr(date);
 
-    const filtered = this.hours.filter((element: any) =>
+    const filtered = this.plannedHours.filter((element: any) =>
       element.employee_id == employeeId &&
       element.date_str == date_str);
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
 
-    return (sum > 0) ? sum : '-';
+    sum += this.getAbsenceHours(employeeId, date);
+    sum += this.getFreeHours(employeeId, date);
+    return sum;
+  }
+
+  getAbsenceHours(employeeId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.absenceHours.filter((element: any) =>
+      element.employee_id == employeeId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.amount) });
+    return sum;
+  }
+
+  getWorkingHours(employeeId: number, date: Date) {
+    const date_str = getDateStr(date);
+
+    const filtered = this.workingHours.filter((element: any) =>
+      element.employee_id == employeeId &&
+      element.date_str == date_str);
+
+    let sum = 0;
+    filtered.forEach((element: any) => { sum += Number(element.hours) });
+    return sum;
+  }
+
+  getFreeHours(employeeId: number, date: Date) {
+    return 8 - this.getWorkingHours(employeeId, date); // Inverse of working hours
   }
 
   getProjectTotalHours(projectId: number, date: Date) {
     const date_str = getDateStr(date);
 
-    const filtered = this.hours.filter((element: any) =>
+    const filtered = this.plannedHours.filter((element: any) =>
       element.project_id == projectId &&
       element.date_str == date_str);
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
-
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 
   getEmployeeProjectHours(employeeId: number, projectId: number, date: Date) {
     const date_str = getDateStr(date);
 
-    const filtered = this.hours.filter((element: any) =>
+    const filtered = this.plannedHours.filter((element: any) =>
       element.project_id == projectId &&
       element.employee_id == employeeId &&
       element.date_str == date_str);
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
-
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 
   // Todo: can be removed
