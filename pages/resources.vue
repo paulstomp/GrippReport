@@ -15,7 +15,7 @@
         </span>
       </Card>
 
-      <!-- Planning per account manager -->
+      <!-- Planning per task type -->
 
       <Card>
         <div v-if="gripp.tasktype">
