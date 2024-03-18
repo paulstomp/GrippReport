@@ -150,7 +150,9 @@ export class GrippPlanning {
 
   getTotalAvailableHours(date: Date) {
     let sum = 0;
-    this.employees.forEach((employee: any) => { sum += this.getEmployeeAvailableHours(employee.employee_id, date) });
+    if(this.employees) {
+      this.employees.forEach((employee: any) => { sum += this.getEmployeeAvailableHours(employee.employee_id, date) });
+    }
     return sum;
   }
 
