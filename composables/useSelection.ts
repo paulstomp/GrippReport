@@ -47,7 +47,9 @@ export class Gripp {
       order by name`);
 
     // Set project to first found by default
-    this.project = (this.projects.length > 0) ? this.projects[0] : null;
+    if(this.projects.length > 0) {
+      this.setProject(this.projects[0].id)
+    }
 
     return this.projects;
   }
@@ -65,6 +67,7 @@ export class Gripp {
     this.tasktypes = await query(`select * from tasktypes order by name`);
 
     // Set department to first found by default
+    // todo: via set, also rest of page
     this.tasktype = (this.tasktypes.length > 0) ? this.tasktypes[0] : null;
 
     return this.tasktypes;

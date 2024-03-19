@@ -50,7 +50,13 @@
     <Card>
 
       <div v-if="gripp.project">
-        <h1>{{ gripp.project.name }} - {{ gripp.project.number }}</h1>
+        <h1>{{ gripp.project.name }} - {{ gripp.project.number }}
+          <GrippLink
+            :path="'/' + gripp.project.type + '/view/' + gripp.project.id"
+            :key="gripp.project.id"
+          />
+        </h1>
+
         Type: {{ gripp.project.type }}
         | Startdate: {{ prettyfy(gripp.project.startdate) }}
         | Deadline {{ prettyfy(gripp.project.deadline) }}

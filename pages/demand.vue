@@ -97,8 +97,13 @@
 
             <tr style="font-weight: bold">
               <td>{{ project.company_name.slice(0, 20) }}</td>
-              <td style="font-weight: 400">{{ project.project_number }}</td>
-              <td>x{{ project.project_name.slice(0, 20) }}</td>
+              <td>
+                <GrippLink
+                  :path="'/' + project.project_type + '/view/' + project.project_id"
+                  :key="project.id"
+                />
+              </td>
+              <td>{{ project.project_name.slice(0, 20) }}</td>
               <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
                 {{ resourceDemand.getProjectTotalHours(project.project_id, date) }}
               </td>

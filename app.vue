@@ -16,5 +16,6 @@
 
   console.log('SERVER_KEY_EXAMPLE: ' + config.serverKeyExample);
   console.log('PUBLIC_KEY_EXAMPLE: ' + config.public.publicKeyExample);
+  console.log('GRIPP_BASE_URL: ' + config.public.grippBaseURL);
 
 </script>

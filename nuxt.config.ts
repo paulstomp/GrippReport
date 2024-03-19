@@ -30,7 +30,8 @@ export default defineNuxtConfig({
     dbPassword: process.env.DB_PASSWORD,
     dbDatabase: process.env.DB_DATABASE,
     public: {
-      publicKeyExample: process.env.PUBLIC_KEY_EXAMPLE
+      publicKeyExample: process.env.PUBLIC_KEY_EXAMPLE,
+      grippBaseURL: process.env.GRIPP_BASE_URL
     }
   },
 
