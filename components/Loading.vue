@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-1">
     <Card>
-      Loading ...
+      Loading data...
     </Card>
   </div>
 </template>
