@@ -21,23 +21,24 @@ export class DepartmentPlanning {
     // Retrieve employee from working hours
 
     this.employees = await query(`
-      select distinct employee_id, firstname, lastname
+      select distinct employee_id, employee_number, employee_active, firstname, lastname
       from _workinghours
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      order by firstname`);
+      and employee_active = 1
+      order by employee_active desc, firstname`);
 
     // Retrieve projects per employee from planning and booked hours
 
     this.employeeProjects = await query(`
-      select distinct company_name, project_id, project_name, project_number, employee_id, firstname
+      select distinct company_name, project_id, project_name, project_number, employee_id
       from (
-          select company_name, project_id, project_name, project_number, employee_id, firstname
+          select company_name, project_id, project_name, project_number, employee_id
           from _calendaritems
           where department_id = ${departmentId}
           and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
         union
-          select company_name, project_id, project_name, project_number, employee_id, firstname
+        select company_name, project_id, project_name, project_number, employee_id
           from _hours
           where department_id = ${departmentId}
           and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}") as projects
@@ -105,6 +106,14 @@ export class DepartmentPlanning {
 
     sum += this.getEmployeeAbsenceHours(employeeId, date);
     sum += this.getEmployeeFreeHours(employeeId, date);
+    return sum;
+  }
+
+  getTotalPlannedHours(date: Date) {
+    let sum = 0;
+    if(this.employees) {
+      this.employees.forEach((employee: any) => { sum += this.getEmployeePlannedHoursTotal(employee.employee_id, date) });
+    }
     return sum;
   }
 

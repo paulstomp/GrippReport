@@ -91,9 +91,9 @@
             <!-- Total hours per employee per day -->
 
             <tr>
-              <td></td>
-              <td></td>
               <td>{{ employee.firstname }} {{ employee.lastname }}</td>
+              <td>{{ employee.employee_number }}</td>
+              <td>{{ employee.employee_active ? 'active' : 'not active' }}</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(departmentPlanning.getEmployeeAvailableHours(employee.employee_id, date)) }}
               </td>

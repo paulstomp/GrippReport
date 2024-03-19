@@ -71,6 +71,17 @@
               </td>
             </tr>
 
+            <!-- Total hours per day -->
+
+            <tr style="font-weight: bold">
+              <td></td>
+              <td></td>
+              <td>Total planned (hours)</td>
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentPlanning.getTotalPlannedHours(date)) }}
+              </td>
+            </tr>
+
           </tbody>
 
           <!-- Planning per employee within department -->
@@ -87,7 +98,7 @@
 
             <tr style="font-weight: bold">
               <td>{{ employee.firstname }} {{ employee.lastname }}</td>
-              <td></td>
+              <td>{{ !employee.employee_active ? 'Inactive' : '' }}</td>
               <td></td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(departmentPlanning.getEmployeePlannedHoursTotal(employee.employee_id, date)) }}
