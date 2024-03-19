@@ -42,7 +42,7 @@
               <td class="min-w-60 w-48"></td>
               <td class="min-w-16 w-16"></td>
               <td class="min-w-60 w-48">Month</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -53,7 +53,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -64,7 +64,7 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
@@ -73,7 +73,7 @@
 
           <!-- Planning per employee within department -->
 
-          <tbody v-for="(employee, index) in grippPlanning.employees" :key=index>
+          <tbody v-for="(employee, index) in departmentPlanning.employees" :key=index>
 
             <!-- Spacer -->
 
@@ -87,19 +87,19 @@
               <td>{{ employee.firstname }} {{ employee.lastname }}</td>
               <td></td>
               <td></td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(grippPlanning.getEmployeeTotalHours(employee.employee_id, date)) }}
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentPlanning.getEmployeePlannedHoursTotal(employee.employee_id, date)) }}
               </td>
             </tr>
 
             <!-- Planned hours per employee per project per day -->
 
-            <tr v-for="(project, index) in grippPlanning.getEmployeeProjects(employee.employee_id)" :key=index>
+            <tr v-for="(project, index) in departmentPlanning.getEmployeeProjects(employee.employee_id)" :key=index>
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td>{{ project.project_number }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(grippPlanning.getEmployeeProjectHours(employee.employee_id, project.project_id, date)) }}
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentPlanning.getEmployeePlannedHours(employee.employee_id, project.project_id, date)) }}
               </td>
             </tr>
 
@@ -109,8 +109,8 @@
               <td></td>
               <td></td>
               <td>Fixed free</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(grippPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
               </td>
             </tr>
 
@@ -120,8 +120,8 @@
               <td></td>
               <td></td>
               <td>Absence/holiday</td>
-              <td v-for="(date, index) in grippPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(grippPlanning.getEmployeeAbsenceHours(employee.employee_id, date)) }}
+              <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentPlanning.getEmployeeAbsenceHours(employee.employee_id, date)) }}
               </td>
             </tr>
 
@@ -155,29 +155,29 @@
   var weeks = 6;
 
   const gripp = ref(new Gripp());
-  const grippPlanning = ref(new GrippPlanning());
+  const departmentPlanning = ref(new DepartmentPlanning());
 
   async function setDepartment(departmentId: number) {
     gripp.value.setDepartment(departmentId)
-    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
+    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
+    departmentPlanning.value.setDateSeries(date, weeks);
+    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
+    departmentPlanning.value.setDateSeries(date, weeks);
+    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
+    departmentPlanning.value.setDateSeries(date, weeks);
+    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
   }
 
   // Setup when mounted
@@ -186,8 +186,8 @@
     await nextTick();
 
     await gripp.value.loadDepartments();
-    grippPlanning.value.setDateSeries(date, weeks);
-    await grippPlanning.value.loadPlanningByDepartment(gripp.value.department.id);
+    departmentPlanning.value.setDateSeries(date, weeks);
+    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
   });
 
 </script>

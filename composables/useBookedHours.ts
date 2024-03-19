@@ -1,4 +1,4 @@
-export class GrippHours {
+export class BookedHours {
 
   dateSeries: Date[] = [];
   hours: any;

@@ -1,4 +1,4 @@
-export class GrippTasks {
+export class Tasks {
 
   projectLines: any;
   tasks: any;
