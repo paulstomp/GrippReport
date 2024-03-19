@@ -109,7 +109,9 @@
 
       <GrippSyncInfo />
     </div>
+
   </ClientOnly>
+
 </template>
 
 <script lang="ts" setup>

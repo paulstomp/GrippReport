@@ -129,13 +129,11 @@
         </table>
       </Card>
 
+      <GrippSyncInfo />
     </div>
-
-    <GrippSyncInfo />
-
   </ClientOnly>
-
 </template>
+
 
 <script lang="ts" setup>
 

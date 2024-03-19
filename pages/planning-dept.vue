@@ -1,5 +1,4 @@
 <template>
-
   <ClientOnly>
 
     <Loading v-if="!departmentPlanning.dataLoaded" />
@@ -144,10 +143,9 @@
       </Card>
 
       <GrippSyncInfo />
+
     </div>
-
   </ClientOnly>
-
 </template>
 
 <script lang="ts" setup>

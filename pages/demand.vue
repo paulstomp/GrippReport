@@ -1,5 +1,4 @@
 <template>
-
   <ClientOnly>
 
     <Loading v-if="!resourceDemand.dataLoaded" />
@@ -126,9 +125,7 @@
 
       <GrippSyncInfo />
     </div>
-
   </ClientOnly>
-
 </template>
 
 <script lang="ts" setup>
