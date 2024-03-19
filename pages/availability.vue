@@ -1,8 +1,10 @@
 <template>
 
-  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+  <ClientOnly>
 
-    <div class="grid grid-cols-1">
+    <Loading v-if="!departmentPlanning.dataLoaded" />
+
+    <div v-else class="grid grid-cols-1">
 
       <!-- Department selection -->
 

@@ -1,11 +1,13 @@
 [<template>
-  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+  <ClientOnly>
+
+    <Loading v-if="!tasks.dataLoaded" />
 
     <!-- Selection -->
 
-    <div class="grid grid-cols-1 md:grid-cols-3">
+    <div v-else class="grid grid-cols-1 md:grid-cols-3">
 
-      <!-- Account managers -->
+      <!-- Account manager selection -->
 
       <Card>
         <h1>CSD</h1>

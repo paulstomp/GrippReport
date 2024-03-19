@@ -7,6 +7,7 @@ export class DepartmentPlanning {
   bookedHours: any;
   employees: any;
   employeeProjects: any;
+  dataLoaded = false;
 
   setDateSeries(date: Date, weeks: number) {
     this.dateSeries = getDateSeries(date, weeks);
@@ -67,6 +68,8 @@ export class DepartmentPlanning {
       from _hours
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.dataLoaded = true;
   }
 
   getEmployeeProjects(employeeId: number) {

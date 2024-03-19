@@ -2,6 +2,7 @@ export class Tasks {
 
   projectLines: any;
   tasks: any;
+  dataLoaded = false;
 
   async loadTasksByProject(projectId: number) {
 
@@ -11,6 +12,8 @@ export class Tasks {
 
     this.tasks = await query(`select * from _task_hours
       where project_id = ${projectId}`);
+
+    this.dataLoaded = true;
   }
 
   getProjectLineTasksCount(projectLineId: string) {

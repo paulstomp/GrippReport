@@ -1,7 +1,10 @@
 <template>
-  <ClientOnly fallback-tag="span" fallback="Loading comments...">
 
-    <div class="grid grid-cols-1">
+  <ClientOnly>
+
+    <Loading v-if="!resourceDemand.dataLoaded" />
+
+    <div v-else class="grid grid-cols-1">
 
       <!-- Account manager selection -->
 
@@ -40,7 +43,7 @@
               <td class="min-w-60 w-48"></td>
               <td class="min-w-16 w-16"></td>
               <td class="min-w-60 w-48">Month</td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -51,7 +54,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -62,7 +65,7 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
@@ -73,8 +76,8 @@
               <td></td>
               <td></td>
               <td>Total demand (hours)</td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
-                {{ grippResources.getTotalHours(date) }}
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
+                {{ resourceDemand.getTotalHours(date) }}
               </td>
             </tr>
 
@@ -82,7 +85,7 @@
 
           <!-- Planning per project within tasktype scope -->
 
-          <tbody v-for="(project, index) in grippResources.projects" :key=index>
+          <tbody v-for="(project, index) in resourceDemand.projects" :key=index>
 
             <!-- Spacer -->
 
@@ -96,19 +99,19 @@
               <td>{{ project.company_name.slice(0, 20) }}</td>
               <td style="font-weight: 400">{{ project.project_number }}</td>
               <td>x{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
-                {{ grippResources.getProjectTotalHours(project.project_id, date) }}
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
+                {{ resourceDemand.getProjectTotalHours(project.project_id, date) }}
               </td>
             </tr>
 
             <!-- Hours per project per task per day -->
 
-            <tr v-for="(task, index) in grippResources.getProjectsTasks(project.project_id)" :key=index>
+            <tr v-for="(task, index) in resourceDemand.getProjectsTasks(project.project_id)" :key=index>
               <td></td>
               <td></td>
               <td>{{ task.task_content }} </td>
-              <td v-for="(date, index) in grippResources.dateSeries" :key=index :class="bg(date)">
-                {{ grippResources.getTaskHours(task.task_id, date) }}
+              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
+                {{ resourceDemand.getTaskHours(task.task_id, date) }}
               </td>
             </tr>
 
@@ -118,7 +121,9 @@
 
       <GrippSyncInfo />
     </div>
+
   </ClientOnly>
+
 </template>
 
 <script lang="ts" setup>
@@ -140,29 +145,29 @@
   var weeks = 6;
 
   const gripp = ref(new Gripp());
-  const grippResources = ref(new GrippResources());
+  const resourceDemand = ref(new ResourceDemand());
 
   async function setTasktype(tasktypeId: number) {
     gripp.value.setTasktype(tasktypeId)
-    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    grippResources.value.setDateSeries(date, weeks);
-    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    resourceDemand.value.setDateSeries(date, weeks);
+    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    grippResources.value.setDateSeries(date, weeks);
-    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    resourceDemand.value.setDateSeries(date, weeks);
+    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    grippResources.value.setDateSeries(date, weeks);
-    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    resourceDemand.value.setDateSeries(date, weeks);
+    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   }
 
   // Setup when mounted
@@ -171,8 +176,8 @@
     await nextTick();
 
     await gripp.value.loadTasktypes();
-    grippResources.value.setDateSeries(date, weeks);
-    await grippResources.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    resourceDemand.value.setDateSeries(date, weeks);
+    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
   });
 
 </script>

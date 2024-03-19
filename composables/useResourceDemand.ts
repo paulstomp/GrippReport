@@ -1,10 +1,11 @@
-export class GrippResources {
+export class ResourceDemand {
 
     dateSeries: Date[] = [];
     hours: any;
     tasks: any;
     projects: any;
     projectTasks: any;
+    dataLoaded = false;
 
     setDateSeries(date: Date, weeks: number) {
       this.dateSeries = getDateSeries(date, weeks);
@@ -34,6 +35,8 @@ export class GrippResources {
         where tasktype_id = "${tasktypeId}"
         and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
         order by company_name, project_name, task_content`);
+
+      this.dataLoaded = true;
     }
 
     getProjectsTasks(projectId: number) {

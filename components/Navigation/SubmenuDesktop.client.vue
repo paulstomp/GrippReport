@@ -21,9 +21,9 @@
           <NuxtLink :to="item.href" :class="[active ? 'bg-gray-100 hover:text-blue-900' : 'hover:text-blue-900', 'block px-4 py-2 text-sm']">
 
             <!-- Force closing, see https://stackoverflow.com/questions/72775878/nuxt-click-does-not-work-with-nuxt-link -->
-            <a @click="close">
+            <span @click="close">
               <div class="w-full">{{ item.name }}</div>
-            </a>
+            </span>
 
           </NuxtLink>
         </MenuItem>

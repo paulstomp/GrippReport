@@ -5,6 +5,7 @@ export class ProjectPlanning {
   bookedHours: any;
   projects: any;
   projectEmployees: any;
+  dataLoaded = false;
 
   setDateSeries(date: Date, weeks: number) {
     this.dateSeries = getDateSeries(date, weeks);
@@ -54,6 +55,8 @@ export class ProjectPlanning {
       from _hours
       where accountmanager_id = "${accountManagerId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+
+    this.dataLoaded = true;
   }
 
   getProjectsEmployees(projectId: number) {

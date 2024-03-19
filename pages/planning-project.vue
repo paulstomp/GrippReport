@@ -1,7 +1,10 @@
 <template>
-  <ClientOnly fallback-tag="span" fallback="Loading comments...">
 
-    <div class="grid grid-cols-1">
+  <ClientOnly>
+
+    <Loading v-if="!projectPlanning.dataLoaded" />
+
+    <div v-else class="grid grid-cols-1">
 
       <!-- Account manager selection -->
 
@@ -110,6 +113,7 @@
     </div>
 
   </ClientOnly>
+
 </template>
 
 <script lang="ts" setup>

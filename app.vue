@@ -1,16 +1,15 @@
 <template>
-  <body class="bg-blue-950">
-    <div class="px-6 overflow-hidden">
-      <NavigationMenu/>
-      <NuxtPage />
-    </div>
-  </body>
+  <div class="px-6 overflow-hidden">Hallo
+    <NavigationMenu/>
+    <NuxtPage/>
+  </div>
 </template>
 
 <script setup lang="ts">
 
   useHead({
-    title: 'Gripp planning'
+    title: 'Gripp planning',
+    bodyAttrs: {class: 'bg-blue-950'}
   })
 
   const config = useRuntimeConfig();
