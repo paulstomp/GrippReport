@@ -131,6 +131,7 @@
 
       <GrippSyncInfo />
     </div>
+
   </ClientOnly>
 </template>
 

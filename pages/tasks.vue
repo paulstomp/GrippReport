@@ -140,6 +140,7 @@
     </Card>
 
     <GrippSyncInfo />
+
   </ClientOnly>
 </template>
 

@@ -1,5 +1,6 @@
 <template>
   <ClientOnly fallback-tag="span" fallback="Loading comments...">
+
     <div class="grid grid-cols-1 md:grid-cols-3">
 
       <!-- Table count report -->
@@ -24,9 +25,9 @@
       </Card>
 
     </div>
-  </ClientOnly>
 
- </template>
+  </ClientOnly>
+</template>
 
 <script lang="ts" setup>
 

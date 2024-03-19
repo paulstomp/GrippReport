@@ -143,8 +143,8 @@
       </Card>
 
       <GrippSyncInfo />
-
     </div>
+
   </ClientOnly>
 </template>
 
