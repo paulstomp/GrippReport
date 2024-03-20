@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6 overflow-hidden">Hallo
+  <div class="px-6 overflow-hidden">
     <NavigationMenu/>
     <NuxtPage/>
   </div>
