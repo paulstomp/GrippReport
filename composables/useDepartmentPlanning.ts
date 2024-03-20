@@ -21,12 +21,13 @@ export class DepartmentPlanning {
     // Retrieve employee from working hours
 
     this.employees = await query(`
-      select distinct employee_id, employee_number, employee_active, firstname, lastname
+      select distinct employee_id, employee_number, employee_active, employee_tags,
+        firstname, lastname
       from _workinghours
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
       and employee_active = 1
-      order by employee_active desc, firstname`);
+      order by employee_tags, employee_active desc, firstname`);
 
     // Retrieve projects per employee from planning and booked hours
 
@@ -56,7 +57,8 @@ export class DepartmentPlanning {
       select department_id, employee_id, date_str, hours
       from _workinghours
       where department_id = "${departmentId}"
-      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"`);
+      and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
+      and employee_tags <> "FREELANCE"`);
 
     this.absenceHours = await query(`
       select department_id, employee_id, date_str, amount

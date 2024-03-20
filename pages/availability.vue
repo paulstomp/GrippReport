@@ -90,7 +90,11 @@
             <!-- Total hours per employee per day -->
 
             <tr>
-              <td>{{ employee.firstname }} {{ employee.lastname }}</td>
+              <td>
+                {{ employee.firstname }}
+                {{ employee.lastname }}
+                {{ employee.employee_tags == 'FREELANCE' ? '(F)' : '' }}
+              </td>
               <td>{{ employee.employee_number }}</td>
               <td>{{ employee.employee_active ? 'active' : 'not active' }}</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
