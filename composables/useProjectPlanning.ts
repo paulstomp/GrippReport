@@ -11,7 +11,7 @@ export class ProjectPlanning {
     this.dateSeries = getDateSeries(date, weeks);
   }
 
-  async loadPlanning(accountManagerId: number) {
+  async loadData(accountManagerId: number) {
 
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
@@ -77,6 +77,7 @@ export class ProjectPlanning {
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
+
     return sum;
   }
 
@@ -89,6 +90,7 @@ export class ProjectPlanning {
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
+
     return sum;
   }
 
@@ -103,7 +105,7 @@ export class ProjectPlanning {
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.amount) });
 
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 
   getProjectBookedHoursTotal(projectId: number, date: Date) {
@@ -116,6 +118,6 @@ export class ProjectPlanning {
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.amount) });
 
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 }

@@ -1,10 +1,10 @@
-export class Tasks {
+export class ProjectTasks {
 
   projectLines: any;
   tasks: any;
   dataLoaded = false;
 
-  async loadTasksByProject(projectId: number) {
+  async loadData(projectId: number) {
 
     this.projectLines = await query(`select * from _projectlines
       where project_id = ${projectId}

@@ -88,7 +88,7 @@
               <td></td>
               <td></td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ departmentPlanning.getEmployeeBookedHoursTotal(employee.employee_id, date) }}
+                {{ prettyfyNumber(departmentPlanning.getEmployeeBookedHoursTotal(employee.employee_id, date)) }}
               </td>
             </tr>
 
@@ -99,7 +99,8 @@
               <td>{{ project.project_number }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ departmentPlanning.getEmployeeBookedHours(employee.employee_id, project.project_id, date) }}
+                {{ prettyfyNumber(
+                  departmentPlanning.getEmployeeBookedHours(employee.employee_id, project.project_id, date)) }}
               </td>
             </tr>
 
@@ -110,7 +111,8 @@
               <td></td>
               <td>Fixed free</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
+                {{ prettyfyNumber(
+                  departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
               </td>
             </tr>
 
@@ -159,25 +161,25 @@
 
   async function setDepartment(departmentId: number) {
     gripp.value.setDepartment(departmentId)
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function thisWeek() {
     date = new Date();
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   // Setup when mounted
@@ -188,7 +190,7 @@
     await gripp.value.loadDepartments();
     date.setDate(date.getDate() - 35);
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   });
 
 </script>

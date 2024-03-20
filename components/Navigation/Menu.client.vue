@@ -101,21 +101,22 @@
   const navigation = [
 
     { name: 'Planning', childs: [
-      { name: 'Department', href: 'planning-dept' },
-      { name: 'Project', href: 'planning-project' }
+      { name: 'Department', href: 'department-planning' },
+      { name: 'Project', href: 'project-planning' }
     ] },
 
     { name: 'Booked hours', childs: [
-      { name: 'Department', href: 'hours-dept' },
-      { name: 'Project', href: 'hours-project' }
+      { name: 'Department', href: 'department-booked' },
+      { name: 'Project', href: 'project-booked' }
     ] },
 
     { name: 'Resources', childs: [
-      { name: 'Availability', href: 'availability' },
-      { name: 'Demand', href: 'demand' }
+      { name: 'Availability', href: 'department-working' },
+      { name: 'Demand', href: 'department-demand' },
+      { name: 'Overview', href: 'resource-overview' }
     ] },
 
-    { name: 'Tasks', href: 'tasks' }
+    { name: 'Project tasks', href: 'project-tasks' }
   ]
 
 </script>

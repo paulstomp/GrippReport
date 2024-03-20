@@ -13,7 +13,7 @@ export class DepartmentPlanning {
     this.dateSeries = getDateSeries(date, weeks);
   }
 
-  async loadPlanning(departmentId: number) {
+  async loadData(departmentId: number) {
 
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
@@ -93,6 +93,7 @@ export class DepartmentPlanning {
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
+
     return sum;
   }
 
@@ -108,6 +109,7 @@ export class DepartmentPlanning {
 
     sum += this.getEmployeeAbsenceHours(employeeId, date);
     sum += this.getEmployeeFreeHours(employeeId, date);
+
     return sum;
   }
 
@@ -116,6 +118,7 @@ export class DepartmentPlanning {
     if(this.employees) {
       this.employees.forEach((employee: any) => { sum += this.getEmployeePlannedHoursTotal(employee.employee_id, date) });
     }
+
     return sum;
   }
 
@@ -128,6 +131,7 @@ export class DepartmentPlanning {
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.amount) });
+
     return sum;
   }
 
@@ -140,6 +144,7 @@ export class DepartmentPlanning {
 
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.hours) });
+
     return sum;
   }
 
@@ -156,6 +161,7 @@ export class DepartmentPlanning {
     if(this.employees) {
       this.employees.forEach((employee: any) => { sum += this.getEmployeeAvailableHours(employee.employee_id, date) });
     }
+
     return sum;
   }
 
@@ -170,7 +176,7 @@ export class DepartmentPlanning {
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.amount) });
 
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 
   getEmployeeBookedHoursTotal(employeeId: number, date: Date) {
@@ -183,6 +189,6 @@ export class DepartmentPlanning {
     let sum = 0;
     filtered.forEach((element: any) => { sum += Number(element.amount) });
 
-    return (sum > 0) ? sum : '-';
+    return sum;
   }
 }

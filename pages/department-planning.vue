@@ -171,25 +171,25 @@
 
   async function setDepartment(departmentId: number) {
     gripp.value.setDepartment(departmentId)
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function thisWeek() {
     date = new Date();
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   }
 
   // Setup when mounted
@@ -199,7 +199,7 @@
 
     await gripp.value.loadDepartments();
     departmentPlanning.value.setDateSeries(date, weeks);
-    await departmentPlanning.value.loadPlanning(gripp.value.department.id);
+    await departmentPlanning.value.loadData(gripp.value.department.id);
   });
 
 </script>

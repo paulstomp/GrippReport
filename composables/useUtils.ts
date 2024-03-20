@@ -64,7 +64,7 @@ export function compareString(a: string, b: string) {
 }
 
 export function prettyfyNumber(value: number) {
-  return (!value || value == 0 ) ? '-' : value;
+  return (!value || value == 0 ) ? '-' : Math.round(value * 10) / 10;
 }
 
 export function prettyfy(value: any, maxLength?: number) {

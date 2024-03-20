@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
 
-    <Loading v-if="!resourceDemand.dataLoaded" />
+    <Loading v-if="!departmentDemand.dataLoaded" />
 
     <div v-else class="grid grid-cols-1">
 
@@ -42,7 +42,7 @@
               <td class="min-w-60 w-48"></td>
               <td class="min-w-16 w-16"></td>
               <td class="min-w-60 w-48">Month</td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -53,7 +53,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -64,19 +64,19 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
 
-            <!-- Total hours per day -->
+            <!-- Total FTE per day -->
 
             <tr style="font-weight: bold">
               <td></td>
               <td></td>
               <td>Total demand (hours)</td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
-                {{ resourceDemand.getTotalHours(date) }}
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentDemand.getTotalHours(date) / 8) }}
               </td>
             </tr>
 
@@ -84,7 +84,7 @@
 
           <!-- Planning per project within tasktype scope -->
 
-          <tbody v-for="(project, index) in resourceDemand.projects" :key=index>
+          <tbody v-for="(project, index) in departmentDemand.projects" :key=index>
 
             <!-- Spacer -->
 
@@ -92,7 +92,7 @@
               <td>&nbsp;</td>
             </tr>
 
-            <!-- Hours per project per day -->
+            <!-- FTE per project per day -->
 
             <tr style="font-weight: bold">
               <td>{{ project.company_name.slice(0, 20) }}</td>
@@ -103,19 +103,19 @@
                 />
               </td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
-                {{ resourceDemand.getProjectTotalHours(project.project_id, date) }}
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentDemand.getProjectTotalHours(project.project_id, date) / 8) }}
               </td>
             </tr>
 
-            <!-- Hours per project per task per day -->
+            <!-- FTE per project per task per day -->
 
-            <tr v-for="(task, index) in resourceDemand.getProjectsTasks(project.project_id)" :key=index>
+            <tr v-for="(task, index) in departmentDemand.getProjectsTasks(project.project_id)" :key=index>
               <td></td>
               <td></td>
               <td>{{ task.task_content }} </td>
-              <td v-for="(date, index) in resourceDemand.dateSeries" :key=index :class="bg(date)">
-                {{ resourceDemand.getTaskHours(task.task_id, date) }}
+              <td v-for="(date, index) in departmentDemand.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(departmentDemand.getTaskHours(task.task_id, date) / 8) }}
               </td>
             </tr>
 
@@ -148,29 +148,29 @@
   var weeks = 6;
 
   const gripp = ref(new Gripp());
-  const resourceDemand = ref(new ResourceDemand());
+  const departmentDemand = ref(new DepartmentDemand());
 
   async function setTasktype(tasktypeId: number) {
     gripp.value.setTasktype(tasktypeId)
-    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    await departmentDemand.value.loadData(gripp.value.tasktype.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    resourceDemand.value.setDateSeries(date, weeks);
-    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    departmentDemand.value.setDateSeries(date, weeks);
+    await departmentDemand.value.loadData(gripp.value.tasktype.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    resourceDemand.value.setDateSeries(date, weeks);
-    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    departmentDemand.value.setDateSeries(date, weeks);
+    await departmentDemand.value.loadData(gripp.value.tasktype.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    resourceDemand.value.setDateSeries(date, weeks);
-    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    departmentDemand.value.setDateSeries(date, weeks);
+    await departmentDemand.value.loadData(gripp.value.tasktype.id);
   }
 
   // Setup when mounted
@@ -179,8 +179,8 @@
     await nextTick();
 
     await gripp.value.loadTasktypes();
-    resourceDemand.value.setDateSeries(date, weeks);
-    await resourceDemand.value.loadPlanningByTasktype(gripp.value.tasktype.id);
+    departmentDemand.value.setDateSeries(date, weeks);
+    await departmentDemand.value.loadData(gripp.value.tasktype.id);
   });
 
 </script>

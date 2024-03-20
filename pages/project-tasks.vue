@@ -1,7 +1,7 @@
 [<template>
   <ClientOnly>
 
-    <Loading v-if="!tasks.dataLoaded" />
+    <Loading v-if="!projectTasks.dataLoaded" />
 
     <!-- Selection -->
 
@@ -92,7 +92,7 @@
 
         <!-- Project line -->
 
-        <tbody v-for="(projectLine, index) in tasks.projectLines" :key=index>
+        <tbody v-for="(projectLine, index) in projectTasks.projectLines" :key=index>
 
           <!-- When group -->
 
@@ -110,7 +110,7 @@
 
           <!-- When product, but no tasks -->
 
-          <tr v-if="projectLine.rowtype_id == 1 && tasks.getProjectLineTasksCount(projectLine.id) == 0">
+          <tr v-if="projectLine.rowtype_id == 1 && projectTasks.getProjectLineTasksCount(projectLine.id) == 0">
             <td></td>
             <td></td>
             <td colspan="6" class="bg-red-100">No tasks</td>
@@ -120,7 +120,7 @@
 
           <!-- Tasks -->
 
-          <tr v-for="(task, index) in tasks.getProjectLineTasks(projectLine.id)" :key=index>
+          <tr v-for="(task, index) in projectTasks.getProjectLineTasks(projectLine.id)" :key=index>
             <td></td>
             <td></td>
             <td class="bg-indigo-100">{{ task.tasktype_name }}</td>
@@ -149,7 +149,7 @@
   definePageMeta({ auth: true })
 
   const gripp = ref(new Gripp());
-  const tasks = ref(new Tasks());
+  const projectTasks = ref(new ProjectTasks());
 
   // Set new account manager
 
@@ -157,7 +157,7 @@
     gripp.value.setAccountManager(accountManagerId);
     await gripp.value.loadAccountManagerCompanies();
     await gripp.value.loadCompanyProjects();
-    await tasks.value.loadTasksByProject(gripp.value.project.id);
+    await projectTasks.value.loadData(gripp.value.project.id);
   }
 
   // Set new Company
@@ -165,14 +165,14 @@
   async function setCompany(companyId: number) {
     await gripp.value.setCompany(companyId);
     await gripp.value.loadCompanyProjects();
-    await tasks.value.loadTasksByProject(gripp.value.project.id);
+    await projectTasks.value.loadData(gripp.value.project.id);
   }
 
   // Set new project
 
   async function setProject(projectId: number) {
     await gripp.value.setProject(projectId);
-    await tasks.value.loadTasksByProject(projectId);
+    await projectTasks.value.loadData(projectId);
   }
 
   // Setup when mounted
@@ -184,7 +184,7 @@
     await gripp.value.loadAccountManagers();
     await gripp.value.loadAccountManagerCompanies();
     await gripp.value.loadCompanyProjects();
-    await tasks.value.loadTasksByProject(gripp.value.project.id);
+    await projectTasks.value.loadData(gripp.value.project.id);
   });
 
 </script>

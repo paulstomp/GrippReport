@@ -1,4 +1,5 @@
 <template>
+
   <ClientOnly>
 
     <Loading v-if="!projectPlanning.dataLoaded" />
@@ -8,7 +9,7 @@
       <!-- Account manager selection -->
 
       <Card>
-        <h1>Booked hours per project</h1>
+        <h1>Planning per project</h1>
 
         <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
           <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">
@@ -88,7 +89,7 @@
               <td style="font-weight: 400">{{ project.project_number }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
               <td v-for="(date, index) in projectPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ projectPlanning.getProjectBookedHoursTotal(project.project_id, date) }}
+                {{ projectPlanning.getProjectPlannedHoursTotal(project.project_id, date) }}
               </td>
             </tr>
 
@@ -99,7 +100,7 @@
               <td></td>
               <td>{{ employee.firstname }} {{ employee.lastname }}</td>
               <td v-for="(date, index) in projectPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ projectPlanning.getProjectBookedHours(employee.employee_id, project.project_id, date) }}
+                {{ projectPlanning.getProjectPlannedHours(project.project_id, employee.employee_id, date) }}
               </td>
             </tr>
 
@@ -136,25 +137,25 @@
 
   async function setAccountManager(accountManagerId: number) {
     gripp.value.setAccountManager(accountManagerId)
-    await projectPlanning.value.loadPlanning(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
     projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadPlanning(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
   }
 
   async function thisWeek() {
     date = new Date();
     projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadPlanning(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
     projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadPlanning(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
   }
 
   // Setup when mounted
@@ -163,9 +164,8 @@
     await nextTick();
 
     await gripp.value.loadAccountManagers();
-    date.setDate(date.getDate() - 35);
     projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadPlanning(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
   });
 
 </script>
