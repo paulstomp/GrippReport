@@ -9,7 +9,7 @@
 
       <Card>
         <div>
-          <h1>Available vs required</h1>
+          <h1>Resources overview</h1>
         </div>
 
         <!-- Week navigation -->
