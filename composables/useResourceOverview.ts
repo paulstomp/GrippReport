@@ -27,15 +27,15 @@ export class ResourceOverview {
       select department_id, tasktype_id, date_str, hours
       from _workinghours
       where date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      and employee_tags <> "FREELANCE"
-      and employee_active = 1`);
+      and employee_active = 1
+      and employee_tags <> "FREELANCE"`);
 
     this.absenceHours = await query(`
       select department_id, tasktype_id, date_str, amount
       from _absencerequestlines
       where date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      and employee_tags <> "FREELANCE"
-      and employee_active = 1`);
+      and employee_active = 1
+      and employee_tags <> "FREELANCE"`);
 
     this.requiredHours = await query(`select tasktype_id, date_str, hours
       from _resourceitems

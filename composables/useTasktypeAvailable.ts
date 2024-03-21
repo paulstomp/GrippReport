@@ -34,24 +34,24 @@ export class TasktypeAvailable {
       from _calendaritems
       where tasktype_id = "${tasktypeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      and employee_tags <> "FREELANCE"
-      and employee_active = 1`);
+      and employee_active = 1
+      and employee_tags <> "FREELANCE"`);
 
     this.workingHours = await query(`
       select department_id, employee_id, date_str, hours
       from _workinghours
       where tasktype_id = "${tasktypeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      and employee_tags <> "FREELANCE"
-      and employee_active = 1`);
+      and employee_active = 1
+      and employee_tags <> "FREELANCE"`);
 
     this.absenceHours = await query(`
       select department_id, employee_id, date_str, amount
       from _absencerequestlines
       where tasktype_id = "${tasktypeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      and employee_tags <> "FREELANCE"
-      and employee_active = 1`);
+      and employee_active = 1
+      and employee_tags <> "FREELANCE"`);
 
     this.dataLoaded = true;
   }

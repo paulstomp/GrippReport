@@ -58,6 +58,7 @@ export class DepartmentPlanning {
       from _workinghours
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
+      and employee_active = 1
       and employee_tags <> "FREELANCE"`);
 
     this.absenceHours = await query(`
@@ -65,6 +66,7 @@ export class DepartmentPlanning {
       from _absencerequestlines
       where department_id = "${departmentId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
+      and employee_active = 1
       and employee_tags <> "FREELANCE"`);
 
     this.bookedHours = await query(`select company_name, project_id, project_number, project_name,
