@@ -71,7 +71,9 @@ export class ResourceOverview {
   }
 
   getTasktypeAvailableHours(tasktypeId: number, date: Date) {
-    return this.getTasktypeWorkingHours(tasktypeId, date) - this.getTasktypeAbsenceHours(tasktypeId, date)
+    let sum = this.getTasktypeWorkingHours(tasktypeId, date) - this.getTasktypeAbsenceHours(tasktypeId, date);
+
+    return (sum < 0) ? 0 : sum;
   }
 
   getTotalAvailableHours(date: Date) {

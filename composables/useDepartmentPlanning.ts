@@ -156,7 +156,9 @@ export class DepartmentPlanning {
   }
 
   getEmployeeAvailableHours(employeeId: number, date: Date) {
-    return this.getEmployeeWorkingHours(employeeId, date) - this.getEmployeeAbsenceHours(employeeId, date)
+    let sum = this.getEmployeeWorkingHours(employeeId, date) - this.getEmployeeAbsenceHours(employeeId, date);
+
+    return (sum < 0) ? 0 : sum;
   }
 
   getTotalAvailableHours(date: Date) {
