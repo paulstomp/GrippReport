@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 
-  const sql = `select company_name as company, name as project, hours_offered as budgeted,
+  const sql = `select company_name as company, name as project, number, hours_offered as budgeted,
     hours_planned as planned, hours_planned_until_today as planned_until_today,
     hours_booked as booked, hours_booked_gap as booked_gap,
     hours_left as budgeted_left, hours_planned_from_today as planned_from_today,
