@@ -111,9 +111,9 @@
     ] },
 
     { name: 'Resources', childs: [
-      { name: 'Resources', href: 'tasktype-resources' },
-      { name: 'Required', href: 'tasktype-required' },
-      { name: 'Overview', href: 'resource-overview' }
+      { name: 'Overview', href: 'resource-overview' },
+      { name: 'Resources per tastkype', href: 'tasktype-resources' },
+      { name: 'Required per tasktype', href: 'tasktype-required' }
     ] },
 
     { name: 'Project tasks', href: 'project-tasks' }
