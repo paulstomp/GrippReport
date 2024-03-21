@@ -16,6 +16,8 @@
       <DataView :data=data :maxLength=20></DataView>
     </Card>
 
+    <GrippSyncInfo />
+
   </ClientOnly>
 </template>
 
