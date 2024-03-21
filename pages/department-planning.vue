@@ -115,12 +115,12 @@
               </td>
             </tr>
 
-            <!-- Free hours per employee per day -->
+            <!-- Off schedule hours per employee per day -->
 
             <tr>
               <td></td>
               <td></td>
-              <td>Fixed free</td>
+              <td>Off schedule</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
               </td>
