@@ -112,7 +112,7 @@
 
     { name: 'Resources', childs: [
       { name: 'Overview', href: 'resource-overview' },
-      { name: 'Resources per tastkype', href: 'tasktype-resources' },
+      { name: 'Available per tastkype', href: 'tasktype-available' },
       { name: 'Required per tasktype', href: 'tasktype-required' }
     ] },
 

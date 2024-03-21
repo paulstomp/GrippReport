@@ -1,14 +1,14 @@
 <template>
   <ClientOnly>
 
-    <Loading v-if="!tasktypeResources.dataLoaded" />
+    <Loading v-if="!tasktypeAvailable.dataLoaded" />
 
     <div v-else class="grid grid-cols-1">
 
       <!-- Account manager selection -->
 
       <Card>
-        <h1>Resources per tasktype</h1>
+        <h1>Available per tasktype</h1>
 
         <span v-for="(tasktype, index) in gripp.tasktypes" :key=index>
           <button class="filter-button" @click="setTasktype(tasktype.id)">
@@ -17,7 +17,7 @@
         </span>
       </Card>
 
-      <!-- Resources for tasktype -->
+      <!-- Available for tasktype -->
 
       <Card>
         <div v-if="gripp.tasktype">
@@ -42,7 +42,7 @@
               <td class="min-w-60 w-48"></td>
               <td class="min-w-16 w-16"></td>
               <td class="min-w-60 w-48">Month</td>
-              <td v-for="(date, index) in tasktypeResources.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
+              <td v-for="(date, index) in tasktypeAvailable.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
                 {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
               </td>
             </tr>
@@ -53,7 +53,7 @@
               <td></td>
               <td></td>
               <td>Week</td>
-              <td v-for="(date, index) in tasktypeResources.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in tasktypeAvailable.dateSeries" :key=index :class="bg(date)">
                 {{ (date.getDay() == 1) ? getWeek(date) : '' }}
               </td>
             </tr>
@@ -64,7 +64,7 @@
               <td></td>
               <td></td>
               <td>Day</td>
-              <td v-for="(date, index) in tasktypeResources.dateSeries" :key=index :class="bg(date)">
+              <td v-for="(date, index) in tasktypeAvailable.dateSeries" :key=index :class="bg(date)">
                 {{ date.getDate() }}
               </td>
             </tr>
@@ -74,17 +74,17 @@
             <tr style="font-weight: bold">
               <td></td>
               <td></td>
-              <td>Total resources (FTE)</td>
-              <td v-for="(date, index) in tasktypeResources.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(tasktypeResources.getTotalHours(date) / 8) }}
+              <td>Total available (FTE)</td>
+              <td v-for="(date, index) in tasktypeAvailable.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(tasktypeAvailable.getTotalAvailableHours(date) / 8) }}
               </td>
             </tr>
 
           </tbody>
 
-          <!-- Resources per employee for tasktype -->
+          <!-- Available per employee for tasktype -->
 
-          <tbody v-for="(employee, index) in tasktypeResources.employees" :key=index>
+          <tbody v-for="(employee, index) in tasktypeAvailable.employees" :key=index>
 
             <!-- Total FTE per employee per day -->
 
@@ -96,8 +96,8 @@
               </td>
               <td>{{ employee.employee_number }}</td>
               <td>{{ employee.employee_active ? 'active' : 'not active' }}</td>
-              <td v-for="(date, index) in tasktypeResources.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(tasktypeResources.getEmployeeHours(employee.employee_id, date) / 8) }}
+              <td v-for="(date, index) in tasktypeAvailable.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(tasktypeAvailable.getEmployeeAvailableHours(employee.employee_id, date) / 8) }}
               </td>
             </tr>
 
@@ -130,29 +130,29 @@
   var weeks = 6;
 
   const gripp = ref(new Gripp());
-  const tasktypeResources = ref(new TasktypeResources());
+  const tasktypeAvailable = ref(new TasktypeAvailable());
 
   async function setTasktype(tasktypeId: number) {
     gripp.value.setTasktype(tasktypeId)
-    await tasktypeResources.value.loadData(gripp.value.tasktype.id);
+    await tasktypeAvailable.value.loadData(gripp.value.tasktype.id);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    tasktypeResources.value.setDateSeries(date, weeks);
-    await tasktypeResources.value.loadData(gripp.value.tasktype.id);
+    tasktypeAvailable.value.setDateSeries(date, weeks);
+    await tasktypeAvailable.value.loadData(gripp.value.tasktype.id);
   }
 
   async function thisWeek() {
     date = new Date();
-    tasktypeResources.value.setDateSeries(date, weeks);
-    await tasktypeResources.value.loadData(gripp.value.tasktype.id);
+    tasktypeAvailable.value.setDateSeries(date, weeks);
+    await tasktypeAvailable.value.loadData(gripp.value.tasktype.id);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    tasktypeResources.value.setDateSeries(date, weeks);
-    await tasktypeResources.value.loadData(gripp.value.tasktype.id);
+    tasktypeAvailable.value.setDateSeries(date, weeks);
+    await tasktypeAvailable.value.loadData(gripp.value.tasktype.id);
   }
 
   // Setup when mounted
@@ -161,8 +161,8 @@
     await nextTick();
 
     await gripp.value.loadTasktypes();
-    tasktypeResources.value.setDateSeries(date, weeks);
-    await tasktypeResources.value.loadData(gripp.value.tasktype.id);
+    tasktypeAvailable.value.setDateSeries(date, weeks);
+    await tasktypeAvailable.value.loadData(gripp.value.tasktype.id);
   });
 
 </script>

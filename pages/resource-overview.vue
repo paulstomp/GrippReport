@@ -62,9 +62,9 @@
             <tr style="font-weight: bold">
               <td></td>
               <td></td>
-              <td>Total resources (FTE)</td>
+              <td>Total availalbe (FTE)</td>
               <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(resourceOverview.getTotalWorkingHours(date) / 8) }}
+                {{ prettyfyNumber(resourceOverview.getTotalAvailableHours(date) / 8) }}
               </td>
             </tr>
 
@@ -79,9 +79,9 @@
 
           </tbody>
 
-          <!-- Resources and required -->
+          <!-- Availalbe and required -->
 
-          <tbody v-for="(taskType, index) in resourceOverview.taskTypes" :key=index>
+          <tbody v-for="(taskttype, index) in resourceOverview.tasktypes" :key=index>
 
             <!-- Spacer -->
 
@@ -89,14 +89,14 @@
               <td>&nbsp;</td>
             </tr>
 
-            <!-- Resources per day for tasktype -->
+            <!-- Available per day for tasktype -->
 
             <tr>
-              <td>{{ taskType.name.slice(0, 20) }}</td>
+              <td>{{ taskttype.name.slice(0, 20) }}</td>
               <td></td>
-              <td>Resources</td>
+              <td>Available</td>
               <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(resourceOverview.getTasktypeWorkingHours(taskType.id, date) / 8) }}
+                {{ prettyfyNumber(resourceOverview.getTasktypeAvailableHours(taskttype.id, date) / 8) }}
               </td>
             </tr>
 
@@ -107,7 +107,7 @@
               <td></td>
               <td>Required</td>
               <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(resourceOverview.getTasktypeRequiredHours(taskType.id, date) / 8) }}
+                {{ prettyfyNumber(resourceOverview.getTasktypeRequiredHours(taskttype.id, date) / 8) }}
               </td>
             </tr>
 

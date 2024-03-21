@@ -112,7 +112,7 @@
               <td>Off schedule</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(
-                  departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
+                  departmentPlanning.getEmployeeOffScheduleHours(employee.employee_id, date)) }}
               </td>
             </tr>
 

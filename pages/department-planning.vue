@@ -100,7 +100,7 @@
               <td>{{ !employee.employee_active ? 'Inactive' : '' }}</td>
               <td></td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(departmentPlanning.getEmployeePlannedHoursTotal(employee.employee_id, date)) }}
+                {{ prettyfyNumber(departmentPlanning.getEmployeeTotalPlannedHours(employee.employee_id, date)) }}
               </td>
             </tr>
 
@@ -111,7 +111,7 @@
               <td>{{ project.project_number }}</td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(departmentPlanning.getEmployeePlannedHours(employee.employee_id, project.project_id, date)) }}
+                {{ prettyfyNumber(departmentPlanning.getEmployeeProjectPlannedHours(employee.employee_id, project.project_id, date)) }}
               </td>
             </tr>
 
@@ -122,7 +122,7 @@
               <td></td>
               <td>Off schedule</td>
               <td v-for="(date, index) in departmentPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(departmentPlanning.getEmployeeFreeHours(employee.employee_id, date)) }}
+                {{ prettyfyNumber(departmentPlanning.getEmployeeOffScheduleHours(employee.employee_id, date)) }}
               </td>
             </tr>
 
