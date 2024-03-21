@@ -99,7 +99,7 @@
               <td>
                 <GrippLink
                   :path="'/' + project.project_type + '/view/' + project.project_id"
-                  :key="project.id"
+                  :key="project.project_id"
                 />
               </td>
               <td>{{ project.project_name.slice(0, 20) }}</td>
