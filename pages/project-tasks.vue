@@ -76,7 +76,7 @@
           <tr style="height: 40px;">
             <td>Project line</td>
             <td>Amount</td>
-            <td>Task type</td>
+            <td>Tasktype</td>
             <td>Content</td>
             <td>Hours</td>
             <td>Start</td>

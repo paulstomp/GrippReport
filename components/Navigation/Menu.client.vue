@@ -111,8 +111,8 @@
     ] },
 
     { name: 'Resources', childs: [
-      { name: 'Availability', href: 'department-working' },
-      { name: 'Demand', href: 'department-demand' },
+      { name: 'Resources', href: 'tasktype-resources' },
+      { name: 'Required', href: 'tasktype-required' },
       { name: 'Overview', href: 'resource-overview' }
     ] },
 

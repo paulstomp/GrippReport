@@ -5,11 +5,11 @@
 
     <div v-else class="grid grid-cols-1">
 
-      <!-- Planning per task type -->
+      <!-- Planning per tasktype -->
 
       <Card>
         <div>
-          <h1>Resource forecast</h1>
+          <h1>Available vs required</h1>
         </div>
 
         <!-- Week navigation -->
@@ -62,15 +62,24 @@
             <tr style="font-weight: bold">
               <td></td>
               <td></td>
-              <td>Total demand (FTE)</td>
+              <td>Total resources (FTE)</td>
               <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(resourceOverview.getTotalDemandHours(date) / 8) }}
+                {{ prettyfyNumber(resourceOverview.getTotalWorkingHours(date) / 8) }}
+              </td>
+            </tr>
+
+            <tr style="font-weight: bold">
+              <td></td>
+              <td></td>
+              <td>Total required (FTE)</td>
+              <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(resourceOverview.getTotalRequiredHours(date) / 8) }}
               </td>
             </tr>
 
           </tbody>
 
-          <!-- Planning per project within tasktype scope -->
+          <!-- Resources and required -->
 
           <tbody v-for="(taskType, index) in resourceOverview.taskTypes" :key=index>
 
@@ -80,14 +89,25 @@
               <td>&nbsp;</td>
             </tr>
 
-            <!-- Hours per project per day -->
+            <!-- Resources per day for tasktype -->
 
             <tr>
               <td>{{ taskType.name.slice(0, 20) }}</td>
               <td></td>
-              <td>Demand</td>
+              <td>Resources</td>
               <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
-                {{ prettyfyNumber(resourceOverview.getTaskTypeDemandHours(taskType.id, date) / 8) }}
+                {{ prettyfyNumber(resourceOverview.getTasktypeWorkingHours(taskType.id, date) / 8) }}
+              </td>
+            </tr>
+
+            <!-- Required hours per day for tasktype -->
+
+            <tr>
+              <td></td>
+              <td></td>
+              <td>Required</td>
+              <td v-for="(date, index) in resourceOverview.dateSeries" :key=index :class="bg(date)">
+                {{ prettyfyNumber(resourceOverview.getTasktypeRequiredHours(taskType.id, date) / 8) }}
               </td>
             </tr>
 
