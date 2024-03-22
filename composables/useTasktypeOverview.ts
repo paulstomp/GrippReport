@@ -1,4 +1,4 @@
-export class ResourceOverview {
+export class TasktypeOverview {
 
   dateSeries: Date[] = [];
   workingHours: any;
@@ -7,12 +7,9 @@ export class ResourceOverview {
   tasktypes: any;
   dataLoaded = false;
 
-  setDateSeries(date: Date, weeks: number) {
+  async loadData(date: Date, weeks: number) {
+
     this.dateSeries = getDateSeries(date, weeks);
-  }
-
-  async loadData() {
-
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 

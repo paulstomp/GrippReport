@@ -9,12 +9,9 @@ export class DepartmentPlanning {
   employeeProjects: any;
   dataLoaded = false;
 
-  setDateSeries(date: Date, weeks: number) {
-    this.dateSeries = getDateSeries(date, weeks);
-  }
+  async loadData(departmentId: number, date: Date, weeks: number) {
 
-  async loadData(departmentId: number) {
-
+    this.dateSeries = getDateSeries(date, weeks)
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 

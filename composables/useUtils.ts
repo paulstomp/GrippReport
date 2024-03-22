@@ -95,3 +95,14 @@ export function prettyfy(value: any, maxLength?: number) {
 
   return value;
 }
+
+export function bg(date: Date) {
+  const week = getWeek(date);
+  return {
+    "bg-amber-200": isToday(date),
+    "bg-indigo-50": isEven(week) && !isToday(date),
+    "bg-indigo-100": isOdd(week) && !isToday(date),
+    "text-center": true,
+    "p-0": true
+  }
+}

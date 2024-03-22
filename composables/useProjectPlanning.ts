@@ -7,12 +7,9 @@ export class ProjectPlanning {
   projectEmployees: any;
   dataLoaded = false;
 
-  setDateSeries(date: Date, weeks: number) {
+  async loadData(accountManagerId: number, date: Date, weeks: number) {
+
     this.dateSeries = getDateSeries(date, weeks);
-  }
-
-  async loadData(accountManagerId: number) {
-
     var minDate = this.dateSeries[0];
     var maxDate = this.dateSeries[this.dateSeries.length - 1];
 

@@ -1,27 +1,33 @@
 <template>
+
   <ClientOnly>
 
     <Loading v-if="!projectPlanning.dataLoaded" />
 
     <div v-else class="grid grid-cols-1">
 
-      <!-- Account manager selection -->
+      <!-- Filter -->
 
       <Card>
+
         <h1>Booked hours per project</h1>
 
-        <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
+        <span v-for="(accountManager, index) in filter.accountManagers" :key=index>
           <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
+
       </Card>
 
-      <!-- Planning per account manager -->
+      <!-- Report -->
 
       <Card>
-        <div v-if="gripp.accountManager">
-          <h1>{{ gripp.accountManager.firstname }}</h1>
+
+        <!-- Report title -->
+
+        <div v-if="filter.accountManager">
+          <h1>{{ filter.accountManager.firstname }}</h1>
         </div>
 
         <!-- Week navigation -->
@@ -30,48 +36,13 @@
         <button class="filter-button" @click="thisWeek()">Now</button>
         <button class="filter-button" @click="nextWeek()">+1 week</button>
 
+        <!-- Data -->
+
         <table>
 
-          <!-- Table header -->
+          <DateSeries :dateSeries="projectPlanning.dateSeries" />
 
-          <tbody>
-
-            <!-- Month series -->
-
-            <tr>
-              <td class="min-w-60 w-48"></td>
-              <td class="min-w-16 w-16"></td>
-              <td class="min-w-60 w-48">Month</td>
-              <td v-for="(date, index) in projectPlanning.dateSeries" :key=index :class="bg(date)" class="min-w-10 w-10">
-                {{ (date.getDate() == 1) ? date.getMonth() + 1 : '' }}
-              </td>
-            </tr>
-
-            <!-- Week series -->
-
-            <tr>
-              <td></td>
-              <td></td>
-              <td>Week</td>
-              <td v-for="(date, index) in projectPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ (date.getDay() == 1) ? getWeek(date) : '' }}
-              </td>
-            </tr>
-
-            <!-- Day series -->
-
-            <tr>
-              <td></td>
-              <td></td>
-              <td>Day</td>
-              <td v-for="(date, index) in projectPlanning.dateSeries" :key=index :class="bg(date)">
-                {{ date.getDate() }}
-              </td>
-            </tr>
-
-          </tbody>
-
-          <!-- Planning per project within account manager scope -->
+          <!-- Per project -->
 
           <tbody v-for="(project, index) in projectPlanning.projects" :key=index>
 
@@ -113,50 +84,37 @@
     </div>
 
   </ClientOnly>
+
 </template>
 
 <script lang="ts" setup>
 
   definePageMeta({ auth: true })
 
-  function bg(date: Date) {
-    const week = getWeek(date);
-    return {
-      "bg-amber-200": isToday(date),
-      "bg-indigo-50": isEven(week) && !isToday(date),
-      "bg-indigo-100": isOdd(week) && !isToday(date),
-      "text-center": true,
-      "p-0": true
-    }
-  }
-
   var date = new Date();
   var weeks = 6;
 
-  const gripp = ref(new Gripp());
+  const filter = ref(new Filter());
   const projectPlanning = ref(new ProjectPlanning());
 
   async function setAccountManager(accountManagerId: number) {
-    gripp.value.setAccountManager(accountManagerId)
-    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
+    filter.value.setAccountManager(accountManagerId)
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   }
 
   async function previousWeek() {
     date.setDate(date.getDate() - 7);
-    projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   }
 
   async function thisWeek() {
     date = new Date();
-    projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   }
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
-    projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   }
 
   // Setup when mounted
@@ -164,10 +122,9 @@
   onMounted(async () => {
     await nextTick();
 
-    await gripp.value.loadAccountManagers();
+    await filter.value.loadAccountManagers();
     date.setDate(date.getDate() - 35);
-    projectPlanning.value.setDateSeries(date, weeks);
-    await projectPlanning.value.loadData(gripp.value.accountManager.accountmanager_id);
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   });
 
 </script>

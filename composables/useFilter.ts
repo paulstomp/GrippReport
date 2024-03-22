@@ -1,4 +1,4 @@
-export class Gripp {
+export class Filter {
 
   accountManagers: any;
   companies: any;

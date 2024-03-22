@@ -1,66 +1,73 @@
 [<template>
+
   <ClientOnly>
 
     <Loading v-if="!projectTasks.dataLoaded" />
 
-    <!-- Selection -->
+    <!-- Filter -->
 
     <div v-else class="grid grid-cols-1 md:grid-cols-3">
 
-      <!-- Account manager selection -->
+      <!-- Account manager filter -->
 
       <Card>
+
         <h1>CSD</h1>
 
-        <span v-for="(accountManager, index) in gripp.accountManagers" :key=index>
+        <span v-for="(accountManager, index) in filter.accountManagers" :key=index>
           <button class="filter-button" @click="setAccountManager(accountManager.accountmanager_id)">
             {{ accountManager.firstname }}
           </button>
         </span>
+
       </Card>
 
-      <!-- Companies -->
+      <!-- Companie filter -->
 
       <Card>
-        <h1>{{ gripp.accountManager ? gripp.accountManager.firstname : '' }}</h1>
 
-        <span v-for="(company, index) in gripp.companies" :key=index>
+        <h1>{{ filter.accountManager ? filter.accountManager.firstname : '' }}</h1>
+
+        <span v-for="(company, index) in filter.companies" :key=index>
           <button class="filter-button" @click="setCompany(company.id)">
             {{ company.name }}
           </button>
         </span>
+
       </Card>
 
-      <!-- Projects -->
+      <!-- Project filter -->
 
       <Card>
-        <h1>{{ gripp.company ? gripp.company.name : '' }}</h1>
 
-        <span v-for="(project, index) in gripp.projects" :key=index>
+        <h1>{{ filter.company ? filter.company.name : '' }}</h1>
+
+        <span v-for="(project, index) in filter.projects" :key=index>
           <button class="filter-button" @click="setProject(project.id)">
             {{ project.name }} {{ project.id }}
           </button>
         </span>
+
       </Card>
 
     </div>
 
-    <!-- Project -->
+    <!-- Report -->
 
     <Card>
 
-      <div v-if="gripp.project">
-        <h1>{{ gripp.project.name }} - {{ gripp.project.number }}
+      <div v-if="filter.project">
+        <h1>{{ filter.project.name }} - {{ filter.project.number }}
           <GrippLink
-            :path="'/' + gripp.project.type + '/view/' + gripp.project.id"
-            :key="gripp.project.id"
+            :path="'/' + filter.project.type + '/view/' + filter.project.id"
+            :key="filter.project.id"
           />
         </h1>
 
-        Type: {{ gripp.project.type }}
-        | Startdate: {{ prettyfy(gripp.project.startdate) }}
-        | Deadline {{ prettyfy(gripp.project.deadline) }}
-        | Database ID {{ gripp.project.id }}
+        Type: {{ filter.project.type }}
+        | Startdate: {{ prettyfy(filter.project.startdate) }}
+        | Deadline {{ prettyfy(filter.project.deadline) }}
+        | Database ID {{ filter.project.id }}
       </div>
 
       <hr>
@@ -142,36 +149,37 @@
     <GrippSyncInfo />
 
   </ClientOnly>
+
 </template>
 
 <script lang="ts" setup>
 
   definePageMeta({ auth: true })
 
-  const gripp = ref(new Gripp());
+  const filter = ref(new Filter());
   const projectTasks = ref(new ProjectTasks());
 
   // Set new account manager
 
   async function setAccountManager(accountManagerId: number) {
-    gripp.value.setAccountManager(accountManagerId);
-    await gripp.value.loadAccountManagerCompanies();
-    await gripp.value.loadCompanyProjects();
-    await projectTasks.value.loadData(gripp.value.project.id);
+    filter.value.setAccountManager(accountManagerId);
+    await filter.value.loadAccountManagerCompanies();
+    await filter.value.loadCompanyProjects();
+    await projectTasks.value.loadData(filter.value.project.id);
   }
 
   // Set new Company
 
   async function setCompany(companyId: number) {
-    await gripp.value.setCompany(companyId);
-    await gripp.value.loadCompanyProjects();
-    await projectTasks.value.loadData(gripp.value.project.id);
+    await filter.value.setCompany(companyId);
+    await filter.value.loadCompanyProjects();
+    await projectTasks.value.loadData(filter.value.project.id);
   }
 
   // Set new project
 
   async function setProject(projectId: number) {
-    await gripp.value.setProject(projectId);
+    await filter.value.setProject(projectId);
     await projectTasks.value.loadData(projectId);
   }
 
@@ -181,10 +189,10 @@
     await nextTick();
 
     // Load data
-    await gripp.value.loadAccountManagers();
-    await gripp.value.loadAccountManagerCompanies();
-    await gripp.value.loadCompanyProjects();
-    await projectTasks.value.loadData(gripp.value.project.id);
+    await filter.value.loadAccountManagers();
+    await filter.value.loadAccountManagerCompanies();
+    await filter.value.loadCompanyProjects();
+    await projectTasks.value.loadData(filter.value.project.id);
   });
 
 </script>
