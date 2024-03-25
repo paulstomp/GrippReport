@@ -20,6 +20,24 @@
 
       </Card>
 
+      <!-- Week navigation and scoping-->
+
+      <Card>
+
+        Navigation:
+
+        <button class="filter-button" @click="previousWeek()">-1 week</button>
+        <button class="filter-button" @click="thisWeek()">Now</button>
+        <button class="filter-button" @click="nextWeek()">+1 week</button>
+
+        Scope:
+
+        <button class="filter-button" @click="setWeeks(1)">1 week</button>
+        <button class="filter-button" @click="setWeeks(2)">2 weeks</button>
+        <button class="filter-button" @click="setWeeks(6)">6 week</button>
+
+        </Card>
+
       <!-- Report -->
 
       <Card>
@@ -29,12 +47,6 @@
         <div v-if="filter.accountManager">
           <h1>{{ filter.accountManager.firstname }}</h1>
         </div>
-
-        <!-- Week navigation -->
-
-        <button class="filter-button" @click="previousWeek()">-1 week</button>
-        <button class="filter-button" @click="thisWeek()">Now</button>
-        <button class="filter-button" @click="nextWeek()">+1 week</button>
 
         <!-- Data -->
 
@@ -112,6 +124,11 @@
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
+    await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
+  }
+
+  async function setWeeks(w: number) {
+    weeks = w
     await projectPlanning.value.loadData(filter.value.accountManager.accountmanager_id, date, weeks);
   }
 

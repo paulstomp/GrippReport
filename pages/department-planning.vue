@@ -20,6 +20,24 @@
 
       </Card>
 
+      <!-- Week navigation and scoping-->
+
+      <Card>
+
+        Navigation:
+
+        <button class="filter-button" @click="previousWeek()">-1 week</button>
+        <button class="filter-button" @click="thisWeek()">Now</button>
+        <button class="filter-button" @click="nextWeek()">+1 week</button>
+
+       Scope:
+
+        <button class="filter-button" @click="setWeeks(1)">1 week</button>
+        <button class="filter-button" @click="setWeeks(2)">2 weeks</button>
+        <button class="filter-button" @click="setWeeks(6)">6 week</button>
+
+      </Card>
+
       <!-- Report -->
 
       <Card>
@@ -30,17 +48,11 @@
           <h1>{{ filter.department.name }}</h1>
         </div>
 
-        <!-- Week navigation -->
-
-        <button class="filter-button" @click="previousWeek()">-1 week</button>
-        <button class="filter-button" @click="thisWeek()">Now</button>
-        <button class="filter-button" @click="nextWeek()">+1 week</button>
-
         <!-- Data -->
 
         <table>
 
-          <DateSeries :dateSeries="departmentPlanning.dateSeries" />
+          <DateSeries :dateSeries="departmentPlanning.dateSeries" :key="randomKey()" />
 
           <!-- Totals -->
 
@@ -152,6 +164,11 @@
 
   async function nextWeek() {
     date.setDate(date.getDate() + 7);
+    await departmentPlanning.value.loadData(filter.value.department.id, date, weeks);
+  }
+
+  async function setWeeks(w: number) {
+    weeks = w
     await departmentPlanning.value.loadData(filter.value.department.id, date, weeks);
   }
 
