@@ -20,21 +20,21 @@
 
       </Card>
 
-      <!-- Week navigation and scoping-->
+      <!-- From and period-->
 
       <Card>
 
-        Navigation:
+        From:
 
         <button class="filter-button" @click="previousWeek()">-1 week</button>
         <button class="filter-button" @click="thisWeek()">Now</button>
         <button class="filter-button" @click="nextWeek()">+1 week</button>
 
-       Scope:
+        Period:
 
         <button class="filter-button" @click="setWeeks(1)">1 week</button>
         <button class="filter-button" @click="setWeeks(2)">2 weeks</button>
-        <button class="filter-button" @click="setWeeks(6)">6 week</button>
+        <button class="filter-button" @click="setWeeks(6)">6 weeks</button>
 
       </Card>
 
