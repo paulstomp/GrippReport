@@ -189,9 +189,15 @@
     await nextTick();
 
     // Load data
-    await filter.value.loadAccountManagers();
-    await filter.value.loadAccountManagerCompanies();
-    await filter.value.loadCompanyProjects();
+    const route = useRoute()
+    if (route.query.projectId) {
+      await filter.value.loadProject(Number(route.query.projectId))
+    } else {
+      await filter.value.loadAccountManagers();
+      await filter.value.loadAccountManagerCompanies();
+      await filter.value.loadCompanyProjects();
+    }
+
     await projectTasks.value.loadData(filter.value.project.id);
   });
 

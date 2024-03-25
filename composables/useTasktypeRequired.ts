@@ -25,7 +25,7 @@ export class TasktypeRequired {
       from _resourceitems
       where tasktype_id = "${tasktypeId}"
       and date >= "${getDateStr(minDate)}" and date <= "${getDateStr(maxDate)}"
-      order by company_name, project_name, task_content`);
+      order by company_name, project_name, task_id`);
 
     this.requiredHours = await query(`select project_id, task_id, date_str, hours
       from _resourceitems

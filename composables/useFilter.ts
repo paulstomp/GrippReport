@@ -54,6 +54,23 @@ export class Filter {
     return this.projects;
   }
 
+  async loadProject(projectId: number) {
+    let project = await query(`
+      select * from _projects
+      where id = "${projectId}"`)
+
+    // Set accountmanager and related projects
+    if(project.length > 0) {
+      await this.loadAccountManagers();
+      await this.setAccountManager(project[0].accountmanager_id);
+      await this.loadAccountManagerCompanies();
+      await this.loadCompanyProjects();
+      await this.setProject(projectId)
+    }
+
+    return this.projects;
+  }
+
   async loadDepartments() {
     this.departments = await query(`select * from departments order by name`);
 

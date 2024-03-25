@@ -75,7 +75,11 @@
                   :key="project.project_id"
                 />
               </td>
-              <td>{{ project.project_name.slice(0, 20) }}</td>
+              <td>
+                <NuxtLink :to="`project-tasks?projectId=${project.project_id}`" class="underline">
+                  {{ project.project_name.slice(0, 20) }}
+                </NuxtLink>
+              </td>
               <td v-for="(date, index) in tasktypeRequired.dateSeries" :key=index :class="bg(date)">
                 {{ prettyfyNumber(tasktypeRequired.getProjectHours(project.project_id, date) / 8) }}
               </td>

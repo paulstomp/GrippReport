@@ -11,7 +11,8 @@ export class ProjectTasks {
       order by ordering`);
 
     this.tasks = await query(`select * from _task_hours
-      where project_id = ${projectId}`);
+      where project_id = ${projectId}
+      order by id`);
 
     this.dataLoaded = true;
   }
